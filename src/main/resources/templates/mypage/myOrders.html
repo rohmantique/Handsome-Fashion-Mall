@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{include/head}"></head>
+<body class="back">
+	<div class="hsome_allContents_wrapper">
+		<div class="hsome_allContents">
+			<header class="hsome_header header_noline header_mypage">
+				<h1 class="h_select">
+					<div th:insert="~{include/mypage-select}"></div>
+					<div class="selected_text">
+						<span>주문 내역</span>
+					</div>
+				</h1>
+				<div th:insert="~{include/member-header}"></div>
+			</header>
+
+			<div id="contents" class="hsome_contents mp_order_list_wrap">
+				<div class="mp_order_dlvr_list_wrap" id="listBody">
+					<div class="df_box">
+						<div class="gl_no_item">
+							<p>주문 내역이 없습니다.</p>
+						</div>
+					</div>
+					<ul class="timeline_list" id="post_list" >
+						<li th:if="${not #strings.isEmpty(myOrderList)}" th:each="oList : ${myOrderList}" class="lists grid-item page_0">
+							<div class="hs_sns_post_cont">
+								<div class="pro_cont">
+									<a href="javascript:void(0);" class="pro_link">
+										<div class="img_wrap">
+											<div class="img">
+												<img
+													src="http://www.thehandsome.com/_ui/handsomemobile/images/content/no_pro_img.png"
+													alt="">
+											</div>
+										</div>
+										<div class="txt">
+											<p class="name" th:text="${oList.mid}">작성자 아이디</p>
+											<p class="info">
+												<span class="level" th:text="${oList.pid}">상품 pk</span> <span
+													class="level" th:text="${oList.pprice}">상품 가격</span>
+											</p>
+										</div>
+									</a>
+									<div class="btn_wrap_211203">
+										<button sec:authorize-expr="isAuthenticated()" type="button"
+											class="more" onclick="ga_more();">
+											<span>더보기</span>
+										</button>
+									</div>
+								</div>
+								<!-- //더보기 layer -->
+
+								<!--// 더보기 layer -->
+								<div class="sns_cont">
+									<p class="txt">
+										<span class="inner_txt2006" th:text="${oList.pname}">상품
+											이름</span> <br>
+									</p>
+									<div class="tag_wrap"></div>
+								</div>
+								<!-- swiper -->
+								<div
+									class="swiper-container mypage_card_container mpgCardCon1903 swiper-container-horizontal swiper-container-android swiper-container-wp8-horizontal">
+									<div class="swiper-wrapper"
+										style="transform: translate3d(0px, 0px, 0px)">
+										<script type="text/javascript">
+											$(document)
+													.ready(
+															function() {
+																$(
+																		".address_cont .address")
+																		.each(
+																				function() {
+																					var arrAddress = $(
+																							this)
+																							.html()
+																							.split(
+																									" ");
+																					var replaceAddr = "";
+																					if (arrAddress.length > 3) {
+																						replaceAddr = arrAddress[0]
+																								+ " "
+																								+ arrAddress[1]
+																								+ " "
+																								+ arrAddress[2]
+																								+ " "
+																								+ arrAddress[3];
+																					}
+
+																					for (var i = 4; i < arrAddress.length; i++) {
+																						var temp = "";
+																						for (var j = 0; j < arrAddress[i].length; j++) {
+																							temp += "*";
+																						}
+																						replaceAddr += " "
+																								+ temp;
+																					}
+																					$(
+																							this)
+																							.html(
+																									replaceAddr);
+																				});
+
+																$(
+																		".address_cont .info")
+																		.each(
+																				function() {
+																					var temp = $(
+																							this)
+																							.html()
+																							.split(
+																									"/");
+																					var hpTemp = $
+																							.trim(temp[1]);
+																					var arrHp = hpTemp
+																							.split("-");
+
+																					$(
+																							this)
+																							.html(
+																									maskingName(temp[0])
+																											+ " / "
+																											+ arrHp[0]
+																											+ "-"
+																											+ maskingStr(arrHp[1])
+																											+ "-"
+																											+ arrHp[2]);
+																				});
+															});
+										</script>
+
+										<div
+											class="swiper-slide card-type order start swiper-slide-active"
+											data-index="0" style="width: 382px; margin-right: 30px">
+											<div class="card_type_inner1903">
+												<div class="stage order_stage">
+													<div class="s-tit">
+														<b>결제완료</b> <a href="/ko/mypage/order/myorders"
+															class="more"
+															onclick="GA_Event('마이페이지', '배송정보', '주문배송조회');">주문배송조회</a>
+													</div>
+													<p class="order_number">
+														<a
+															href="/ko/mypage/order/myorderdetails?code=230213P16757563"
+															onclick="GA_Event('마이페이지', '배송정보', '주문조회상세');">
+															<span class="tit">주문번호<!-- 주문번호 --></span> <span
+															class="number">230213P16757563</span>
+														</a>
+													</p>
+													<div class="order_product">
+														<!-- 개 -->
+														<a href="/ko/p/SY2C7ACK477W_SE_FR"
+															onclick="GA_Event('마이페이지', '배송정보', '상품상세');">
+															<div class="img">
+																<img
+																	src="http://newmedia.thehandsome.com/SY/2C/FW/SY2C7ACK477W_SE_S01.jpg"
+																	alt="아일렛 글리터 양말" />
+															</div>
+															<div class="cont">
+																<p class="name">
+																	<span class="brand"> SYSTEM</span> 아일렛 글리터 양말
+																</p>
+																<p class="option">SEPIA BEIGE / FR / 1개</p>
+																<p class="price_wrap">
+																	<span class="price">₩9,800</span>
+																</p>
+																<p name="__p_SY2C7ACK477W_SE_FR"
+																	class="pre_order_txt1903_s" style="display: none">
+																	해당 상품은 전국 매장을 통해 수급하여 배송 될 예정입니다. <br />불량 등의 이유로 수급이
+																	어려울 경우, 취소될 수 있습니다. <br /> <b>(평일 기준 5일 이상 소요 예정)</b>
+																</p>
+																<script type="text/javascript">
+																	getOnlineStock("SY2C7ACK477W_SE_FR");
+																</script>
+															</div>
+														</a>
+													</div>
+													<div class="address_cont">
+														<b class="tit">배송지</b>
+														<p class="info">신*진 / 010-****-9017</p>
+														<p class="address">(21443) 인천광역시 부평구 열우물로 *******
+															************************</p>
+													</div>
+													<!--  예약상품   -->
+													<div class="s-btn btm_btn">
+														<a href="javascript:void(0);"
+															onclick="myOrderAddressModify(this);GA_Event('마이페이지', '작성', '배송정보 수정');"
+															code="230213P16757563"
+															addr1="인천광역시 부평구 열우물로 90(십정동, 더샵부평센트럴시티)"
+															addr2="122-1202" zip="21443" rcname="신수진" hp1="010"
+															hp2="2138" hp3="9017" ph1="" ph2="" ph3="" or=""
+															emailid="" emaildomain="" frontdoorselectmessage=""
+															frontdoormessage=""><span>배송정보
+																수정<!-- 배송지 수정 -->
+														</span></a> <a
+															href="/ko/mypage/order/cancelrequest?code=230213P16757563&amp;isall="
+															onclick="GA_Event('마이페이지', '작성', '주문 취소');">주문
+															취소</a>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- 혜택// -->
+										<div
+											class="swiper-slide card-type benefit start e-gift swiper-slide-next"
+											data-index="0" style="width: 382px; margin-right: 30px">
+											<div class="card_type_inner1903" id="myPointList">
+												<div class="stage loading_stage1903">
+													<p class="s-txt">정보를 불러오고 있습니다.</p>
+													<img
+														src="/_ui/handsomemobile/images/common/Spinner-1s-200px.png"
+														alt="loading" class="hsome_quickMenu_loader" />
+												</div>
+											</div>
+										</div>
+										<div class="swiper-slide card-type benefit" data-index="1"
+											style="width: 382px; margin-right: 30px"></div>
+
+										<!-- 활동// -->
+										<div class="swiper-slide card-type activity start"
+											data-index="0" style="width: 382px; margin-right: 30px">
+											<div class="card_type_inner1903">
+												<div class="stage wish_stage">
+													<div class="s-tit">
+														<b>위시리스트</b>
+													</div>
+
+													<div id="myWishlists" class="s-thumb">
+														<ul>
+															<li><a href="/ko/p/IL2C9TTO870N"> <img
+																	src="http://newmedia.thehandsome.com/IL/2C/FW/IL2C9TTO870N_BK_T01.jpg"
+																	style="width: 86px; height: 130px" alt="" />
+															</a></li>
+															<li><a href="/ko/p/TG2D1WDR009WST"> <img
+																	src="http://newmedia.thehandsome.com/TG/2D/SS/TG2D1WDR009WST_CR_T01.jpg"
+																	style="width: 86px; height: 130px" alt="" />
+															</a></li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- //활동 -->
+									</div>
+								</div>
+
+								<!-- swiper -->
+							</div>
+						</li>
+					</ul>
+				</div>
+
+				<div class="df_box mp_order_dvlr_guide_wrap last_box">
+					<h3 class="df_box_tit">
+						주문 배송 조회 안내
+						<!-- 주문 배송 조회 안내 -->
+					</h3>
+					<ul class="ul_dot">
+						<li>한섬마일리지는 배송 완료 후 10일 후 지급됩니다.<!-- 한섬마일리지는 배송 완료 후 10일 후 지급됩니다. -->
+						</li>
+						<li>상품 준비 중 이후부터 정보 변경이 불가합니다.<!-- 상품 준비 중 이후부터 정보 변경이 불가합니다. -->
+						</li>
+						<li>주문 시 사용한 기프트카드, 한섬마일리지 모두 동일 수단으로 환불됩니다.<!-- 주문 시 사용한 기프트카드, 한섬마일리지 모두 동일 수단으로 환불됩니다. -->
+						</li>
+						<li>한섬마일리지는 정상 매장 기준 5% 적립됩니다. (아울렛, 세일상품, 수입상품의 경우 다를 수
+							있습니다.)<!-- 한섬마일리지는 정상 매장 기준 5% 적립됩니다. (아울렛, 세일상품, 수입상품의 경우 다를 수 있습니다.) -->
+						</li>
+						<li>가상계좌 결제 시, 4시간 내 입금하지 않으면 자동으로 주문이 취소됩니다.<!-- 가상계좌 결제 시, 24시간 내 입금하지 않으면 자동으로 주문이 취소됩니다. -->
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<!-- ################## footer ################## -->
+			<!-- 푸터 공지 추가 220404 -->
+			<footer id="footer" class="hsome_footer new181127 footer_kr">
+				<div class="f_wrap">
+					<div class="f_menu re1911">
+						<!-- 수정 190207 -->
+						<ul class="top_line">
+							<li><a href="#"></a></li>
+							<li><a href="javascript:ftLogout();" class="login"
+								style="float: left" onclick="GA_Event('공통', '푸터_메뉴', '로그아웃');">로그아웃<!-- 로그아웃 --></a>
+							</li>
+							<li><a href="/ko/svcenter/mobilemain?uiel=Mobile"
+								class="customer" style="float: left; width: 32%"
+								onclick="GA_Event('공통', '푸터_메뉴', '고객센터');">고객센터<!--고객센터--></a></li>
+							<li><a href="/ko/store-finder/storeInformation?uiel=Mobile"
+								class="storeinfo" style="float: left"
+								onclick="GA_Event('공통', '푸터_메뉴', '매장안내');">매장안내</a></li>
+						</ul>
+						<ul class="btm_line1911">
+							<li><a href="/ko/svcenter/theClubInfo?uiel=Mobile"
+								class="memberBenefit" style="float: left; letter-spacing: -1px"
+								onclick="GA_Event('공통', '푸터_메뉴', '한섬 회원 혜택');">한섬 회원 혜택<!-- 한섬 회원 혜택 -->
+							</a></li>
+							<li><a
+								href="http://www.handsome.co.kr/ko/company/aboutHandsome.do?leng=ko"
+								target="_blank" style="float: left; letter-spacing: -1px"
+								onclick="GA_Event('공통', '푸터_메뉴', '회사소개');">회사소개</a></li>
+							<li id="family_site"><span
+								class="language family_site1911 for_iph_css1911"
+								onclick="familySiteSelect();GA_Event('공통', '푸터_CNT', 'FAMILYSITE');">FAMILY
+									SITE&nbsp;</span></li>
+						</ul>
+						<!-- 챗봇 테스트 -->
+					</div>
+
+					<div class="f_sns">
+						<a href="javascript:noLink();"
+							onclick="GA_Event('공통', '푸터_SNS', 'INSTAGRAM');window.open('https://instagram.com/thehandsome_official/','instagram');return false"
+							class="ist">인스타그램</a> <a href="javascript:noLink();"
+							onclick="GA_Event('공통', '푸터_SNS', 'YOUTUBE');window.open('https://www.youtube.com/channel/UC0fmjgbVA8iZrPbIR3dppUQ','youtube');return false"
+							class="ytb">유튜브</a>
+					</div>
+					<div class="f_policy">
+						<a href="/ko/footer/footerTermBusiness?uiel=Mobile">서비스이용약관</a> <a
+							href="/ko/footer/footerPrivacy?uiel=Mobile"
+							style="font-weight: bold">개인정보처리방침</a>
+
+						<!-- web -->
+					</div>
+
+					<div class="f_copyright">COPYRIGHT © 2018 HANDSOME. ALL RIGHT
+						RESERVED</div>
+
+					<a href="javascript:noLink();" class="f_info_viewer"
+						onclick="GA_Event('공통', '푸터_CNT', 'INFO');"> <span
+						class="f-txt">(주) 한섬 </span>
+					</a>
+
+					<div class="f_info">
+						<div class="corp">
+							대표이사 : 김민덕 | 서울시 강남구 도산대로 523 한섬빌딩<br />TEL : 1800-5700 (유료) |
+							FAX : 02-6078-2856 <br />개인정보보호책임자 : 윤인수 | 호스팅서비스 : (주) 한섬<br />사업자등록번호
+							: 120-81-26337<br />통신판매업신고번호 : 제 2009-서울강남-00826호
+						</div>
+						<div class="link">
+							<a
+								href="https://recruit.ehyundai.com/recruit-info/announcement/list.nhd?pageNo=1&amp;hireGb=01&amp;coCd=HDHAN"
+								target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'INFO_채용정보');">채용정보</a>
+							<a
+								href="http://www.handsome.co.kr/ko/sustainability/sharedGrowth01.do"
+								target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'INFO_동반성장');">동반성장</a>
+							<a
+								href="http://www.handsome.co.kr/ko/sustainability/ecoFriendly01.do"
+								target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'INFO_환경경영');">환경경영</a>
+						</div>
+					</div>
+				</div>
+			</footer>
+
+			<!-- //################## footer ################## -->
+		</div>
+	</div>
+
+	<a href="noLink();" class="hsome_topBtn upper" id="handsomeTopBtn">mobile.bottom.top</a>
+	<!-- 20180530 추가 -->
+
+	<script type="text/javascript">
+		function goMypage() {
+			//if("N" == "Y") {
+			//	$("#gnbMypageBtn").click();
+			//} else {
+			//$.cookie("handsomeappreturnurl", location.href, {path:"/"});
+			$.cookie("handsomeappreturnurl", "/ko/", {
+				path : "/"
+			});
+			location.href = "/ko/mypage/mypageFloatingPopup";
+			//}
+		}
+
+		$(window).load(function() {
+			//모든 리소스 로드 후에 처리
+			$(".hsome_quickMenu").addClass("active");
+		});
+
+		function goMainpage() {
+			window.sessionStorage.removeItem("moveYn");
+			window.sessionStorage.removeItem("width");
+			window.sessionStorage.removeItem("height");
+			location.href = "/ko/main";
+		}
+	</script>
+
+	<!-- ################## hsome_quickMenu | 퀵메뉴 ################## -->
+	<aside class="hsome_quickMenu hsome_quickMenu1909 active">
+		<ul>
+			<li class="shop"><a href="/ko/mobilecommon/navShop"
+				onclick="GA_Event('공통', '네비게이션_바', '샵');"><i>메뉴</i></a></li>
+			<li class="sns"><a href="/ko/sns/main"
+				onclick="GA_Event('공통', '네비게이션_바', '타임라인');"><i>스타일 LIVE</i></a></li>
+			<li class="home"><a href="javascript:noLink();"
+				onclick="goMainpage();GA_Event('공통', '네비게이션_바', '홈');"><i>홈</i></a>
+			</li>
+			<li class="myheart" id="gnbMyheartBtn"><a
+				href="/ko/mypage/myWish"
+				onclick="GA_Event('공통', '네비게이션_바', '마이하트');"><i>마이하트</i></a></li>
+			<li class="mypage active" id="gnbMyPageBtn"><a
+				href="javascript:noLink();"
+				onclick="goMypage();GA_Event('공통', '네비게이션_바', '마이페이지');"><i>마이페이지</i></a>
+			</li>
+			<li class="mypage pageMove" style="display: none"><a href=""
+				id="gnbMypageBtn"></a></li>
+			<li class="mypage" style="display: none"><a
+				href="/ko/mobilecommon/myPagePopup" id="gnbMypagePopupBtn"></a></li>
+		</ul>
+	</aside>
+	<!-- ################## //hsome_quickMenu | 퀵메뉴 ################## -->
+
+	<div class="family_site_popup_191108">
+		<ul>
+			<li><a href="http://m.hfashionmall.com/sfmmbl/mbl/main.do"
+				target="_blank"
+				onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_H패션몰');">H패션몰<!-- H패션몰 --></a>
+			</li>
+			<li><a href="https://m.hyundaihmall.com/front/index.do"
+				target="_blank"
+				onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_현대홈쇼핑');">현대홈쇼핑<!-- (주)현대홈쇼핑 --></a>
+			</li>
+			<li><a href="https://m.thehyundai.com/Home.html" target="_blank"
+				onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_더현대닷컴');">더현대닷컴<!-- 더현대닷컴 --></a>
+			</li>
+			<li><a href="http://mall.hyundailivart.co.kr/front/index_org.lv"
+				target="_blank"
+				onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_현대리바트');">현대리바트<!-- (주)현대 리바트 --></a>
+			</li>
+			<li><a href="https://www.h-point.co.kr/cu/main/index.nhd"
+				target="_blank"
+				onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_H.Point');">H.Point</a>
+			</li>
+			<li><a href="http://www.ehyundai.com/newPortal/ir/main.do"
+				target="_blank"
+				onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_현대백화점그룹');">현대백화점그룹<!-- 현대백화점 그룹 --></a>
+			</li>
+		</ul>
+		<a href="#;" class="family_site_popup_close"
+			onclick="familySiteSelectClosed();">닫기<!-- 닫기 --></a>
+	</div>
+	<!-- ################## hsome_quickMenu_contents | 퀵메뉴 컨텐츠 영역 ################## -->
+	<div class="hsome_quickMenu_contents"></div>
+	<!-- //################## hsome_quickMenu_contents | 퀵메뉴 컨텐츠 영역 ################## -->
+<aside th:insert="~{include/aside}"></aside>
+</body>
+</html>

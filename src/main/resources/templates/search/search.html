@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{include/head}"></head>
+<body class="back">
+	<div class="hsome_allContents_wrapper">
+
+		<div class="hsome_allContents">
+			<header class="hsome_header header_noline">
+			<form method="post" action="/searchList">
+				<div class="h_searchEngine">
+					<div class="ipt">
+						<div class="m_search_box">
+							<input type="search" id="query" name="search">
+						</div>
+						<button type="submit" class="sch">상품 검색</button>
+					</div>
+				</div>
+			
+				<a href="/main" class="h_prev">이전
+					페이지로 가기</a>
+			</header>
+			<div class="hsome_contents">
+			</div>
+		</div>
+		</form>
+		<aside th:insert="~{include/aside}"></aside>
+	</div>
+</body>
+
+</html>

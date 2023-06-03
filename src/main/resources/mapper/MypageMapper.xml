@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundai.pjt.mapper.MypageMapper">
+
+	<resultMap type="com.hyundai.pjt.dto.MyorderDTO"
+		id="MyorderMap">
+		
+		<result property="oid" column="oid" />
+		<result property="mid" column="mid" />
+		<result property="ozipcode" column="ozipcode" />
+		<result property="oaddress1" column="oaddress1" />
+		<result property="oaddress2" column="oaddress2" />
+		<result property="odate" column="odate" />
+		<result property="oreceiver" column="oreceiver" />
+		<result property="otel" column="otel" />
+		<result property="odate" column="odate" />
+		<result property="ousedmileage" column="ousedmileage" />
+		<result property="odate" column="odate" />
+		<result property="ousedcoupon" column="ousedcoupon" />
+		<result property="opayment" column="opayment" />
+		<result property="ostatus" column="ostatus" />
+		<result property="oaccountdeadline" column="oaccountdeadline" />
+		<result property="odiscounted" column="odiscounted" />
+		<collection property="itemList" resultMap="MyorderitemMap"></collection>
+	
+	</resultMap>
+
+	<resultMap type="com.hyundai.pjt.dto.MyorderitemDTO"
+		id="MyorderitemMap">
+		<result property="oid" column="mid" />
+		<result property="pid" column="pid" />
+		<result property="pname" column="pname" />
+		<result property="ccolorcode" column="ccolorcode" />
+		<result property="cmathpid" column="cmathpid" />
+		<result property="ssize" column="ssize" />
+		<result property="oamount" column="oamount" />
+		
+		<result property="cimage1" column="cimage1" />
+		<result property="rStatus" column="rStatus" />
+		<result property="rdate" column="rdate" />
+		<result property="rcontent" column="rcontent" />
+		
+		<result property="ozipcode" column="ozipcode" />
+		<result property="oaddress1" column="oaddress1" />
+		<result property="oaddress2" column="oaddress2" />
+		<result property="odate" column="odate" />
+		<result property="oreceiver" column="oreceiver" />
+		<result property="otel" column="otel" />
+		<result property="ousedmileage" column="ousedmileage" />
+		<result property="ousedcoupon" column="ousedcoupon" />
+		<result property="opayment" column="opayment" />
+		<result property="ostatus" column="ostatus" />
+		
+	</resultMap>
+
+	<!-- 나의 주문 내역 조회 -->
+	<select id="selectMyOrderList"
+		resultMap="MyorderMap">
+		SELECT * 
+		FROM orderlist l 
+		JOIN orderitemWithReviewAndImg i
+		ON l.oid = i.oid
+		WHERE mid=#{mid}
+		ORDER BY l.odate DESC
+	</select>
+	
+	<!-- 나의 주문 상세 조회  -->
+	<select id="selectMyOrderitem"
+		resultType="com.hyundai.pjt.dto.MyorderitemDTO">
+		SELECT *
+		FROM orderlist
+		l
+		JOIN orderitemWithReviewAndImg i
+		ON
+		l.oid = i.oid
+		WHERE mid=#{mid}
+	</select>
+
+	<!-- 나의 리뷰 목록 조회 -->
+	<select id="selectMyReviewList"
+		resultType="com.hyundai.pjt.dto.MyorderDTO">
+		select *
+		from orderitemWithReview i join orderlist l on
+		i.oid=l.oid
+		where i.rstatus=1 and mid=#{mid}
+	</select>
+	
+	<!-- 나의 리뷰 상세 -->
+
+</mapper>

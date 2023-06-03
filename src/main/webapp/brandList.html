@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<head th:insert="~{product/proHead}"></head>
+<body class="back">
+<script>
+
+$(document).ready(function(){
+	prodList("NEW");
+	
+	$("#st2").on("change", function(){
+		var order = $(this).val();
+		prodList(order);
+	});
+	
+	$(".color_chip a button").on("click", function(){
+		console.log("aaaa");
+		$(this).parent().siblings().children("button").removeClass("on");
+		$(this).addClass("on");
+	});
+	
+	$(".shop a").on("click", function(){
+		location.href="/product/category";
+	});
+	
+	// 무한 스크롤
+	$(window).scroll(function(){
+		var scrT = Math.ceil($(window).scrollTop());
+
+		if(scrT >= $(document).height() - $(window).height()-1){
+		  	//스크롤이 끝에 도달했을때 실행될 이벤트
+		  	addProList();
+		}  
+	});
+		
+});
+var startIdx = 1;
+var endIdx = 12;
+
+function addProList(){
+	var cate = "[[${cate}]]";
+	var order = $("#st2 option:selected").val();
+	
+	startIdx += 12;
+	endIdx += 12;
+	
+	$.ajax({
+		url : '/product/addList',
+		type : 'POST',
+		data : {
+			cate : cate,
+			order : order,
+			startIdx : startIdx,
+			endIdx : endIdx
+		},
+		success : function(result){
+			
+			var $result = result;
+
+			var tmp = startIdx-1;
+			
+			var tag = "";
+			
+			for(var i=0; i<$result.length; i++){
+				tag += `<li class="active `;
+					if((i+2)%6 == 0){
+						tag += "big";
+					}else if((i+1)%6 == 0){
+						tag += "two_img"
+					}else{
+						tag += "float";
+					}
+				tag += `" id="listBody1_li0"`
+				if((i+2)%6 == 0){
+					tag += `style="width: 100%;"`;
+				}
+				tag += `><a href="/product/detail/` + $result[i].colorList[0].cmatchpid + `" class="categoryImgBox" id="IMGBOX_` + tmp + `">`;
+				
+				if((i+1)%6 == 0){
+					tag += `<div class="img_wrap">`;
+				}
+				tag += `<div class="img">`;
+				tag += `<img src="` + $result[i].colorList[0].cimage1 + `" data-original="` + $result[i].colorList[0].cimage1 + `" data-prod-idx="0" data-img-idx="1" id="IMG_` + tmp + `" targetcode="` + $result[i].colorList[0].cmatchpid + `" alt="` + $result[i].pname + `" text="` + $result[i].colorList[0].cimage1 + `" class="respon_image lazy" style="display: block">`;
+				tag += `<input type="hidden" id="imageCheck010"	value="` + $result[i].colorList[0].cimage1 + `!||!` + $result[i].colorList[0].cmatchpid + `">`;
+				tag += `<input type="hidden" id="newImage1_` + tmp + `" value="` + $result[i].colorList[0].cimage1 + `"></div>`;
+				
+				if((i+1)%6 == 0){
+					tag += `<div class="img small">`;
+					tag += `<img src="` + $result[i].colorList[0].cimage2 + `" data-original="` + $result[i].colorList[0].cimage2 + `" data-prod-idx="0" data-img-idx="1" id="IMG_` + tmp + `_2" targetcode="` + $result[i].colorList[0].cmatchpid + `" alt="` + $result[i].pname + `" text="` + $result[i].colorList[0].cimage2 + `" class="respon_image lazy" style="display: block">`;
+					tag += `<input type="hidden" id="imageCheck010"	value="` + $result[i].colorList[0].cimage2 + `!||!` + $result[i].colorList[0].cmatchpid + `">`;
+					tag += `<input type="hidden" id="newImage2_` + tmp + `" value="` + $result[i].colorList[0].cimage2 + `"></div>`;
+					tag += `</div>`;	
+				}
+				tag += `</a><div class="info_cont">`;
+			 	tag += `<div class="color_chip">`;
+			 	
+			 	for(var j=0; j<$result[i].colorList.length; j++){
+			 		tag += `<a href="javascript:noLink();" onclick="chgColorChip(` + tmp + `, '` + $result[i].colorList[j].cmatchpid + `', `;
+			 		if((i+1)%6 == 0){
+			 			tag += 1;
+			 		}else{
+			 			tag += 0;
+			 		}
+			 		tag += `); chgChipClass(` + i + `, '` + $result[i].colorList[j].cmatchpid + `');">`;
+					tag += `<button class="chip_` + tmp + ` chip `;
+						if(j == 0){
+							tag += "on";
+						}
+					tag += `" id="` + $result[i].colorList[j].cmatchpid + `" style='` + $result[i].colorList[j].ccolorimage + `'></button></a>`;
+			 	}
+			 	
+			 	tag += `</div><p class="brand">` + $result[i].bname + `</p>`;
+				tag += `<p class="name">` + $result[i].pname + `</p>`;
+				tag += `<p class="price" id="listPrice` + tmp + `">`;
+				tag += `<span id="price_` + $result[i].colorList[0].cmatchpid + `">￦` + $result[i].pprice.toLocaleString('ko-KR') + `</span></p>`;
+				tag += `<div id="etcLC2D1WTOI26W" class="etc">`;                
+				tag += `<span class="review">` + $result[i].rcnt + `</span></div></div>`;
+				tag += `<button type="button" class="like" id="` + $result[i].colorList[0].cmatchpid + `Like" data-value="` + $result[i].colorList[0].cmatchpid + `">찜하기</button></li>`;
+				
+				tmp++;
+			}
+			
+			$("#listBody").append(tag);
+			
+		},
+		error : function(e){
+			console.log(e);
+		}
+		
+	});
+}
+
+function chgChipClass(idx, cmatchpid){
+	$(".chip_" + idx).removeClass("on");
+	$("#" + cmatchpid).addClass("on");
+}
+
+// 상품 목록을 불러오는 함수(정렬)
+function prodList(order){
+	var cate = "[[${cate}]]";
+	
+	$.ajax({
+		url : '/product/orderList',
+		type : 'post',
+		data : {
+			cate : cate,
+			order : order,
+		},
+		success : function(result){
+		
+			var $result = result;
+			
+			var tag = "";
+			
+			for(var i=0; i<$result.length; i++){
+				tag += `<li class="active `;
+					if((i+2)%6 == 0){
+						tag += "big";
+					}else if((i+1)%6 == 0){
+						tag += "two_img"
+					}else{
+						tag += "float";
+					}
+				tag += `" id="listBody1_li0"`
+				if((i+2)%6 == 0){
+					tag += `style="width: 100%;"`;
+				}
+				tag += `><a href="/product/detail/` + $result[i].colorList[0].cmatchpid + `" class="categoryImgBox" id="IMGBOX_` + i + `">`;
+				
+				if((i+1)%6 == 0){
+					tag += `<div class="img_wrap">`;
+				}
+				tag += `<div class="img">`;
+				tag += `<img src="` + $result[i].colorList[0].cimage1 + `" data-original="` + $result[i].colorList[0].cimage1 + `" data-prod-idx="0" data-img-idx="1" id="IMG_` + i + `" targetcode="` + $result[i].colorList[0].cmatchpid + `" alt="` + $result[i].pname + `" text="` + $result[i].colorList[0].cimage1 + `" class="respon_image lazy" style="display: block">`;
+				tag += `<input type="hidden" id="imageCheck010"	value="` + $result[i].colorList[0].cimage1 + `!||!` + $result[i].colorList[0].cmatchpid + `">`;
+				tag += `<input type="hidden" id="newImage1_` + i + `" value="` + $result[i].colorList[0].cimage1 + `"></div>`;
+				
+				if((i+1)%6 == 0){
+					tag += `<div class="img small">`;
+					tag += `<img src="` + $result[i].colorList[0].cimage2 + `" data-original="` + $result[i].colorList[0].cimage2 + `" data-prod-idx="0" data-img-idx="1" id="IMG_` + i + `_2" targetcode="` + $result[i].colorList[0].cmatchpid + `" alt="` + $result[i].pname + `" text="` + $result[i].colorList[0].cimage2 + `" class="respon_image lazy" style="display: block">`;
+					tag += `<input type="hidden" id="imageCheck010"	value="` + $result[i].colorList[0].cimage2 + `!||!` + $result[i].colorList[0].cmatchpid + `">`;
+					tag += `<input type="hidden" id="newImage2_` + i + `" value="` + $result[i].colorList[0].cimage2 + `"></div>`;
+					tag += `</div>`;	
+				}
+				tag += `</a><div class="info_cont">`;
+			 	tag += `<div class="color_chip">`;
+			 	
+			 	for(var j=0; j<$result[i].colorList.length; j++){
+			 		tag += `<a href="javascript:noLink();" onclick="chgColorChip(` + i + `, '` + $result[i].colorList[j].cmatchpid + `', `;
+			 		if((i+1)%6 == 0){
+			 			tag += 1;
+			 		}else{
+			 			tag += 0;
+			 		}
+			 		tag += `); chgChipClass(` + i + `, '` + $result[i].colorList[j].cmatchpid + `');">`;
+					tag += `<button class="chip_` + i + ` chip `;
+						if(j == 0){
+							tag += "on";
+						}
+					tag += `" id="` + $result[i].colorList[j].cmatchpid + `" style='` + $result[i].colorList[j].ccolorimage + `'></button></a>`;
+			 	}
+			 	
+			 	tag += `</div><p class="brand">` + $result[i].bname + `</p>`;
+				tag += `<p class="name">` + $result[i].pname + `</p>`;
+				tag += `<p class="price" id="listPrice` + i + `">`;
+				tag += `<span id="price_` + $result[i].colorList[0].cmatchpid + `">￦` + $result[i].pprice.toLocaleString('ko-KR') + `</span></p>`;
+				tag += `<div id="etcLC2D1WTOI26W" class="etc">`;                
+				tag += `<span class="review">` + $result[i].rcnt + `</span></div></div>`;
+				tag += `<button type="button" class="like" id="` + $result[i].colorList[0].cmatchpid + `Like" data-value="` + $result[i].colorList[0].cmatchpid + `">찜하기</button></li>`;
+			}
+			
+			$("#listBody").html(tag);
+
+		},
+		error : function(e){
+			console.log(e);
+		}
+		
+	});
+}
+
+// 컬러 버튼 클릭 시 해당 이미지로 바꾸는 함수
+function chgColorChip(index, code, stat) {
+	var url1 = $("#newImage1_"+index).val();			
+    var target1 = url1.substring(url1.lastIndexOf("/"));
+    var lastAdd1 = url1.substring(url1.lastIndexOf("_"));
+    
+    var src1 = "";
+    src1 = url1.replace(target1, "/"+code) + lastAdd1;
+    
+    $("#IMG_" + index).attr("src", src1);
+    
+    if(stat == 1){
+    	var url2 = $("#newImage2_"+index).val();			
+        var target2 = url2.substring(url2.lastIndexOf("/"));
+        var lastAdd2 = url2.substring(url2.lastIndexOf("_"));
+        
+        var src2 = "";
+        src2 = url2.replace(target2, "/"+code) + lastAdd2;
+        
+        $("#IMG_" + index + "_2").attr("src", src2);
+    }
+     
+    $("#IMGBOX_" + index).attr("href", "/product/detail/" + code);
+}
+</script>
+
+
+	<div class="hsome_allContents_wrapper">
+		<div class="hsome_allContents">
+			<header class="hsome_header">
+				<h1 class="h_ttl ellipsis" id="headerTitle">
+					<a th:text="${clarge=='we' ? '여성' : clarge=='me' ? '남성' : '잡화'}" href="/product/category" class="select_">대분류</a>
+				</h1>
+				<a href="/main" class="h_prev">이전
+					페이지로 가기</a>
+				<ul class="h_gnbMenu">
+					<li class="search"><a href="/ko/mobilecommon/search"
+						onclick="GA_Event('카테고리_리스트', '헤더', '검색');"><span>search</span></a>
+					</li>
+					<li class="cart"><a href="/ko/shoppingbag"
+						onclick="GA_Event('카테고리_리스트', '헤더', '쇼핑백');"><span>cart</span><i>0</i></a>
+					</li>
+				</ul>
+			</header>
+
+			<div class="hs_product_list_wrap">
+				<div class="cate_wrap191028">
+					<!--//previous_category191028 -->
+
+					<!-- flag_wrap -->
+					<div class="flag_wrap case swiper-container swiper-container-horizontal swiper-container-free-mode swiper-container-android swiper-container-wp8-horizontal">
+						<ul class="swiper-wrapper"
+							style="height: 33px; transform: translate3d(0px, 0px, 0px);">
+							<li th:classappend="${cmedium == '' ? 'on' : ''}"
+								class="swiper-slide flag swiper-slide-active"
+								id="categoryNav01" style="margin-right: 6px;">
+								<a th:href="'/product/list/' + ${clarge}" class="name">전체</a>
+							</li>
+							<!-- #1141 - 상위 카테고리(아우터/탑/팬츠) -->
+							<li th:if="${clarge != 'as'}" th:each="cate : ${cateList}" 
+								th:classappend="${cmedium == cate.cmedium ? 'on' : ''}" class="swiper-slide flag swiper-slide-next"
+								style="margin-right: 6px;">
+								<a th:text="${cate.cmedium}" th:href="'/product/list/' + ${clarge} + ${cate.cmedium == '아우터' ? '01' : cate.cmedium == '탑' ? '02' : cate.cmedium == '팬츠' ? '03' : ''}" class="name">중분류</a>
+							</li>
+						</ul>
+					</div>
+					<!--// flag_wrap -->
+				</div>
+
+				<div class="sort_tit">
+					<p th:text="${proCnt} + ' 개'"
+						class="num_txt" id="totalSpan">상품개수</p>
+					<div class="hs_tit_select">
+						<select id="st2" title="신상품">
+							<option value="NEW">신상품</option>
+							<option value="SALES">판매순</option>
+							<option value="REVIEW">리뷰순</option>
+							<option value="HIGH">고가순</option>
+							<option value="LOW">저가순</option>
+						</select>
+					</div>
+				</div>
+				<div class="prodcut_top_cont" id="categoryTopBanner"></div>
+
+				<div class="hs_product_list" id="hsProductList">
+					<ul id="listBody">
+						
+					</ul>
+				</div>
+				<div id="mainPopwrap1"
+					style="position: absolute; top: 85px; left: 50%; width: 80%; margin-left: -40%;"></div>
+			</div>
+		</div>
+	</div>
+	<a href="noLink();" class="hsome_topBtn active" id="handsomeTopBtn">mobile.bottom.top</a>
+	<aside class="hsome_quickMenu hsome_quickMenu1909 active">
+		<ul>
+			<li class="shop active"><a href="/product/category"><i>메뉴</i></a></li>
+			<li class="sns"><a href="/ko/sns/main"
+				onclick="GA_Event('공통', '네비게이션_바', '타임라인');"><i>스타일 LIVE</i></a></li>
+			<li class="home"><a href="javascript:noLink();"
+				onclick="goMainpage();GA_Event('공통', '네비게이션_바', '홈');"><i>홈</i></a>
+			</li>
+			<li class="myheart" id="gnbMyheartBtn"><a
+				href="/ko/mypage/myWish"
+				onclick="GA_Event('공통', '네비게이션_바', '마이하트');"><i>마이하트</i></a></li>
+			<li class="mypage" id="gnbMyPageBtn"><a
+				href="javascript:noLink();"
+				onclick="goMypage();GA_Event('공통', '네비게이션_바', '마이페이지');"><i>마이페이지</i></a>
+			</li>
+			<li class="mypage pageMove" style="display: none"><a href=""
+				id="gnbMypageBtn"></a></li>
+			<li class="mypage" style="display: none"><a
+				href="/ko/mobilecommon/myPagePopup" id="gnbMypagePopupBtn"></a></li>
+		</ul>
+	</aside>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			if (false) {
+				$("#cateTab").click();
+			}
+		});
+
+		function closeAction() {
+			$(".twoDepthNavPopup").hide();
+			$(".one_lists.on").toggleClass("on");
+		}
+	</script>
+
+	<script defer="defer">
+		var appDownPopContentHtml = "";
+		$(document).ready(
+				function() {
+					var tempDate = "2022/09/16 10:00:00";
+					if (location.href.indexOf("www.thehandsome.com") == -1) {
+						//test
+						tempDate = "2022/09/06 10:00:00";
+					}
+
+					var todayDate = new Date();
+					var startDate = new Date(tempDate), endDate = new Date(
+							"2022/09/22 23:59:59");
+					if (todayDate.getTime() >= startDate.getTime()
+							&& todayDate.getTime() <= endDate.getTime()) {
+						// 노출페이지 : 정상/아울렛 상품상세페이지, 기획전 (상세), 더매거진(상세)
+						var uid = "productList";
+
+						var chkPage = [ "hsProductDetailPage",
+								"editorialDetailPage", "productList", ];
+						var target_url = document.location.href;
+					}
+				});
+
+		$(window).load(function() {
+			if ($(".hsome_quickMenu").length == 0) {
+				if (appDownPopContentHtml != "") {
+					holdBodyShow();
+				}
+			}
+		});
+
+		function mobileWebView() {
+			//$(".app_pop200303").hide();
+			//$(".noti_popup190906_dim").hide();
+			$(".b-modal.__b-popup1__").hide();
+			if ($(".hsome_quickMenu").length == 0) {
+				if (appDownPopContentHtml != "") {
+					holdBodyHide();
+				}
+			}
+			setMobileWebViewCookie("mobileWebView", "Y", 1);
+		}
+	</script>
+	<iframe id="groobeeBox" name="groobeeBox" style="display: none;"></iframe>
+</body>
+</html>

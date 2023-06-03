@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundai.pjt.mapper.CartMapper">
+
+	<update id="updateCart">
+		MERGE INTO mycart c
+		USING dual
+		ON (c.pid=#{pid} and c.psize=#{psize} and pcolor =#{pcolor})
+		WHEN MATCHED THEN
+    		update set c.pamount = c.pamount + #{pamount}
+		WHEN NOT MATCHED THEN
+    		insert (c.mid, c.pid, c.psize, c.pcolor, c.pamount)
+    		values(#{mid},#{pid},#{psize},#{pcolor},#{pamount})
+	</update>
+	
+	<delete id="deleteCart">
+		delete from mycart 
+		where mid = #{mid} and pid=#{pid} 
+		and psize = #{psize} and pcolor = #{pcolor}
+	</delete>
+	
+	<resultMap type="com.hyundai.pjt.dto.CartDTO" id="cartMap">
+		<result property="pid" column="pid"/>
+		<result property="psize" column="psize"/>		
+		<result property="bno" column="bno"/>
+		<result property="bname" column="bname"/>
+		<result property="pname" column="pname"/>
+		<result property="pprice" column="pprice"/>
+		<result property="pcolor" column="pcolor"/>
+		<result property="pamount" column="pamount"/>
+		<collection property="colorlist" resultMap="colorMap"></collection>
+		<collection property="stocklist" resultMap="stockMap"></collection>
+	</resultMap>
+	
+	<resultMap type="com.hyundai.pjt.dto.ColorDTO" id="colorMap">
+		<result property="ccolorcode" column="ccolorcode"/>
+		<result property="cimage1" column="cimage1"/>
+		<result property="ccolorimage" column="ccolorimage"/>
+	</resultMap>
+
+	<resultMap type="com.hyundai.pjt.dto.StockDTO" id="stockMap">
+	  <result property="ssize" column="ssize"/>
+	</resultMap>
+	
+	<select id="cartList" resultMap="cartMap">
+		select m.pid, m.psize ,b.bname, p.pname, p.pprice,m.pamount, c.ccolorcode, c.cimage1, m.pcolor, c.ccolorimage, s.ssize
+		from mycart m, brand b, color c, product p, stock s
+		where m.pid = c.pid and p.pid = m.pid
+		and p.bno = b.bno and s.pid = m.pid
+		and m.mid = #{mid}
+	</select>
+	
+	<select id="countCart" resultType="int">
+		select count(pid) from mycart
+	</select>
+	
+	<delete id="deleteAllCartList">
+		delete from mycart
+		where mid = #{mid}
+	</delete>
+	
+	<update id="updateOption">
+		update mycart set pcolor = #{pcolor}, pamount = #{pamount}, psize = #{psize}
+		where pid = #{pid}
+		and mid= #{mid}
+	</update>
+</mapper>    

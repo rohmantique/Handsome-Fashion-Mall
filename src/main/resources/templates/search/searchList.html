@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{include/head}"></head>
+<body class="back">
+  <div class="hsome_allContents_wrapper">
+    <div class="hsome_allContents">
+      <header class="hsome_header header_noline">
+        <div th:insert="~{include/member-header}"></div>
+      </header>
+      <div class="hsome_contents">
+        <div class="hs_product_list_wrap search">
+          <div class="sch_searchEndTabConts tab_cont">
+            <div class="cont on" id="result_product">
+
+              <h2 class="sch_searchNorTit tgTrigger off" id="searchBrandReportTitle" style="margin-bottom: 30px; font-size: 20px;"><span th:text="${keyword}">캐시미어</span>’s Report</h2>
+              <div class="sch_searchTgArea sch_searchGraph" style="display: none;">
+                <div class="chartView" id="chartView" _echarts_instance_="ec_1675331704632" style="-webkit-tap-highlight-color: transparent; user-select: none;">
+                  <div style="position: relative; overflow: hidden; width: 414px; height: 200px; padding: 0px; margin: 0px; border-width: 0px;">
+                    <canvas data-zr-dom-id="zr_0" width="828" height="400" style="position: absolute; left: 0px; top: 0px; width: 414px; height: 200px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                  </div>
+                </div>
+                <div class="chartViewTit">
+                  <b>캐시미어</b>
+                  인기 검색어
+                </div>
+              </div>
+
+            </div>
+            <div class="cont on" id="result_product">
+              
+              <div class="hs_product_list">
+                <!-- 180727_리스트 수정 -->
+                <ul id="searchProductlistBody">
+                  <li class="float active"  th:each="search : ${searchList}">
+                  <a href="/handsome/main" class="img_slide_contain" onclick="beshow_tagging(this);" link="/p/LC2D1KCDI31W" price="765,000" image="http://newmedia.thehandsome.com/LC/2D/SS/LC2D1KCDI31W_LN_T01.jpg" prdname="캐시미어 블렌드 브이넥 니트 가디건" code="LC2D1KCDI31W">
+                      <div class="img_slide">
+                        <div class="img"><img th:src="${search.cimage1}" alt="http://newmedia.thehandsome.com/LC/2D/SS/LC2D1KCDI31W_LN_T01.jpg" id="T01_IMG_1" class="respon_image"><img src="http://newmedia.thehandsome.com/LC/2D/SS/LC2D1KCDI31W_LE_T01.jpg" alt="http://newmedia.thehandsome.com/LC/2D/SS/LC2D1KCDI31W_LE_T01.jpg" class="respon_image" style="display:none"></div>
+                      </div>
+                    </a>
+                    <div class="info_cont">
+                      <a href="/p/LC2D1KCDI31W">
+                        <p class="brand" th:text="${search.bname}"></p>
+                        <p class="name" th:text="${search.pname}"> </p>
+                        <p class="price"> <span id="price_LC2D1KCDI31W_LN" th:text="${search.price}"></span></p>
+                      </a>
+                    </div><button type="button" class="like" id="LC2D1KCDI31W_LNLike" onclick="addWishListClick('LC2D1KCDI31W_LN');" data-value="LC2D1KCDI31W_LN"> </button>
+                  </li>
+                </ul>
+                <!-- //180727_리스트 수정 -->
+              </div><!-- 가장 많이 보고 있는 검색어 -->
+              <!--m_sr_others -->
+              
+              <!--//m_sr_others -->
+            </div>
+            <div class="cont" id="result_contents">
+              <h2 class="sch_searchNorTit" id="noSearchResult" style="text-align: center; display: none;">검색 결과가 없습니다.
+              </h2>
+              <!-- searchPostList //snsPost -->
+              <h2 class="sch_searchNorTit" id="snsPostContentsTit">SNS 컨텐츠 (5566)</h2>
+              <!-- searchExhibitionList //기획전 -->
+              <h2 class="sch_searchNorTit sch_searchGubun" id="exhibitionContentTit">기획전 (2)</h2>
+              <div class="sch-search-etc-ad-box" id="exhibitionContents" style="">
+                <div class="sch_searchSpecial sch_sspl1904">
+                  <ul id="searchExhibitionlistBody">
+                    <li><a href=""> <img src="http://cdn.thehandsome.com/mobile/editorial/list/image/20230125_61198821264492868_ko.jpg" alt=""> <span class="name">the CASHMERE THINGS : NATURAL BEAUTY</span> <span class="date">2023.01.26 ~ 2023.02.26</span> </a></li>
+                  </ul>
+                  <div id="paging1" class="hs_paging"><a href="javascript:void(0);" class="pre disabled">이전</a><a href="javascript:void(0);" class="cur">1</a><a href="javascript:getSearchExhibitions(2)">2</a><a href="javascript:getSearchExhibitions(2)" class="nxt">다음</a></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <!-- //검색어 입력 완료(검색 결과) -->
+        </div>
+      </div>
+      <footer id="footer" class="hsome_footer new181127 footer_kr">
+        <div class="main-notice">
+          <div class="tit-notice">공지</div>
+          <div class="list-notice">
+            <ul class="notice-wrap">
+              <li><a href="/ko/svcenter/mobilenotice?noticeCode=8804711059376">더한섬닷컴 편집/해외 브랜드 종료(예정) 안내(~2/22)</a></li>
+              <li><a href="/ko/svcenter/mobilenotice?noticeCode=8804711059376">더한섬닷컴 편집/해외 브랜드 종료(예정) 안내(~2/22)</a></li>
+              <li><a href="/ko/svcenter/mobilenotice?noticeCode=8804711059376">더한섬닷컴 편집/해외 브랜드 종료(예정) 안내(~2/22)</a></li>
+              <li><a href="/ko/svcenter/mobilenotice?noticeCode=8804711059376">더한섬닷컴 편집/해외 브랜드 종료(예정) 안내(~2/22)</a></li>
+              <li><a href="/ko/svcenter/mobilenotice?noticeCode=8804711059376">더한섬닷컴 편집/해외 브랜드 종료(예정) 안내(~2/22)</a></li>
+              <li><a href="/ko/svcenter/mobilenotice?noticeCode=8804711059376">더한섬닷컴 편집/해외 브랜드 종료(예정) 안내(~2/22)</a></li>
+              <li><a href="/ko/svcenter/mobilenotice?noticeCode=8804711059376">더한섬닷컴 편집/해외 브랜드 종료(예정) 안내(~2/22)</a></li>
+            </ul>
+          </div>
+          <div class="btn-more"><a href="/ko/svcenter/mobilenotice"><img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/main/btn_arr_notice.png" alt=""></a></div>
+        </div>
+        <div class="f_wrap">
+          <div class="f_menu re1911"><!-- 수정 190207 -->
+            <ul class="top_line">
+
+              <li><a href="#"></a></li>
+              <li><a href="javascript:ftLogout();" class="login" style="float:left;" onclick="GA_Event('공통', '푸터_메뉴', '로그아웃');">로그아웃<!-- 로그아웃 --></a></li>
+              <li><a href="/ko/svcenter/mobilemain?uiel=Mobile" class="customer" style="float:left;width:32%;" onclick="GA_Event('공통', '푸터_메뉴', '고객센터');">고객센터<!--고객센터--></a></li>
+              <li><a href="/ko/store-finder/storeInformation?uiel=Mobile" class="storeinfo" style="float:left;" onclick="GA_Event('공통', '푸터_메뉴', '매장안내');">매장안내</a></li>
+            </ul>
+            <ul class="btm_line1911">
+              <li><a href="/ko/svcenter/theClubInfo?uiel=Mobile" class="memberBenefit" style="float:left;letter-spacing:-1px;" onclick="GA_Event('공통', '푸터_메뉴', '한섬 회원 혜택');">한섬 회원
+                  혜택<!-- 한섬 회원 혜택 --></a></li>
+              <li><a href="http://www.handsome.co.kr/ko/company/aboutHandsome.do?leng=ko" target="_blank" style="float:left;letter-spacing:-1px;" onclick="GA_Event('공통', '푸터_메뉴', '회사소개');">회사소개</a></li>
+              <li id="family_site">
+                <span class="language family_site1911 for_iph_css1911" onclick="familySiteSelect();GA_Event('공통', '푸터_CNT', 'FAMILYSITE');">FAMILY SITE&nbsp;</span>
+              </li>
+            </ul>
+            <!-- 챗봇 테스트 -->
+          </div>
+
+          <div class="f_sns">
+            <a href="javascript:noLink();" onclick="GA_Event('공통', '푸터_SNS', 'INSTAGRAM');window.open('https://instagram.com/thehandsome_official/','instagram');return false" class="ist">인스타그램</a>
+            <a href="javascript:noLink();" onclick="GA_Event('공통', '푸터_SNS', 'YOUTUBE');window.open('https://www.youtube.com/channel/UC0fmjgbVA8iZrPbIR3dppUQ','youtube');return false" class="ytb">유튜브</a>
+          </div>
+          <div class="f_policy">
+            <a href="/ko/footer/footerTermBusiness?uiel=Mobile">서비스이용약관</a>
+            <a href="/ko/footer/footerPrivacy?uiel=Mobile" style="font-weight:bold;">개인정보처리방침</a>
+
+            <!-- web -->
+            <!-- 180706 추가// -->
+            <span class="language">
+              <select id="footerSelectLang" onchange="if(this.value) language(this.value);" onclick="GA_Event('공통', '푸터_CNT', 'LANGUAGE');">
+                <option value="" selected="selected" disabled="" hidden="">LANGUAGE</option>
+                <option value="ko">한국어</option>
+                <option value="en">ENGLISH</option>
+                <option value="zh">中文</option>
+              </select>
+            </span>
+            <!-- //180706 추가 -->
+          </div>
+
+          <div class="f_copyright">
+            COPYRIGHT © 2018 HANDSOME. ALL RIGHT RESERVED</div>
+
+          <a href="javascript:noLink();" class="f_info_viewer" onclick="GA_Event('공통', '푸터_CNT', 'INFO');">
+            <span class="f-txt">(주) 한섬 </span>
+            <span class="f-logo"><img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/mob-footer-handsome-logo.png" alt=""></span>
+          </a>
+
+          <div class="f_info">
+            <div class="corp">
+              대표이사 : 김민덕 | 서울시 강남구 도산대로 523 한섬빌딩<br>TEL : 1800-5700 (유료) | FAX : 02-6078-2856 <br>개인정보보호책임자 : 윤인수 |
+              호스팅서비스 : (주) 한섬<br>사업자등록번호 : 120-81-26337<br>통신판매업신고번호 : 제 2009-서울강남-00826호</div>
+            <div class="link">
+              <a href="https://recruit.ehyundai.com/recruit-info/announcement/list.nhd?pageNo=1&amp;hireGb=01&amp;coCd=HDHAN" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'INFO_채용정보');">채용정보</a>
+              <a href="http://www.handsome.co.kr/ko/sustainability/sharedGrowth01.do" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'INFO_동반성장');">동반성장</a>
+              <a href="http://www.handsome.co.kr/ko/sustainability/ecoFriendly01.do" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'INFO_환경경영');">환경경영</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <aside th:insert="~{include/aside}"></aside>
+
+</body></html>

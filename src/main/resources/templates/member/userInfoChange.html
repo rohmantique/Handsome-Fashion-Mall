@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{include/head}"></head>
+
+<style>
+	.id_input_re_1, .alert-success {
+	color:#008000;
+	display: none;
+	}
+	
+	.id_input_re_2, .alert-danger{
+	color: #ff0000;
+	display: none;
+	}
+</style>
+<script>
+function findPw(){
+	/* alert("비번변경 버튼 클릭"); */
+	location.href="http://localhost/mypage/findPw";
+}
+</script>
+
+<body class="back">
+	<div class="hsome_allContents_wrapper">
+		<div class="hsome_allContents">
+			<header class="hsome_header header_noline header_mypage">
+				<h1 class="h_select">
+					<div th:insert="~{include/mypage-select}"></div>
+					<div class="selected_text">
+						<span> 개인정보변경</span>
+					</div>
+				</h1>
+				<a href="javascript:noLink();" onclick="goBack();" class="h_prev">이전 페이지로 가기</a>
+				<ul class="h_gnbMenu">
+					<li class="search"><a href="/search"><span>search</span></a></li>
+					<li class="cart"><a href="/cart"><span>cart</span><i>0</i></a></li>
+				</ul>
+			</header>
+			<span th:text="*{#authentication.principal.mid}"></span>
+				<!-- contents s -->
+				<div id="contents"
+					class="hsome_contents mp_profile_wrap mp_profile_simple_wrap">
+					<div class="gray_tab">
+						<h4 class="title">비밀번호를 변경하고 싶으세요?</h4>
+						<div class="btn_wrap btn_wrap_div1">
+							<a th:href="@{/mypage/findIdPw}" class="btnstl3 solid_btn_blk btn_layerpopup_call" id="pwChangeBtn" onclick="findPw()">비밀번호 변경</a>
+							<!-- onclick="findPw()" -->
+						</div>
+					</div>
+					<div class="mp_input_wrap">
+
+					<h1 th:text="*{#authentication.principal.mid}" th:value="${#authentication.principal.mid}"></h1>
+						<div class="input_box">
+							<div class="ipt_con">
+								
+								<form action="/member/userInfoChange" method="post" id="userInfoChange">
+									<input type="hidden" name="mid" th:value="${#authentication.principal.mid}" />
+									<div class="mem_ct_wrap" style="padding-top: 0px;">
+											<div style="padding-bottom: 0px; height: 20px; margin-top: 10px;">
+												<h5 class="w_helper">이메일</h5>
+											</div>
+											<div class="input_user_email">
+												<input type="text" id="memail" name="memail"
+													class="user_email" placeholder="이메일을 입력하세요."
+													title="이메일을 입력하세요." maxlength="100">
+											</div>
+
+											<div class="input_group">
+												<div style="padding-bottom: 0px; height: 20px;">
+													<h5 class="w_helper" style="margin-top: 15px; margin-bottom: 5px;">핸드폰 번호</i> 
+													<input type="number" id="mtel" name="mtel" class="user_pw"
+															placeholder="'-' 없이 숫자만 입력" title="핸드폰 번호를 입력하세요."
+															maxlength="100">
+												</div>
+											</div>
+											<div>
+												<input type="hidden" name="CSRFToken"
+													value="692b5e07-aaa2-41fc-89c0-ecbd6ce20411">
+											</div>
+											<div class="btn_wrap btn_wrap_div2" style="margin-top: 125px;">
+												<button class="btnstl3 border_btn_gray btn_cnl" onclick="javascript:void(0);">취소</button>
+												<button class="btnstl3 solid_btn_blk btn_agree" id="changeBtn" onclick="changeUserInfo()">변경 완료</button>
+											</div>
+								</form>
+								
+							</div>
+						</div>
+
+					</div>
+				</div>
+				
+				<script>
+				function changeUserInfo(){
+					/* alert("정보변경 버튼 클릭!"); */
+					let form = document.getElementById("userInfoChange");
+					form.submit();
+				}
+				
+				function cancelBtn(){
+					window.location.replace="http://localhost/mypage/mypageFloatingpop/${mid}";
+				}
+				</script>
+				
+			<!-- ################## footer ################## -->
+			<footer id="footer" class="hsome_footer new181127 footer_kr"
+				style="margin-top: 200px;">
+				<div class="main-notice">
+					<div class="tit-notice">공지</div>
+					<div class="list-notice">
+						<ul class="notice-wrap">
+							<li><a
+								href="/ko/svcenter/mobilenotice?noticeCode=8804711059376">더한섬닷컴
+									편집/해외 브랜드 종료(예정) 안내(~2/22)</a></li>
+							<li><a
+								href="/ko/svcenter/mobilenotice?noticeCode=8804711059376">더한섬닷컴
+									편집/해외 브랜드 종료(예정) 안내(~2/22)</a></li>
+							<li><a
+								href="/ko/svcenter/mobilenotice?noticeCode=8804711059376">더한섬닷컴
+									편집/해외 브랜드 종료(예정) 안내(~2/22)</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="f_wrap">
+					<div class="f_menu re1911">
+						<!-- 수정 190207 -->
+						<ul class="top_line">
+							<li><a href="#"></a></li>
+							<li><a href="/ko/svcenter/mobilemain?uiel=Mobile"
+								class="customer" style="float: left; width: 32%"
+								onclick="GA_Event('공통', '푸터_메뉴', '고객센터');">고객센터<!--고객센터--></a></li>
+							<li><a href="/ko/store-finder/storeInformation?uiel=Mobile"
+								class="storeinfo" style="float: left"
+								onclick="GA_Event('공통', '푸터_메뉴', '매장안내');">매장안내</a></li>
+						</ul>
+						<ul class="btm_line1911">
+							<li><a href="/ko/svcenter/theClubInfo?uiel=Mobile"
+								class="memberBenefit" style="float: left; letter-spacing: -1px"
+								onclick="GA_Event('공통', '푸터_메뉴', '한섬 회원 혜택');">한섬 회원 혜택<!-- 한섬 회원 혜택 -->
+							</a></li>
+							<li><a
+								href="http://www.handsome.co.kr/ko/company/aboutHandsome.do?leng=ko"
+								target="_blank" style="float: left; letter-spacing: -1px"
+								onclick="GA_Event('공통', '푸터_메뉴', '회사소개');">회사소개</a></li>
+							<li id="family_site"><span
+								class="language family_site1911 for_iph_css1911"
+								onclick="familySiteSelect();GA_Event('공통', '푸터_CNT', 'FAMILYSITE');">FAMILY
+									SITE&nbsp;</span></li>
+						</ul>
+					</div>
+
+					<div class="f_sns">
+						<a href="javascript:noLink();"
+							onclick="GA_Event('공통', '푸터_SNS', 'INSTAGRAM');window.open('https://instagram.com/thehandsome_official/','instagram');return false"
+							class="ist">인스타그램</a> <a href="javascript:noLink();"
+							onclick="GA_Event('공통', '푸터_SNS', 'YOUTUBE');window.open('https://www.youtube.com/channel/UC0fmjgbVA8iZrPbIR3dppUQ','youtube');return false"
+							class="ytb">유튜브</a>
+					</div>
+					<div class="f_policy">
+						<a href="/ko/footer/footerTermBusiness?uiel=Mobile">서비스이용약관</a> <a
+							href="/ko/footer/footerPrivacy?uiel=Mobile"
+							style="font-weight: bold">개인정보처리방침</a>
+
+						<!-- web -->
+					</div>
+
+					<div class="f_copyright">COPYRIGHT © 2018 HANDSOME. ALL RIGHT
+						RESERVED</div>
+
+					<div class="f_info">
+						<div class="corp">
+							대표이사 : 김민덕 | 서울시 강남구 도산대로 523 한섬빌딩<br />TEL : 1800-5700 (유료) |
+							FAX : 02-6078-2856 <br />개인정보보호책임자 : 윤인수 | 호스팅서비스 : (주) 한섬<br />사업자등록번호
+							: 120-81-26337<br />통신판매업신고번호 : 제 2009-서울강남-00826호
+						</div>
+						<div class="link">
+							<a
+								href="https://recruit.ehyundai.com/recruit-info/announcement/list.nhd?pageNo=1&amp;hireGb=01&amp;coCd=HDHAN"
+								target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'INFO_채용정보');">채용정보</a>
+							<a
+								href="http://www.handsome.co.kr/ko/sustainability/sharedGrowth01.do"
+								target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'INFO_동반성장');">동반성장</a>
+							<a
+								href="http://www.handsome.co.kr/ko/sustainability/ecoFriendly01.do"
+								target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'INFO_환경경영');">환경경영</a>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+	<iframe id="groobeeBox" name="groobeeBox" style="display: none"></iframe>
+	<aside th:insert="~{include/aside}"></aside>
+</body>
+</html>

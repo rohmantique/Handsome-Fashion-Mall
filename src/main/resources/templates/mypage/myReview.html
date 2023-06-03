@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{include/head}"></head>
+<body class="back">
+	<div class="hsome_allContents_wrapper">
+		<div class="hsome_allContents">
+			<header class="hsome_header header_noline header_mypage">
+				<h1 class="h_select">
+					<div th:insert="~{include/mypage-select}"></div>
+					<div class="selected_text">
+						<span>상품평</span>
+					</div>
+					<script type="text/javascript">
+						$(document)
+								.on(
+										"change",
+										"#headerMypageSelect",
+										function() {
+											if ($(this).val() == "")
+												return;
+
+											if ($(this).val() == "/ko/mypage/mymantomaninquiry") {
+												location.href = "/ko/mypage/mymantomaninquiry?refererUrl=mypage";
+											} else {
+												location.href = $(this).val();
+											}
+										});
+						$("#headerMypageSelect > option").each(
+								function(idx, obj) {
+									if ($(obj).attr("value") == "")
+										return true;
+									if (location.pathname == $(obj).attr(
+											"value")) {
+										$(obj).prop("selected", "selected");
+									}
+
+									if (location.pathname
+											.indexOf("mantomaninquiry") > -1
+											&& $(obj).attr("value").indexOf(
+													"mymantomaninquiry") > -1) {
+										$(obj).prop("selected", "selected");
+									}
+								});
+					</script>
+				</h1>
+				<div th:insert="~{include/member-header}"></div>
+			</header>
+			<script type="text/javascript">
+				var rate_en = "";
+				var symbol_en = "";
+				var rate_zh = "";
+				var symbol_zh = "";
+				var isCosmetic = false;
+				var isPerfume = false;
+				$(document)
+						.ready(
+								function() {
+									getExchangeRate();
+
+									var getUrlParameter = function getUrlParameter(
+											sParam) {
+										//URL에 포함된 파라미터 이용하기
+										var sPageURL = window.location.search
+												.substring(1), sURLVariables = sPageURL
+												.split("?"), sParameterName, i;
+
+										for (i = 0; i < sURLVariables.length; i++) {
+											sParameterName = sURLVariables[i]
+													.split("=");
+
+											if (sParameterName[0] === sParam) {
+												return sParameterName[1] === undefined ? true
+														: decodeURIComponent(sParameterName[1]);
+											}
+										}
+									};
+
+									var tabId = getUrlParameter("returnType");
+
+									if (tabId == "modify") {
+										$(".hs_gray_bg_tab>li.wrote").siblings(
+												"li").removeClass("on");
+										$(".hs_gray_bg_tab>li.wrote").addClass(
+												"on");
+										$(".review_tab_01").hide();
+										$(".review_tab_02").show();
+									}
+
+									history.replaceState({}, null,
+											location.pathname);
+
+									$("#setDateBtn1").click(
+											function() {
+												var today = new Date();
+												var endDate = today
+														.format("yyyy-MM-dd");
+												$("#eterm").val(endDate);
+												var startDate = today;
+												startDate.setDate(today
+														.getDate() - 7);
+												startDate = startDate
+														.format("yyyy-MM-dd");
+												$("#sterm").val(startDate);
+
+												if ($("#writeTab").hasClass(
+														"on")) {
+													writeMyReviews(1);
+												} else {
+													wroteMyReviews(1);
+												}
+											});
+									//$('#setDateBtn1').click();
+
+									$("#setDateBtn2").click(
+											function() {
+												var today = new Date();
+												var endDate = today
+														.format("yyyy-MM-dd");
+												$("#eterm").val(endDate);
+												var startDate = today;
+												startDate.setMonth(today
+														.getMonth() - 1);
+												startDate = startDate
+														.format("yyyy-MM-dd");
+												$("#sterm").val(startDate);
+
+												if ($("#writeTab").hasClass(
+														"on")) {
+													writeMyReviews(1);
+												} else {
+													wroteMyReviews(1);
+												}
+											});
+									$("#setDateBtn2").click();
+
+									$("#setDateBtn3").click(
+											function() {
+												var today = new Date();
+												var endDate = today
+														.format("yyyy-MM-dd");
+												$("#eterm").val(endDate);
+												var startDate = today;
+												startDate.setMonth(today
+														.getMonth() - 3);
+												startDate = startDate
+														.format("yyyy-MM-dd");
+												$("#sterm").val(startDate);
+
+												if ($("#writeTab").hasClass(
+														"on")) {
+													writeMyReviews(1);
+												} else {
+													wroteMyReviews(1);
+												}
+											});
+
+									$("#searchBtn").click(function() {
+										if ($("#writeTab").hasClass("on")) {
+											writeMyReviews(1);
+										} else {
+											wroteMyReviews(1);
+										}
+									});
+
+									$("#sterm").datepicker("option", "maxDate",
+											$("#eterm").val());
+									$("#sterm").datepicker(
+											"option",
+											"onClose",
+											function(selectedDate) {
+												$("#eterm").datepicker(
+														"option", "minDate",
+														selectedDate);
+											});
+
+									$("#eterm").datepicker("option", "minDate",
+											$("#sterm").val());
+									$("#eterm").datepicker(
+											"option",
+											"onClose",
+											function(selectedDate) {
+												$("#sterm").datepicker(
+														"option", "maxDate",
+														selectedDate);
+											});
+
+									$(".hs_gray_bg_tab>li.write").click(
+											function() {
+												$(this).siblings("li")
+														.removeClass("on");
+												$(this).addClass("on");
+												$(".review_tab_01").show();
+												$(".review_tab_02").hide();
+											});
+									$(".hs_gray_bg_tab>li.wrote").click(
+											function() {
+												$(this).siblings("li")
+														.removeClass("on");
+												$(this).addClass("on");
+												$(".review_tab_01").hide();
+												$(".review_tab_02").show();
+											});
+
+									/* 	$('body').on('click', '.rcw1907', function(){ //상품평 구매정보선택옵션 펼쳐보기 190711
+									if($(this).hasClass('on')){
+									//$('.review_info_box > ul').show();
+									$(this).parent().find('.review_info_box > ul').show();
+									//$('.review_box.review_betterment1905 .review_contop_wrap .mpord_goods_item.gl_item').css('border-bottom','none'); // 추가 190731
+									$(this).parent().find('.review_contop_wrap .mpord_goods_item.gl_item').css('border-bottom','none');
+									}else{
+									//$('.review_info_box > ul').hide();
+									$(this).parent().find('.review_info_box > ul').hide();
+									//$('.review_box.review_betterment1905 .review_contop_wrap .mpord_goods_item.gl_item').removeAttr('style'); // 추가 190731
+									$(this).parent().find('.review_contop_wrap .mpord_goods_item.gl_item').removeAttr('style'); // 추가 190731
+									}
+									}); */
+								});
+
+				function searchMyReviews() {
+					if ($("#writeTab").hasClass("on")) {
+						writeMyReviews(1);
+					} else {
+						wroteMyReviews(1);
+					}
+				}
+
+				function writeMyReviews(pageNum) {
+					$
+							.ajax({
+								url : "/ko/mypage/myPossibleReviewList",
+								type : "GET",
+								datatype : "json",
+								data : {
+									pageNum : pageNum,
+									pageSize : 5,
+									show : "Page",
+									sort : "creationtime",
+									reviewType : $("#reviewType").val(),
+									psDate : $("#sterm").val(),
+									peDate : $("#eterm").val(),
+								},
+								success : function(data) {
+									var reviews = data.results;
+									var pCodeArray = "";
+									var txtResults = "";
+
+									if (reviews.length === 0) {
+										// 결과가 없을 때
+										txtResults += '<div class="no_result_box">';
+										txtResults += "  <p>작성 가능한 주문건이 없습니다.</p>";
+										txtResults += "</div>";
+									} else {
+										// 결과가 있을 때
+										txtResults += '<ul class="mpord_goods_ul goods_list_wrap">';
+										for (var i = 0; i < reviews.length; i++) {
+											if (reviews[i].pointYn == "N") {
+												var reviewTitle = "";
+												var reviewBtnCss = "review_write";
+												var reviewBtnTitle = "상품평 작성";
+												var reviewBtnDisabled = "N";
+												var writeYn = reviews[i].reviewWriteYn;
+												var deliveryYn = reviews[i].deliveryCompleteYn;
+												var pointYn = reviews[i].pointYn;
+
+												if ("easy" == "easy") {
+													if (writeYn == "N") {
+														reviewTitle = "베스트 리뷰어가 되어보세요.";
+													} else {
+														reviewTitle = "상품평이 등록되었습니다.";
+														reviewBtnCss = "review_write finish";
+														reviewBtnTitle = "작성 완료";
+														reviewBtnDisabled = "Y";
+													}
+												} else {
+													if (writeYn == "N"
+															&& deliveryYn == "Y") {
+														// 상품평 작성 X, 마일리지 적립 기간 O
+														reviewTitle = "상품평 작성하고 추가 마일리지 적립하세요.";
+													} else if (writeYn == "N"
+															&& deliveryYn == "N") {
+														// 상품평 작성 X, 마일리지 적립 기간 X
+														reviewTitle = "베스트 리뷰어가 되어보세요.";
+													} else if (writeYn == "Y"
+															&& deliveryYn == "Y"
+															&& pointYn == "N") {
+														// 상품평 작성 O, 마일리지 적립 기간 O, 포인트 실적립 X
+														reviewTitle = "마일리지 적립 예정입니다.";
+														reviewBtnCss = "review_write finish";
+														reviewBtnTitle = "작성 완료";
+														reviewBtnDisabled = "Y";
+													} else if (writeYn == "Y"
+															&& deliveryYn == "N") {
+														// 상품평 작성 O, 마일리지 적립 기간 X
+														reviewTitle = "상품평이 등록되었습니다.";
+														reviewBtnCss = "review_write finish";
+														reviewBtnTitle = "작성 완료";
+														reviewBtnDisabled = "Y";
+													}
+												}
+
+												var infoLists = []; //infoList용 Array
+												txtResults += '<li class="review_box review_betterment1905">';
+												txtResults += ' <span class="review_box_txt">'
+														+ reviewTitle
+														+ "</span>";
+												if (reviewBtnDisabled == "N") {
+													txtResults += ' <a href="/ko/mypage/reviewWrite?pk='
+															+ reviews[i].productPk
+															+ "&orderNumber="
+															+ reviews[i].orderCode
+															+ '&returnType=review" data-layerpop-depth="depth1" class="my_size_set full btn_layerpopup_call">';
+												} else {
+													txtResults += ' <a href="javascript:void(0);"class="my_size_set">';
+												}
+												txtResults += '  <span class="' +
+                        reviewBtnCss +
+                        '">'
+														+ reviewBtnTitle
+														+ "</span>"; // finish 붙이면 작성완료
+												txtResults += " </a>";
+												txtResults += ' <div class="mpord_goods_item gl_item">';
+												txtResults += '  <div class="gl_tit">';
+												txtResults += '   <a href="/ko/p/' + reviews[i].productCode + '">';
+												txtResults += '    <img src="' +
+                        reviews[i].productImage +
+                        '" class="gl_thumbimg" alt="list_thumb_img" />';
+												txtResults += "   </a>";
+												txtResults += "  </div>";
+												txtResults += '  <ul class="gl_con">';
+												txtResults += '   <li class="gl_con_brand">'
+														+ reviews[i].brandName
+														+ '<span class="gl_con_name">'
+														+ reviews[i].productName
+														+ "</span></li>";
+												if (reviews[i].brandCode == "BR62") {
+													// 리퀴드(BR62)일경우 , SIZE영역 비노출
+													txtResults += '   <li class="gl_con_option">'
+															+ reviews[i].erpColorName;
+												} else {
+													txtResults += '   <li class="gl_con_option">'
+															+ reviews[i].erpColorName
+															+ " / "
+															+ reviews[i].productSize
+															+ "</li>";
+												}
+												txtResults += '   <li class="gl_con_price">₩'
+														+ addComma(Number(reviews[i].price))
+														+ "</li>";
+												txtResults += '   <li class="gl_con_status"><span class="ord_status">배송완료</span>('
+														+ reviews[i].deliveryCompleteDate
+														+ ")</li>";
+												txtResults += "  </ul>";
+												txtResults += " </div>";
+												txtResults += "</li>";
+											}
+										}
+										txtResults += "</ul>";
+
+										var pagination = data.pagination;
+										txtResults += '<div class="hs_paging bottom">';
+										txtResults += SettingPagination(
+												"pagenation",
+												pagination.currentPage + 1,
+												pagination.totalNumberOfResults,
+												pagination.pageSize, 5,
+												"writeMyReviews");
+										txtResults += "</div>";
+									}
+
+									$(window).scrollTop(0);
+									$("#reviewWriteResults").html(txtResults);
+								},
+								error : function(xhr, Status, error) {
+									var la = new layerAlert("[Error] " + error);
+									return;
+								},
+							});
+				}
+
+				function wroteMyReviews(pageNum) {
+					$
+							.ajax({
+								url : "/ko/mypage/myCustomerReviewList",
+								type : "GET",
+								datatype : "json",
+								data : {
+									pageNum : pageNum,
+									pageSize : 5,
+									show : "Page",
+									sort : "creationtime",
+
+									sdate : $("#sterm").val(),
+									edate : $("#eterm").val(),
+
+									reviewType : $("#reviewType").val(),
+								},
+								success : function(data) {
+									var reviews = data.results;
+									var txtResults = "";
+									var totalCnt = 0;
+
+									if ($("#reviewType").val() == "ALL"
+											&& reviews[0].totalCnt == 0) {
+										reviews = null;
+									} else if ($("#reviewType").val() == "PHOTO"
+											&& reviews[0].photoCnt == 0) {
+										totalCnt = reviews[0].totalCnt;
+										reviews = null;
+									} else if ($("#reviewType").val() == "TEXT"
+											&& reviews[0].textCnt == 0) {
+										totalCnt = reviews[0].totalCnt;
+										reviews = null;
+									}
+
+									if (reviews == null) {
+										// 결과가 없을 때
+
+										txtResults += '<div class="no_result_box">';
+
+										if ($("#reviewType").val() == "PHOTO"
+												&& totalCnt > 0) {
+											txtResults += "  <p>포토 상품평이 없습니다.</p>";
+										} else if ($("#reviewType").val() == "TEXT"
+												&& totalCnt > 0) {
+											txtResults += "  <p>일반 상품평이 없습니다.</p>";
+										} else {
+											txtResults += "  <p>등록된 상품평이 없습니다.<br/>최초의 상품평을 등록해 주세요.</p>";
+										}
+
+										txtResults += "</div>";
+									} else {
+										// 결과가 있을 때
+
+										txtResults += '<ul class="mpord_goods_ul goods_list_wrap">';
+										for (var i = 0; i < reviews.length; i++) {
+											var infoLists = [];
+											var realaccumulationStatus = "N";
+											isCosmetic = reviews[i].cosmeticYN;
+											isPerfume = reviews[i].perfumeYN;
+											var categoryType = checkCategoryType(reviews[i].productCategory);
+
+											var infoLists = []; //infoList용 Array
+											txtResults += '<li class="review_box review_betterment1905 wrote">';
+											txtResults += '	<div class="review_contop_wrap">';
+											txtResults += '		<div class="date_txt">';
+											txtResults += "			<p>";
+											txtResults += "				<span>"
+													+ reviews[i].creationtime
+															.replace(/-/gi, ".")
+													+ "</span>";
+
+											if ("easy" != "easy") {
+												if (reviews[i].accumulationYn != null) {
+													if (reviews[i].returnStatus != null
+															&& reviews[i].returnStatus != "RETURN_CANCEL"
+															&& reviews[i].returnStatus != "RETURN_COMPLETE") {
+													} else {
+														var nowDate = new Date(), oDate = new Date(
+																reviews[i].orderCompleteDate);
+														var diffDate = Math
+																.abs(nowDate
+																		.getTime()
+																		- oDate
+																				.getTime());
+														diffDate = Math
+																.ceil(diffDate
+																		/ (1000 * 3600 * 24));
+														if (!reviews[i].accumulationYn) {
+															if (reviews[i].orderCompleteDate != null) {
+																if (diffDate <= 30) {
+																	if (reviews[i].accumulationreviewpoint != null
+																			&& reviews[i].realaccumulationreviewpoint != null) {
+																		if (reviews[i].realaccumulationreviewpoint === 0) {
+																			// 최초 포토상품평 마일리지 적립, 상품평 작성 마일리지 미적립
+																			if (reviews[i].firstPhotoReviewYn
+																					&& reviews[i].firstPhotoReviewTargetYn
+																					&& reviews[i].accumulationreviewpoint > 0) {
+																				txtResults += ""
+																						+ addComma(reviews[i].realAccumulationPhotoPoint)
+																						+ "(최초포토상품평), ";
+																				txtResults += ""
+																						+ addComma(reviews[i].accumulationreviewpoint)
+																						+ "(예정)";
+																			} else if ((reviews[i].firstPhotoReviewYn && reviews[i].firstPhotoReviewTargetYn) == false
+																					&& reviews[i].accumulationreviewpoint > 0) {
+																				txtResults += "				적립 마일리지 : "
+																						+ addComma(reviews[i].accumulationreviewpoint)
+																						+ "(예정)";
+																			}
+																		} else if (reviews[i].realaccumulationreviewpoint > 0) {
+																			realaccumulationStatus = "Y";
+																			txtResults += "				적립 마일리지 : "
+																					+ addComma(reviews[i].realaccumulationreviewpoint);
+																		}
+																	}
+																} else {
+																	txtResults += "				마일리지 적립 기간 만료 후, 작성";
+																}
+															}
+														} else {
+															if (reviews[i].purchaseProdYN == "N") {
+																if (reviews[i].realaccumulationreviewpoint != null
+																		&& reviews[i].realaccumulationreviewpoint > 0) {
+																	realaccumulationStatus = "Y";
+																	txtResults += "				적립 마일리지 : "
+																			+ addComma(reviews[i].realaccumulationreviewpoint);
+																} else {
+																	if (diffDate > 30) {
+																		txtResults += "				마일리지 적립 기간 만료 후, 작성";
+																	}
+																}
+															} else {
+																txtResults += "				매장 구매 상품";
+															}
+														}
+													}
+												}
+											}
+
+											txtResults += "			</p>";
+											txtResults += "		</div>";
+											txtResults += '		<div class="mpord_goods_item gl_item">';
+											txtResults += '			<div class="gl_tit">';
+											txtResults += '				<a href="/ko/p/' + reviews[i].productCode + '">';
+											txtResults += '					<img src="' +
+                      reviews[i].productimageUrl +
+                      '" class="gl_thumbimg" alt="list_thumb_img">';
+											txtResults += "				</a>";
+											txtResults += "			</div>";
+											txtResults += '			<ul class="gl_con">';
+											txtResults += '				<li class="gl_con_brand">';
+											txtResults += '					<a href="/ko/p/' + reviews[i].productCode + '">';
+											txtResults += "						"
+													+ reviews[i].brandCode
+													+ '<span class="gl_con_name">'
+													+ reviews[i].productName
+													+ "</span>";
+											txtResults += "					</a>";
+											txtResults += "				</li>";
+											txtResults += '				<li class="gl_con_price">'
+													+ getExchangePrice(reviews[i].productPrice)
+													+ "</li>";
+											txtResults += "				<li>";
+											txtResults += '					<div class="hs_star_score">';
+											for (var j = 1; j < 6; j++) {
+												if (j <= reviews[i].rating) {
+													txtResults += '						<i class="on">'
+															+ j + "점</i>";
+												} else {
+													txtResults += "						<i>"
+															+ j + "점</i>";
+												}
+											}
+											txtResults += "					</div>";
+											txtResults += "				</li>";
+											txtResults += "			</ul>";
+											if (reviews[i].bestYN == null
+													|| reviews[i].bestYN == false) {
+												txtResults += '			<div class="more_action_wrap">';
+												txtResults += "				<a href=\"javascript:void(0);\" class=\"btn_more_action\" onclick=\"GA_Event('상품평', '더보기', '클릭');\"><span>수정</span></a>";
+												txtResults += '				<div class="more_action_ul_wrap" style="display: none;">';
+												txtResults += '					<a href="javascript:void(0);" class="btn_more_action_ul_close"><span>닫기</span></a>';
+												txtResults += '					<ul class="more_action_ul">';
+												txtResults += "						<li>";
+												txtResults += "							<a href=\"javascript:void(0);\" onclick=\"GA_Event('상품평', '수정', '수정');javascript:modifyReview("
+														+ "'"
+														+ reviews[i].pk
+														+ "'"
+														+ ",'"
+														+ reviews[i].purchaseColor
+														+ "'"
+														+ ",'"
+														+ reviews[i].purchaseColorName
+														+ "'"
+														+ ",'"
+														+ reviews[i].purchaseSize
+														+ "'"
+														+ ",'"
+														+ reviews[i].orderNumber
+														+ "'"
+														+ ",'"
+														+ reviews[i].purchaseProdYN
+														+ "'"
+														+ ",'"
+														+ reviews[i].productCategory
+														+ "'"
+														+ ');" class="btn_layerpopup_call">';
+												txtResults += "								수정";
+												txtResults += "							</a>";
+												if (reviews[i].realaccumulationreviewpoint == null
+														|| (reviews[i].realaccumulationreviewpoint <= 0 && reviews[i].realAccumulationPhotoPoint == null)
+														|| reviews[i].realAccumulationPhotoPoint <= 0) {
+													txtResults += '							<a href="javascript:void(0);" class="del" onclick="javascript:deleteReview('
+															+ reviews[i].pk
+															+ ");GA_Event('상품평', '수정', '삭제');\">삭제</a>";
+												}
+												txtResults += "						</li>";
+												txtResults += "					</ul>";
+												txtResults += "				</div>";
+												txtResults += "			</div>";
+											}
+											txtResults += "		</div>";
+											txtResults += "	</div>";
+
+											txtResults += '	<div class="review_info_box">';
+											txtResults += '		<ul class="review_info_box_list ul_dot choice">';
+											if (categoryType == "cosmetic"
+													|| categoryType == "perfume") {
+												if ((reviews[i].age != null && reviews[i].age != "")
+														|| (reviews[i].skinType != null && reviews[i].skinType != "")) {
+													txtResults += "			<li>";
+													if (reviews[i].age != null
+															&& reviews[i].age != "") {
+														infoLists
+																.push(reviews[i].age);
+													}
+													if (reviews[i].skinType != null
+															&& reviews[i].skinType != "") {
+														infoLists
+																.push(reviews[i].skinType);
+													}
+													txtResults += infoLists
+															.join(" / ");
+
+													txtResults += "			</li>";
+												}
+											} else {
+												if ((reviews[i].age != null && reviews[i].age != "")
+														|| (reviews[i].height != null && reviews[i].height != "")
+														|| (reviews[i].bodyType != null && reviews[i].bodyType != "")
+														|| (reviews[i].enjoySize != null && reviews[i].enjoySize != "")) {
+													txtResults += "			<li>";
+													if (reviews[i].age != null
+															&& reviews[i].age != "") {
+														infoLists
+																.push(reviews[i].age);
+													}
+													if (reviews[i].height != null
+															&& reviews[i].height != "") {
+														infoLists
+																.push(reviews[i].height
+																		+ "cm");
+													}
+													if (reviews[i].bodyType != null
+															&& reviews[i].bodyType != "") {
+														infoLists
+																.push(reviews[i].bodyType);
+													}
+													if (reviews[i].enjoySize != null
+															&& reviews[i].enjoySize != "") {
+														infoLists
+																.push("평소 사이즈 : "
+																		+ reviews[i].enjoySize);
+													}
+													txtResults += infoLists
+															.join(" / ");
+
+													txtResults += "			</li>";
+												}
+											}
+
+											txtResults += "		</ul>";
+											txtResults += '		<ul class="info_list ul_dot must">';
+											txtResults += "				<li>";
+											if ("ko" == "ko") {
+												txtResults += "구매 정보 : ";
+
+												if (reviews[i].purchaseColorName != null
+														&& reviews[i].purchaseColorName != "") {
+													txtResults += reviews[i].purchaseColorName;
+												}
+												if (reviews[i].purchaseSize != null
+														&& reviews[i].purchaseSize != ""
+														&& reviews[i].purchaseYN != true) {
+													//리퀴드 상품일때 true, 사이즈 비노출 ( 안쓰는컬럼 재사용 : purchaseYN)
+													txtResults += " / "
+															+ reviews[i].purchaseSize;
+												}
+												if (reviews[i].purchaseProdYN == "Y") {
+													if (reviews[i].prevReviewYn == "N") {
+														txtResults += " / <span>"
+																+ reviews[i].offlineShpNm
+																+ "</span>";
+													} else {
+														txtResults += " / <span>오프라인매장</span>";
+													}
+												} else {
+													txtResults += " / <span>더한섬닷컴</span>";
+												}
+											} else {
+												if (reviews[i].purchaseColorName != null
+														&& reviews[i].purchaseColorName != "") {
+													txtResults += reviews[i].purchaseColorName;
+												}
+												if (reviews[i].purchaseSize != null
+														&& reviews[i].purchaseSize != "") {
+													txtResults += " / "
+															+ reviews[i].purchaseSize;
+												}
+											}
+											txtResults += "			</li>";
+											txtResults += "		</ul>";
+											txtResults += "	</div>";
+
+											txtResults += '	<div class="review_con_wrap rcw1907">';
+											txtResults += '		<div class="review_thumb" style="">';
+											txtResults += '			<a href="javascript:void(0);">';
+											if (reviews[i].photograph != null) {
+												txtResults += '    <div class="img"><img src="' +
+                        reviews[i].photograph.url +
+                        '" alt="">';
+												if (reviews[i].photographCnt > 1) {
+													txtResults += '        <div class="img_count191212"><span class="img_count191212_inner"></span></div>';
+												}
+												txtResults += "    </div>";
+											} else if (reviews[i].photograph2 != null) {
+												txtResults += '    <div class="img"><img src="' +
+                        reviews[i].photograph2.url +
+                        '" alt="">';
+												if (reviews[i].photographCnt > 1) {
+													txtResults += '        <div class="img_count191212"><span class="img_count191212_inner"></span></div>';
+												}
+												txtResults += "    </div>";
+											} else if (reviews[i].photograph3 != null) {
+												txtResults += '    <div class="img"><img src="' +
+                        reviews[i].photograph3.url +
+                        '" alt="">';
+												if (reviews[i].photographCnt > 1) {
+													txtResults += '        <div class="img_count191212"><span class="img_count191212_inner"></span></div>';
+												}
+												txtResults += "    </div>";
+											} else if (reviews[i].photograph4 != null) {
+												txtResults += '    <div class="img"><img src="' +
+                        reviews[i].photograph4.url +
+                        '" alt="">';
+												if (reviews[i].photographCnt > 1) {
+													txtResults += '        <div class="img_count191212"><span class="img_count191212_inner"></span></div>';
+												}
+												txtResults += "    </div>";
+											} else if (reviews[i].photograph5 != null) {
+												txtResults += '    <div class="img"><img src="' +
+                        reviews[i].photograph5.url +
+                        '" alt=""></div>';
+											}
+											txtResults += '				<p class="txt" style="word-break: break-all;">'
+													+ reviews[i].headline
+													+ "</p>";
+											txtResults += "			</a>";
+											txtResults += "		</div>";
+											txtResults += '		<div class="review" style="display:none;">';
+											txtResults += '			<a href="javascript:void(0);">';
+											txtResults += '				<p class="txt" style="word-break: break-all;">'
+													+ reviews[i].headline
+													+ "</p>";
+											txtResults += "			</a>";
+											if (reviews[i].photographCnt > 1) {
+												//상품평 업로드 이미지 2장이상
+												txtResults += '  <div class="img swiper-container review_img_cont191216" id="reviewImg_' +
+                        i +
+                        '">';
+												txtResults += '      <ul class="swiper-wrapper">';
+											}
+											if (reviews[i].photograph != null) {
+												if (reviews[i].photographCnt > 1) {
+													//상품평 업로드 이미지 2장이상
+													txtResults += '          <li class="swiper-slide">';
+												} else if (reviews[i].photographCnt == 1) {
+													//상품평 업로드 이미지 1장 일때
+													txtResults += '  <div class="img">';
+												}
+												txtResults += '              <img src="' +
+                        reviews[i].photograph.url +
+                        '" alt="">';
+												if (reviews[i].photographCnt > 1) {
+													//상품평 업로드 이미지 2장이상
+													txtResults += "          </li>";
+												} else if (reviews[i].photographCnt == 1) {
+													txtResults += "  </div>";
+												}
+											}
+											if (reviews[i].photograph2 != null) {
+												if (reviews[i].photographCnt > 1) {
+													//상품평 업로드 이미지 2장이상
+													txtResults += '          <li class="swiper-slide">';
+												} else if (reviews[i].photographCnt == 1) {
+													//상품평 업로드 이미지 1장 일때
+													txtResults += '  <div class="img">';
+												}
+												txtResults += '              <img src="' +
+                        reviews[i].photograph2.url +
+                        '" alt="">';
+												if (reviews[i].photographCnt > 1) {
+													//상품평 업로드 이미지 2장이상
+													txtResults += "          </li>";
+												} else if (reviews[i].photographCnt == 1) {
+													txtResults += "  </div>";
+												}
+											}
+											if (reviews[i].photograph3 != null) {
+												if (reviews[i].photographCnt > 1) {
+													//상품평 업로드 이미지 2장이상
+													txtResults += '          <li class="swiper-slide">';
+												} else if (reviews[i].photographCnt == 1) {
+													//상품평 업로드 이미지 1장 일때
+													txtResults += '  <div class="img">';
+												}
+												txtResults += '              <img src="' +
+                        reviews[i].photograph3.url +
+                        '" alt="">';
+												if (reviews[i].photographCnt > 1) {
+													//상품평 업로드 이미지 2장이상
+													txtResults += "          </li>";
+												} else if (reviews[i].photographCnt == 1) {
+													txtResults += "  </div>";
+												}
+											}
+											if (reviews[i].photograph4 != null) {
+												if (reviews[i].photographCnt > 1) {
+													//상품평 업로드 이미지 2장이상
+													txtResults += '          <li class="swiper-slide">';
+												} else if (reviews[i].photographCnt == 1) {
+													//상품평 업로드 이미지 1장 일때
+													txtResults += '  <div class="img">';
+												}
+												txtResults += '              <img src="' +
+                        reviews[i].photograph4.url +
+                        '" alt="">';
+												if (reviews[i].photographCnt > 1) {
+													//상품평 업로드 이미지 2장이상
+													txtResults += "          </li>";
+												} else if (reviews[i].photographCnt == 1) {
+													txtResults += "  </div>";
+												}
+											}
+											if (reviews[i].photograph5 != null) {
+												if (reviews[i].photographCnt > 1) {
+													//상품평 업로드 이미지 2장이상
+													txtResults += '          <li class="swiper-slide">';
+												} else if (reviews[i].photographCnt == 1) {
+													//상품평 업로드 이미지 1장 일때
+													txtResults += '  <div class="img">';
+												}
+												txtResults += '              <img src="' +
+                        reviews[i].photograph5.url +
+                        '" alt="">';
+												if (reviews[i].photographCnt > 1) {
+													//상품평 업로드 이미지 2장이상
+													txtResults += "          </li>";
+												} else if (reviews[i].photographCnt == 1) {
+													txtResults += "  </div>";
+												}
+											}
+
+											if (reviews[i].photographCnt > 1) {
+												txtResults += "          </li>";
+												txtResults += "      </ul>";
+												txtResults += '      <div class="swiper-pagination"></div>';
+												txtResults += "  </div>";
+											}
+											txtResults += '			<div class="check_cont check_cont_1905 check_cont_beauty">';
+											if (reviews[i].prevReviewYn == "N") {
+												if (categoryType != "") {
+													if (categoryType == "cosmetic") {
+														if (reviews[i].moisturize != null
+																&& reviews[i].spreadability != null
+																&& reviews[i].scent != null) {
+															txtResults += '               <div class="check_area">';
+															txtResults += '                 <div class="check_cont_detail_wrap">';
+															txtResults += '                     <div class="check_cont_detail">';
+															txtResults += '                         <p class="left_txt">보습력</p>';
+															txtResults += '                         <div class="check">';
+															txtResults += '                             <span class="items'
+																	+ (reviews[i].moisturize === "1" ? " on"
+																			: "")
+																	+ '">조금 건조해요</span>';
+															txtResults += '                             <span class="items'
+																	+ (reviews[i].moisturize === "2" ? " on"
+																			: "")
+																	+ '">보통이에요</span>';
+															txtResults += '                             <span class="items'
+																	+ (reviews[i].moisturize === "3" ? " on"
+																			: "")
+																	+ '">촉촉해요</span>';
+															txtResults += "                         </div>";
+															txtResults += "                     </div>";
+															txtResults += '                     <div class="check_cont_detail">';
+															txtResults += '                         <p class="left_txt">발림성</p>';
+															txtResults += '                         <div class="check">';
+															txtResults += '                             <span class="items'
+																	+ (reviews[i].spreadability === "1" ? " on"
+																			: "")
+																	+ '">조금 뻑뻑해요</span>';
+															txtResults += '                             <span class="items'
+																	+ (reviews[i].spreadability === "2" ? " on"
+																			: "")
+																	+ '">보통이에요</span>';
+															txtResults += '                             <span class="items'
+																	+ (reviews[i].spreadability === "3" ? " on"
+																			: "")
+																	+ '">부드러워요</span>';
+															txtResults += "                         </div>";
+															txtResults += "                     </div>";
+															txtResults += '                     <div class="check_cont_detail">';
+															txtResults += '                         <p class="left_txt">향</p>';
+															txtResults += '                         <div class="check">';
+															txtResults += '                             <span class="items'
+																	+ (reviews[i].scent === "1" ? " on"
+																			: "")
+																	+ '">조금 아쉬워요</span>';
+															txtResults += '                             <span class="items'
+																	+ (reviews[i].scent === "2" ? " on"
+																			: "")
+																	+ '">보통이에요</span>';
+															txtResults += '                             <span class="items'
+																	+ (reviews[i].scent === "3" ? " on"
+																			: "")
+																	+ '">좋아요</span>';
+															txtResults += "                         </div>";
+															txtResults += "                     </div>";
+															txtResults += "                 </div>";
+															txtResults += "             </div>";
+														}
+													} else if (categoryType == "perfume") {
+														if (reviews[i].scent != null
+																&& reviews[i].persistence != null) {
+															txtResults += '             <div class="check_area">';
+															txtResults += '                 <div class="check_cont_detail_wrap">';
+															txtResults += '                     <div class="check_cont_detail">';
+															txtResults += '                         <p class="left_txt">향</p>';
+															txtResults += '                         <div class="check">';
+															txtResults += '                             <span class="items'
+																	+ (reviews[i].scent === "1" ? " on"
+																			: "")
+																	+ '">조금 아쉬워요</span>';
+															txtResults += '                             <span class="items'
+																	+ (reviews[i].scent === "2" ? " on"
+																			: "")
+																	+ '">보통이에요</span>';
+															txtResults += '                             <span class="items'
+																	+ (reviews[i].scent === "3" ? " on"
+																			: "")
+																	+ '">좋아요</span>';
+															txtResults += "                         </div>";
+															txtResults += "                     </div>";
+															txtResults += '                     <div class="check_cont_detail">';
+															txtResults += '                         <p class="left_txt">지속성</p>';
+															txtResults += '                         <div class="check">';
+															txtResults += '                             <span class="items'
+																	+ (reviews[i].persistence === "1" ? " on"
+																			: "")
+																	+ '">조금 짧아요</span>';
+															txtResults += '                             <span class="items'
+																	+ (reviews[i].persistence === "2" ? " on"
+																			: "")
+																	+ '">보통이에요</span>';
+															txtResults += '                             <span class="items'
+																	+ (reviews[i].persistence === "3" ? " on"
+																			: "")
+																	+ '">오래 유지돼요</span>';
+															txtResults += "                         </div>";
+															txtResults += "                     </div>";
+															txtResults += "                 </div>";
+															txtResults += "             </div>";
+														}
+													} else {
+														if (categoryType == "top") {
+															txtResults += '				<div class="check_area">';
+															txtResults += '					<p class="top_txt">실 착용 사이즈<!--실 착용 사이즈 느낌--></p>';
+															txtResults += '					<div class="check_cont_detail_wrap">';
+															txtResults += '						<div class="check_cont_detail">';
+															txtResults += '							<p class="left_txt">어깨너비</p>';
+															txtResults += '							<div class="check">';
+															txtResults += '								<span class="items'
+																	+ (reviews[i].shoulderWidth === 1 ? " on"
+																			: "")
+																	+ '">타이트함</span>';
+															txtResults += '								<span class="items'
+																	+ (reviews[i].shoulderWidth === 2 ? " on"
+																			: "")
+																	+ '">적당함</span>';
+															txtResults += '								<span class="items'
+																	+ (reviews[i].shoulderWidth === 3 ? " on"
+																			: "")
+																	+ '">여유있음</span>';
+															txtResults += "							</div>";
+															txtResults += "						</div>";
+															txtResults += '						<div class="check_cont_detail">';
+															txtResults += '							<p class="left_txt">가슴둘레</p>';
+															txtResults += '							<div class="check">';
+															txtResults += '								<span class="items'
+																	+ (reviews[i].chestSize === 1 ? " on"
+																			: "")
+																	+ '">타이트함</span>';
+															txtResults += '								<span class="items'
+																	+ (reviews[i].chestSize === 2 ? " on"
+																			: "")
+																	+ '">적당함</span>';
+															txtResults += '								<span class="items'
+																	+ (reviews[i].chestSize === 3 ? " on"
+																			: "")
+																	+ '">여유있음</span>';
+															txtResults += "							</div>";
+															txtResults += "						</div>";
+														} else if (categoryType == "bottoms") {
+															txtResults += '				<div class="check_area">';
+															txtResults += '					<p class="top_txt">실 착용 사이즈 느낌<!--실 착용 사이즈 느낌--></p>';
+															txtResults += '					<div class="check_cont_detail_wrap">';
+															txtResults += '						<div class="check_cont_detail">';
+															txtResults += '							<p class="left_txt">허리둘레</p>';
+															txtResults += '							<div class="check">';
+															txtResults += '								<span class="items'
+																	+ (reviews[i].waistSize === 1 ? " on"
+																			: "")
+																	+ '">타이트함</span>';
+															txtResults += '								<span class="items'
+																	+ (reviews[i].waistSize === 2 ? " on"
+																			: "")
+																	+ '">적당함</span>';
+															txtResults += '								<span class="items'
+																	+ (reviews[i].waistSize === 3 ? " on"
+																			: "")
+																	+ '">여유있음</span>';
+															txtResults += "							</div>";
+															txtResults += "						</div>";
+															txtResults += '						<div class="check_cont_detail">';
+															txtResults += '							<p class="left_txt">엉덩이둘레</p>';
+															txtResults += '							<div class="check">';
+															txtResults += '								<span class="items'
+																	+ (reviews[i].buttSize === 1 ? " on"
+																			: "")
+																	+ '">타이트함</span>';
+															txtResults += '								<span class="items'
+																	+ (reviews[i].buttSize === 2 ? " on"
+																			: "")
+																	+ '">적당함</span>';
+															txtResults += '								<span class="items'
+																	+ (reviews[i].buttSize === 3 ? " on"
+																			: "")
+																	+ '">여유있음</span>';
+															txtResults += "							</div>";
+															txtResults += "						</div>";
+														}
+														txtResults += '						<div class="check_cont_detail">';
+														txtResults += '							<p class="left_txt">총길이</p>';
+														txtResults += '							<div class="check">';
+														txtResults += '								<span class="items'
+																+ (reviews[i].totalSize === 1 ? " on"
+																		: "")
+																+ '">짧은 편</span>';
+														txtResults += '								<span class="items'
+																+ (reviews[i].totalSize === 2 ? " on"
+																		: "")
+																+ '">적당함</span>';
+														txtResults += '								<span class="items'
+																+ (reviews[i].totalSize === 3 ? " on"
+																		: "")
+																+ '">긴 편</span>';
+														txtResults += "							</div>";
+														txtResults += "						</div>";
+														txtResults += "					</div>";
+														txtResults += "				</div>";
+														txtResults += '				<div class="check_area">';
+														txtResults += '					<p class="top_txt">실 제품 색상 느낌<!--실 제품 색상 느낌--></p>';
+														txtResults += '					<div class="check en1909">';
+														txtResults += '						<span class="items'
+																+ (reviews[i].realProductColor === 1 ? " on"
+																		: "")
+																+ '">어두워요</span>';
+														txtResults += '						<span class="items'
+																+ (reviews[i].realProductColor === 2 ? " on"
+																		: "")
+																+ '">화면과 같아요</span>';
+														txtResults += '						<span class="items'
+																+ (reviews[i].realProductColor === 3 ? " on"
+																		: "")
+																+ '">밝아요</span>';
+														txtResults += "					</div>";
+														txtResults += "				</div>";
+													}
+												}
+											} else {
+												txtResults += '				<div class="check_area">';
+												txtResults += '					<p class="top_txt">실 착용 사이즈 느낌<!--실 착용 사이즈 느낌--></p>';
+												txtResults += '					<div class="check">';
+												txtResults += '						<span class="items'
+														+ (reviews[i].realWearSize === 1 ? " on"
+																: "")
+														+ '">작다</span>';
+												txtResults += '						<span class="items'
+														+ (reviews[i].realWearSize === 2 ? " on"
+																: "")
+														+ '">예상했던 사이즈</span>';
+												txtResults += '						<span class="items'
+														+ (reviews[i].realWearSize === 3 ? " on"
+																: "")
+														+ '">크다</span>';
+												txtResults += "					</div>";
+												txtResults += "				</div>";
+												txtResults += '				<div class="check_area">';
+												txtResults += '					<p class="top_txt">실 제품 색상 느낌<!--실 제품 색상 느낌--></p>';
+												txtResults += '					<div class="check">';
+												txtResults += '						<span class="items'
+														+ (reviews[i].realProductColor === 1 ? " on"
+																: "")
+														+ '">어둡다</span>';
+												txtResults += '						<span class="items'
+														+ (reviews[i].realProductColor === 2 ? " on"
+																: "")
+														+ '">화면과 같다</span>';
+												txtResults += '						<span class="items'
+														+ (reviews[i].realProductColor === 3 ? " on"
+																: "")
+														+ '">밝다</span>';
+												txtResults += "					</div>";
+												txtResults += "				</div>";
+											}
+											txtResults += "			</div>";
+											txtResults += "		</div>";
+											txtResults += "	</div>";
+											txtResults += "</li>";
+										}
+										txtResults += "</ul>";
+
+										var pagination = data.pagination;
+										txtResults += '<div class="hs_paging bottom">';
+										txtResults += SettingPagination(
+												"pagenation",
+												pagination.currentPage + 1,
+												pagination.totalNumberOfResults,
+												pagination.pageSize, 5,
+												"wroteMyReviews");
+										txtResults += "</div>";
+									}
+
+									$(window).scrollTop(0);
+									$("#reviewWroteResults").html(txtResults);
+								},
+								error : function(xhr, Status, error) {
+									var la = new layerAlert("[Error] " + error);
+									return;
+								},
+							});
+				}
+
+				function modifyReview(reviewPk, color, colorName, size,
+						orderNumber, purchaseProdYN, categoryCode) {
+					var url = "/ko/mypage/reviewDetail?customerReviewId="
+							+ reviewPk + "&purchaseColor=" + color
+							+ "&purchaseColorName=" + colorName
+							+ "&purchaseSize=" + size + "&orderNumber="
+							+ orderNumber + "&purchaseProdYN=" + purchaseProdYN
+							+ "&categoryCode=" + categoryCode;
+
+					//location.replace(url);
+					location.href = url;
+				}
+
+				function deleteReview(reviewPk) {
+					//	alert(reviewPk);
+					//	return;
+
+					var msg = "삭제 하시겠습니까?";
+
+					msg = "상품평을 삭제하시겠습니까?";
+
+					var lc = new layerConfirm(msg, "확인", "취소");
+					lc.cancelAction = function() {
+						return;
+					};
+					lc.confirmAction = function() {
+						var la;
+						$.ajax({
+							url : "/ko/mypage/deleteCustomerReview",
+							type : "GET",
+							datatype : "json",
+							data : {
+								productId : reviewPk,
+							},
+							success : function(result) {
+								if ("Y" == "Y") {
+									if (result == "SUCCESS") {
+										la = new layerAlert("삭제 되었습니다.");
+										la.confirmAction = function() {
+											wroteMyReviews(1);
+										};
+									} else if (result == "No Match") {
+										var cla = new layerAlert("잘못된 접근입니다.");
+									} else if (result == "F_BEST") {
+										var cla = new layerAlert(
+												"베스트 리뷰는 삭제할 수 없습니다.");
+									} else if (result == "F_NORMAL") {
+										var cla = new layerAlert(
+												"마일리지가 적립된 상품평입니다.");
+									} else if (result == "F_PHOTO") {
+										var cla = new layerAlert(
+												"마일리지가 적립된 포토상품평입니다.");
+									} else {
+										var cla = new layerAlert(result);
+									}
+								} else {
+									la = new layerAlert("삭제 되었습니다.");
+									la.confirmAction = function() {
+										wroteMyReviews(1);
+									};
+								}
+							},
+							error : function() {
+								la = new layerAlert("[Error] " + error);
+								return;
+							},
+						});
+					};
+				}
+
+				function viewAll(idx) {
+					$(".review_con_wrap").removeClass("on");
+
+					setTimeout(
+							function() {
+								$(".review_con_wrap").eq(idx).addClass("on");
+
+								$(".review_thumb").eq(idx).css("style",
+										"display:none");
+								$(".review").eq(idx).css("style",
+										"dispaly:block");
+							}, 200);
+				}
+				function viewSummary(idx) {
+					//	$('.review_con_wrap').removeClass('on');
+					$(".review_con_wrap").eq(idx).removeClass("on");
+
+					$(".review_thumb").eq(idx).css("style", "display:block");
+					$(".review").eq(idx).css("style", "display:none");
+				}
+
+				function checkCategoryType(code) {
+					if (isCosmetic) {
+						return "cosmetic";
+					} else if (isPerfume) {
+						return "perfume";
+					}
+
+					var rtnValue = "";
+					var topType = "SZ01,SZ02,SZ03,SZ04,SZ05,SZ06,SZ07,SZ08"
+							.split(",");
+					var bottomsType = "SZ09,SZ10,SZ11".split(",");
+					var loop = true;
+
+					for (var i = 0; i < topType.length; i++) {
+						if (code == topType[i]) {
+							rtnValue = "top";
+							loop = false;
+							break;
+						}
+					}
+
+					if (loop) {
+						for (var i = 0; i < bottomsType.length; i++) {
+							if (code == bottomsType[i]) {
+								rtnValue = "bottoms";
+								loop = false;
+								break;
+							}
+						}
+					}
+
+					return rtnValue;
+				}
+
+				function setGAParam(ele) {
+					if (!$(ele).parent().hasClass("on")) {
+						GA_Event("상품평", "정렬", "자세히보기");
+					} else {
+						GA_Event("상품평", "정렬", "닫기");
+					}
+				}
+
+				function getExchangeRate() {
+					$.ajax({
+						type : "get",
+						//url : "/ko/mypage/order/getExchageRate",
+						url : "/ko/intro/getExchageRate",
+						dataType : "json",
+						async : true,
+						success : function(result) {
+							if (result.length > 0) {
+								for (var i = 0; i < result.length; i++) {
+									if (result[i].currencyCode == "USD") {
+										rate_en = result[i].exchangeRate;
+										symbol_en = result[i].symbol;
+									} else {
+										rate_zh = result[i].exchangeRate;
+										symbol_zh = result[i].symbol;
+									}
+								}
+							}
+						},
+					});
+				}
+
+				function getExchangePrice(price) {
+					var exchangePrice = "";
+
+					exchangePrice = "￦" + addComma(price);
+
+					return exchangePrice;
+				}
+			</script>
+
+			<!-- contents s -->
+			<div id="contents" class="hsome_contents mp_review_list_wrap">
+				<!--상품평 탭  -->
+				<ul class="hs_gray_bg_tab size02">
+					<li class="write on" id="writeTab"><a
+						href="javascript:writeMyReviews(1);"
+						onclick="GA_Event('상품평', '탭', '작성 가능한 상품평');">작성 가능한 상품평</a></li>
+					<li class="wrote" id="wroteTab"><a
+						href="javascript:wroteMyReviews(1);" name="wroteTab"
+						onclick="GA_Event('상품평', '탭', '작성한 상품평');">작성한 상품평</a></li>
+				</ul>
+
+				<div class="review_tab_01" style="display: block">
+					<div class="my_size_wrap">
+						<a href="javascript:void(0)" class="my_size_set" onclick="setGAParam(this);"> 
+							<span class="my_size_result">상품평 작성하고, 베스트 리뷰어가 되어보세요!</span> 
+							<span class="my_size_title">자세히 보기</span>
+						</a>
+						<div class="hs_form_list review_betterment1905"
+							style="display: none">
+							<h3>온라인/오프라인 구매 상품평 작성 시</h3>
+							<ul class="offline">
+								<li><span class="img">&nbsp;</span>
+									<p>베스트 리뷰</p> <span>매월 5명 <b>10만원</b> 바우처
+								</span></li>
+							</ul>
+							<div class="info">
+								<ul class="ul_dot">
+									<!--수정 190730 -->
+									<li>베스트 리뷰어는 온라인/오프라인에서 구매한 상품의 상품평 전체를 대상으로 선정합니다.</li>
+									<li>할인, 쿠폰 적용 후 실결제금액이 5,000원 이상인 상품에 한하여 지급됩니다.</li>
+									<li>통합회원의 경우, 구매금액에 따라 상품평 작성 추가 마일리지를 드립니다. (간편회원은 불가)</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="reviewWriteResults">
+						<div class="no_result_box">
+							<p>작성 가능한 주문건이 없습니다.</p>
+							<button onclick="">리뷰 작성하기</button>
+						</div>
+						<div class="no_result_box">
+						
+							<li th:each="rList : ${myReviewList}">
+							<div class="txt">
+								<p class="name" th:text="${rList.mid}">작성자 아이디</p>
+								<p class="info">
+									<span class="level" th:text="${rList.rdate}">작성일</span>
+								</p>
+							</div>
+							<div class="btn_wrap_211203">
+										<button sec:authorize-expr="isAuthenticated()" type="button"
+											class="more" onclick="ga_more();">
+											<span>더보기</span>
+										</button>
+									</div>
+									<div class="more_layer_cont" style="display: none;">
+									<div class="cont">
+										<a href=".hs_sns_note_pop" class="btn btn_popup_btot">수정</a> <a
+											href=".hs_share_pop" class="btn btn_popup_btot">삭제</a>
+									</div>
+									<a href="#" class="close">닫기</a>
+								</div>
+								<div class="sns_cont">
+									<p class="txt">
+										<span class="inner_txt2006" th:text="${rList.rcontent}">상품평</span> <br>
+									</p>
+									<div class="tag_wrap"></div>
+								</div>
+							
+							
+							</li>
+						</div>
+						
+						
+					</div>
+				</div>
+				<div class="review_tab_02" style="display: none">
+					<div class="text_coupon_slct_wrap online_coupon_box my_size_wrap">
+						<div class="select_box">
+							<select id="reviewType" onchange="wroteMyReviews(1);GA_Event('상품평', '정렬', this.selectedOptions[0].text);"></option>
+								<option value="PHOTO">포토 상품평</option>
+								<option value="TEXT">일반 상품평</option>
+							</select>
+						</div>
+					</div>
+					<div id="reviewWroteResults">
+						<div class="no_result_box">
+							<p>등록된 상품평이 없습니다.<br />최초의 상품평을 등록해 주세요.
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="df_box notice1905">
+					<h3 class="df_box_tit">안내 및 유의사항</h3>
+					<ul class="ul_dot">
+						<li>마일리지는 더한섬닷컴 통합회원만 적립 가능합니다. (간편회원 적립 불가)</li>
+						<li>상품평은 홍보, 이벤트 등 다양한 방법으로 활용될 수 있습니다.</li>
+						<li>아래와 같은 상품평은 사전 동의 없이 미게시로 전환될 수 있으며, 지급된 마일리지는 자동으로
+							회수됩니다.<br /> 1)부당 리뷰(직접 촬영하지 않은 캡쳐 사진, 해석 및 식별이 불가능한 리뷰, 타 상품에
+							대한 리뷰, 제 3자 사진 도움 등)<br /> 2)약관 및 법률 위배(비속어, 허위사실 등)<br /> 3)상기
+							내용에 준하는 사유라고 합리적으로 판단되는 경우
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- contents e -->
+
+			<script type="text/javascript">
+				//<![CDATA[
+				var height = 20;
+				var num = 0;
+				var max = height * num;
+				var move = 0;
+				var lastChild;
+				var notiCnt = 0;
+				var curTabId = 0;
+
+				function familySiteSelect() {
+					$(".fixed_dim_layer").stop().show();
+					$(".family_site_popup_191108").stop().slideDown();
+				}
+				function familySiteSelectClosed() {
+					$(".family_site_popup_191108").stop().slideUp();
+					$(".fixed_dim_layer").stop().fadeOut(500);
+				}
+
+				/************************Footer Notice Start*********************/
+				function getFooterNotices(moveUrl) {
+					to_date = new Date();
+					$.ajax({
+						type : "get",
+						url : moveUrl + "/getFooterNotices?now="
+								+ to_date.getTime(),
+						dataType : "json",
+						error : function(request, status, error) {
+							console.log(error);
+						},
+						success : function(data) {
+							notiCnt = data.length;
+							var noticeContent = "";
+							//var viewCnt = 0;
+							$.each(data, function() {
+								//if(viewCnt < 4){
+								var listTag = "<li>";
+								listTag += '<a href="' + moveUrl
+										+ "/mobilenotice?noticeCode=" + this.pk
+										+ '">' + this.subject + "</a>";
+								listTag += "</li>";
+
+								noticeContent += listTag;
+								//viewCnt++;
+								//}
+							});
+
+							$(".notice-wrap").html(noticeContent);
+						},
+					});
+				}
+				/**********************Footer Notice End****************************/
+				//]]>
+			</script>
+			<form id="autologinForm" name="autologinForm"
+				action="/ko/hp/autologin" method="get">
+				<input type="hidden" name="hcid" id="hcid" value="e2gaf@naver.com" />
+			</form>
+			<!-- ################## footer ################## -->
+
+			<footer id="footer" class="hsome_footer new181127 footer_kr">
+				<div class="main-notice">
+					<div class="tit-notice">공지</div>
+					<div class="list-notice">
+						<ul class="notice-wrap">
+							<li><a href="/ko/svcenter/mobilenotice?noticeCode=8804711059376">더한섬닷컴 편집/해외 브랜드 종료(예정) 안내(~2/22)</a></li>
+							<li><a href="/ko/svcenter/mobilenotice?noticeCode=8804711059376">더한섬닷컴 편집/해외 브랜드 종료(예정) 안내(~2/22)</a></li>
+						</ul>
+					</div>
+					<div class="btn-more">
+						<a href="/ko/svcenter/mobilenotice"><img
+							src="http://cdn.thehandsome.comhttp://www.thehandsome.com/_ui/handsomemobile/images/main/btn_arr_notice.png"
+							alt="" /></a>
+					</div>
+				</div>
+				<div class="f_wrap">
+					<div class="f_menu re1911">
+						<!-- 수정 190207 -->
+						<ul class="top_line">
+							<li><a href="#"></a></li>
+							<li><a href="javascript:ftLogout();" class="login" style="float: left" 
+							onclick="GA_Event('공통', '푸터_메뉴', '로그아웃');">로그아웃</a>
+							</li>
+							<li>
+								<a href="/ko/svcenter/mobilemain?uiel=Mobile" class="customer" style="float: left; width: 32%"
+									onclick="GA_Event('공통', '푸터_메뉴', '고객센터');">고객센터
+								</a>
+								</li>
+							<li><a href="/ko/store-finder/storeInformation?uiel=Mobile" class="storeinfo" style="float: left"
+								onclick="GA_Event('공통', '푸터_메뉴', '매장안내');">매장안내</a>
+								</li>
+						</ul>
+						<ul class="btm_line1911">
+							<li><a href="/ko/svcenter/theClubInfo?uiel=Mobile"
+								class="memberBenefit" style="float: left; letter-spacing: -1px"
+								onclick="GA_Event('공통', '푸터_메뉴', '한섬 회원 혜택');">한섬 회원 혜택
+							</a></li>
+							<li><a
+								href="http://www.handsome.co.kr/ko/company/aboutHandsome.do?leng=ko"
+								target="_blank" style="float: left; letter-spacing: -1px"
+								onclick="GA_Event('공통', '푸터_메뉴', '회사소개');">회사소개</a></li>
+							<li id="family_site">
+							<span class="language family_site1911 for_iph_css1911"
+								onclick="familySiteSelect();GA_Event('공통', '푸터_CNT', 'FAMILYSITE');">FAMILY SITE&nbsp;</span></li>
+						</ul>
+					</div>
+
+					<div class="f_sns">
+						<a href="javascript:noLink();"
+							onclick="GA_Event('공통', '푸터_SNS', 'INSTAGRAM');window.open('https://instagram.com/thehandsome_official/','instagram');return false"
+							class="ist">인스타그램</a> <a href="javascript:noLink();"
+							onclick="GA_Event('공통', '푸터_SNS', 'YOUTUBE');window.open('https://www.youtube.com/channel/UC0fmjgbVA8iZrPbIR3dppUQ','youtube');return false"
+							class="ytb">유튜브</a>
+					</div>
+					<div class="f_policy">
+						<a href="/ko/footer/footerTermBusiness?uiel=Mobile">서비스이용약관</a> <a
+							href="/ko/footer/footerPrivacy?uiel=Mobile"
+							style="font-weight: bold">개인정보처리방침</a>
+						<!-- web -->
+					</div>
+
+					<div class="f_copyright">COPYRIGHT © 2018 HANDSOME. ALL RIGHT RESERVED</div>
+
+					<a href="javascript:noLink();" class="f_info_viewer active"
+						onclick="GA_Event('공통', '푸터_CNT', 'INFO');"> <span
+						class="f-txt">(주) 한섬 </span> <span class="f-logo"><img
+							src="http://cdn.thehandsome.comhttp://www.thehandsome.com/_ui/handsomemobile/images/common/mob-footer-handsome-logo.png"
+							alt="" /></span>
+					</a>
+
+					<div class="f_info" style="display: block">
+						<div class="corp">
+							대표이사 : 김민덕 | 서울시 강남구 도산대로 523 한섬빌딩<br />TEL : 1800-5700 (유료) |
+							FAX : 02-6078-2856 <br />개인정보보호책임자 : 윤인수 | 호스팅서비스 : (주) 한섬<br />사업자등록번호
+							: 120-81-26337<br />통신판매업신고번호 : 제 2009-서울강남-00826호
+						</div>
+						<div class="link">
+							<a href="https://recruit.ehyundai.com/recruit-info/announcement/list.nhd?pageNo=1&amp;hireGb=01&amp;coCd=HDHAN"
+								target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'INFO_채용정보');">채용정보</a>
+							<a href="http://www.handsome.co.kr/ko/sustainability/sharedGrowth01.do"
+								target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'INFO_동반성장');">동반성장</a>
+							<a href="http://www.handsome.co.kr/ko/sustainability/ecoFriendly01.do"
+								target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'INFO_환경경영');">환경경영</a>
+						</div>
+					</div>
+				</div>
+			</footer>
+			<!-- //################## footer ################## -->
+		</div>
+	</div>
+
+	<aside class="hsome_quickMenu hsome_quickMenu1909 active">
+		<ul>
+			<li class="shop"><a href="/ko/mobilecommon/navShop"
+				onclick="GA_Event('공통', '네비게이션_바', '샵');"><i>메뉴</i></a></li>
+			<li class="sns"><a href="/ko/sns/main"
+				onclick="GA_Event('공통', '네비게이션_바', '타임라인');"><i>스타일 LIVE</i></a></li>
+			<li class="home"><a href="javascript:noLink();"
+				onclick="goMainpage();GA_Event('공통', '네비게이션_바', '홈');"><i>홈</i></a>
+			</li>
+			<li class="myheart" id="gnbMyheartBtn"><a
+				href="/ko/mypage/myWish"
+				onclick="GA_Event('공통', '네비게이션_바', '마이하트');"><i>마이하트</i></a></li>
+			<li class="mypage active" id="gnbMyPageBtn"><a
+				href="javascript:noLink();"
+				onclick="goMypage();GA_Event('공통', '네비게이션_바', '마이페이지');"><i>마이페이지</i></a>
+			</li>
+			<li class="mypage pageMove" style="display: none"><a href=""
+				id="gnbMypageBtn"></a></li>
+			<li class="mypage" style="display: none"><a
+				href="/ko/mobilecommon/myPagePopup" id="gnbMypagePopupBtn"></a></li>
+		</ul>
+	</aside>
+</body>
+</html>

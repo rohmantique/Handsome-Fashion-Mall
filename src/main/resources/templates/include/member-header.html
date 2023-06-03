@@ -1,0 +1,9 @@
+<a href="/main" class="h_top_home"><span>홈</span></a>
+<a href="javascript:noLink();" onclick="goBack();" class="h_prev">이전 페이지로 가기</a>
+<ul class="h_gnbMenu">
+	<li class="search"><a href="/search"><span>search</span></a></li>
+	<li class="cart">
+		<a sec:authorize="isAuthenticated()" href="/cart"><span>cart</span></a>
+	<!-- 	<a  sec:authorize="isAnonymous();"  th:href="/member/CustomLogin"><span>cart</span></a> -->
+	</li>
+</ul>

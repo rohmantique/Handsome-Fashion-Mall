@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundai.pjt.mapper.ProductMapper">
+	
+	<!-- 브랜드 목록 -->
+	<select id="selectBrand" resultType="com.hyundai.pjt.dto.BrandDTO">
+		SELECT * FROM brand
+	</select>
+	
+	<!-- 브랜드 이름 -->
+	<select id="selectBrandInfo" resultType="com.hyundai.pjt.dto.BrandDTO">
+		SELECT b.bno, bname, bimage
+		FROM brand b JOIN brandImg i ON b.bno=i.bno
+		WHERE b.bno = #{bno}
+	</select>
+	
+	<resultMap type="com.hyundai.pjt.dto.ProductDTO" id="productMap">
+		<result property="pid" column="pid"/>
+		<result property="bno" column="bno"/>
+		<result property="bname" column="bname"/>
+		<result property="clarge" column="clarge"/>
+		<result property="cmedium" column="cmedium"/>
+		<result property="csmall" column="csmall"/>
+		<result property="pno" column="pno"/>
+		<result property="pname" column="pname"/>
+		<result property="pprice" column="pprice"/>
+		<result property="pdetail" column="pdetail"/>
+		<result property="pseason" column="pseason"/>
+		<result property="ptotalamount" column="ptotalamount"/>
+		<result property="rcnt" column="rcnt"/>
+		<collection property="colorList" resultMap="colorMap"></collection>
+		<collection property="stockList" resultMap="stockMap"></collection>
+	</resultMap>
+	
+	<resultMap type="com.hyundai.pjt.dto.ColorDTO" id="colorMap">
+		<result property="pid" column="pid"/>
+		<result property="ccolorcode" column="ccolorcode"/>
+		<result property="cimage1" column="cimage1"/>
+		<result property="cimage2" column="cimage2"/>
+		<result property="cimage3" column="cimage3"/>
+		<result property="ccolorimage" column="ccolorimage"/>
+		<result property="cmatchpid" column="cmatchpid"/>
+	</resultMap>
+	
+	<resultMap type="com.hyundai.pjt.dto.StockDTO" id="stockMap">
+		<result property="pid" column="pid"/>
+		<result property="ccolorcode" column="ccolorcode"/>
+		<result property="ssize" column="ssize"/>
+		<result property="samount" column="samount"/>
+	</resultMap>
+	
+	<!-- 상품 세부 -->
+	<select id="selectProduct" resultMap="productMap">
+		SELECT p.pid, bno, bname, clarge, cmedium, csmall, pno, pname, pprice, pdetail, pseason, ptotalamount, c.ccolorcode, cimage1, cimage2, cimage3, ccolorimage, cmatchpid, ssize, samount
+		FROM productDetailView p JOIN (SELECT c.pid, c.ccolorcode, ssize, samount, cmatchpid, cimage1, cimage2, cimage3, ccolorimage
+		                               FROM (SELECT *
+		                                     FROM color
+		                                     WHERE pid = #{pid}) c
+		                               JOIN 
+		                                    (SELECT *
+		                                     FROM stock
+		                                     WHERE pid = #{pid}) s
+		                               ON c.ccolorcode = s.ccolorcode
+		                               WHERE s.pid = #{pid}) c
+		ON p.pid = c.pid
+	</select>
+	
+	<!-- 상품 목록(신상품순) -->
+	<select id="selectProdListNew" resultMap="productMap">
+		<![CDATA[
+		SELECT p.pid, bno, bname, clarge, cmedium, csmall, pno, pname, pprice, c.ccolorcode, cimage1, cimage2, cimage3, ccolorimage, cmatchpid, rcnt
+		FROM (
+		        SELECT *
+		        FROM (
+		            SELECT ROWNUM rnum, p.*
+		            FROM ( SELECT productDetailView.*
+		                   FROM productDetailView 
+		                   WHERE clarge = #{clarge}
+		]]>
+		                    <if test="cmedium != ''">
+		                        AND cmedium = #{cmedium}
+		                    </if>
+		<![CDATA[
+		                ) p
+		            ) 
+		        WHERE rnum BETWEEN #{startIdx} AND #{endIdx}) p, color c
+		WHERE p.pid = c.pid
+		]]>
+	</select>
+	
+	<!-- 상품 목록(판매순) -->
+	<select id="selectProdListSale" resultMap="productMap">
+		<![CDATA[
+		SELECT p.pid, bno, bname, clarge, cmedium, csmall, pno, pname, pprice, c.ccolorcode, cimage1, cimage2, cimage3, ccolorimage, cmatchpid, rcnt
+		FROM (
+		        SELECT *
+		        FROM (
+		            SELECT ROWNUM rnum, p.*
+		            FROM ( SELECT productDetailView.*
+		                   FROM productDetailView 
+		                   WHERE clarge = #{clarge}
+		]]>
+		                    <if test="cmedium != ''">
+		                        AND cmedium = #{cmedium}
+		                    </if>
+		                    ORDER BY ptotalamount DESC
+		<![CDATA[
+		                ) p
+		            ) 
+		        WHERE rnum BETWEEN #{startIdx} AND #{endIdx}) p, color c
+		WHERE p.pid = c.pid
+		ORDER BY ptotalamount DESC
+		]]>
+	</select>
+	
+	<!-- 상품 목록(리뷰순) -->
+	<select id="selectProdListReview" resultMap="productMap">
+		<![CDATA[
+		SELECT p.pid, bno, bname, clarge, cmedium, csmall, pno, pname, pprice, c.ccolorcode, cimage1, cimage2, cimage3, ccolorimage, cmatchpid, rcnt
+		FROM (
+		        SELECT *
+		        FROM (
+		            SELECT ROWNUM rnum, p.*
+		            FROM ( SELECT productDetailView.*
+		                   FROM productDetailView 
+		                   WHERE clarge = #{clarge}
+		]]>
+		                    <if test="cmedium != ''">
+		                        AND cmedium = #{cmedium}
+		                    </if>
+		                    ORDER BY rcnt DESC
+		<![CDATA[
+		                ) p
+		            ) 
+		        WHERE rnum BETWEEN #{startIdx} AND #{endIdx}) p, color c
+		WHERE p.pid = c.pid
+		ORDER BY rcnt DESC
+		]]>
+	</select>
+	
+	<!-- 상품 목록(고가순) -->
+	<select id="selectProdListHigh" resultMap="productMap">
+		<![CDATA[
+		SELECT p.pid, bno, bname, clarge, cmedium, csmall, pno, pname, pprice, c.ccolorcode, cimage1, cimage2, cimage3, ccolorimage, cmatchpid, rcnt
+		FROM (
+		        SELECT *
+		        FROM (
+		            SELECT ROWNUM rnum, p.*
+		            FROM ( SELECT productDetailView.*
+		                   FROM productDetailView 
+		                   WHERE clarge = #{clarge}
+		]]>
+		                    <if test="cmedium != ''">
+		                        AND cmedium = #{cmedium}
+		                    </if>
+		                    ORDER BY pprice DESC
+		<![CDATA[
+		                ) p
+		            ) 
+		        WHERE rnum BETWEEN #{startIdx} AND #{endIdx}) p, color c
+		WHERE p.pid = c.pid
+		ORDER BY pprice DESC
+		]]>
+	</select>
+	
+	<!-- 상품 목록(저가순) -->
+	<select id="selectProdListLow" resultMap="productMap">
+		<![CDATA[
+		SELECT p.pid, bno, bname, clarge, cmedium, csmall, pno, pname, pprice, c.ccolorcode, cimage1, cimage2, cimage3, ccolorimage, cmatchpid, rcnt
+		FROM (
+		        SELECT *
+		        FROM (
+		            SELECT ROWNUM rnum, p.*
+		            FROM ( SELECT productDetailView.*
+		                   FROM productDetailView 
+		                   WHERE clarge = #{clarge}
+		]]>
+		                    <if test="cmedium != ''">
+		                        AND cmedium = #{cmedium}
+		                    </if>
+		                    ORDER BY pprice ASC
+		<![CDATA[
+		                ) p
+		            ) 
+		        WHERE rnum BETWEEN #{startIdx} AND #{endIdx}) p, color c
+		WHERE p.pid = c.pid
+		ORDER BY pprice ASC
+		]]>
+	</select>
+	
+	<!-- 카테고리 리스트 -->
+	<select id="selectCategoryList" resultType="com.hyundai.pjt.dto.CategoryDTO">
+		SELECT *
+		FROM category
+		WHERE clarge=#{clarge}
+	</select>
+	
+	<!-- 카테고리별 상품 전체 개수 -->
+	<select id="productCnt" resultType="int">
+		SELECT count(*)
+		FROM PRODUCT
+		WHERE clarge=#{clarge} 
+			<if test="cmedium != ''">
+		    	AND cmedium = #{cmedium}
+		    </if>
+	</select>
+	
+	<!-- 브랜드별 상품 전체 개수 -->
+	<select id="brandProdCnt" resultType="int">
+		SELECT COUNT(*)
+		FROM product
+		WHERE bno = #{bno}
+	</select>
+	
+	<!-- 브랜드별 탑 셀러 -->
+	<select id="brandTopSeller" resultMap="productMap">
+		SELECT p.pid, pname, pprice, cimage1, cmatchpid, ptotalamount
+		FROM (
+		        SELECT *
+		        FROM (
+		            SELECT ROWNUM rnum, p.*
+		            FROM ( SELECT productDetailView.*
+		                   FROM productDetailView 
+		                   WHERE bno = #{bno}
+		                    ORDER BY ptotalamount DESC
+
+		                ) p
+		            ) 
+		        WHERE rnum BETWEEN 1 AND 10) p, color c
+		WHERE p.pid = c.pid
+		ORDER BY ptotalamount DESC
+	</select>
+	
+	<!-- 브랜드별 상품 목록(신상품순) -->
+	<select id="selectBProdListNew" resultMap="productMap">
+		<![CDATA[
+		SELECT p.pid, bno, bname, clarge, cmedium, csmall, pno, pname, pprice, c.ccolorcode, cimage1, cimage2, cimage3, ccolorimage, cmatchpid, rcnt
+		FROM (
+		        SELECT *
+		        FROM (
+		            SELECT ROWNUM rnum, p.*
+		            FROM ( SELECT productDetailView.*
+		                   FROM productDetailView 
+		                   WHERE bno = #{bno}
+		                ) p
+		            ) 
+		        WHERE rnum BETWEEN #{startIdx} AND #{endIdx}) p, color c
+		WHERE p.pid = c.pid
+		]]>
+	</select>
+	
+	<!-- 브랜드별 상품 목록(판매순) -->
+	<select id="selectBProdListSale" resultMap="productMap">
+		<![CDATA[
+		SELECT p.pid, bno, bname, clarge, cmedium, csmall, pno, pname, pprice, c.ccolorcode, cimage1, cimage2, cimage3, ccolorimage, cmatchpid, rcnt
+		FROM (
+		        SELECT *
+		        FROM (
+		            SELECT ROWNUM rnum, p.*
+		            FROM ( SELECT productDetailView.*
+		                   FROM productDetailView 
+		                   WHERE bno = #{bno}
+		                   ORDER BY ptotalamount DESC
+		                ) p
+		            ) 
+		        WHERE rnum BETWEEN #{startIdx} AND #{endIdx}) p, color c
+		WHERE p.pid = c.pid
+		ORDER BY ptotalamount DESC
+		]]>
+	</select>
+	
+	<!-- 브랜드별 상품 목록(리뷰순) -->
+	<select id="selectBProdListReview" resultMap="productMap">
+		<![CDATA[
+		SELECT p.pid, bno, bname, clarge, cmedium, csmall, pno, pname, pprice, c.ccolorcode, cimage1, cimage2, cimage3, ccolorimage, cmatchpid, rcnt
+		FROM (
+		        SELECT *
+		        FROM (
+		            SELECT ROWNUM rnum, p.*
+		            FROM ( SELECT productDetailView.*
+		                   FROM productDetailView 
+		                   WHERE bno = #{bno}
+		                   ORDER BY rcnt DESC
+		                ) p
+		            ) 
+		        WHERE rnum BETWEEN #{startIdx} AND #{endIdx}) p, color c
+		WHERE p.pid = c.pid
+		ORDER BY rcnt DESC
+		]]>
+	</select>
+	
+	<!-- 브랜드별 상품 목록(고가순) -->
+	<select id="selectBProdListHigh" resultMap="productMap">
+		<![CDATA[
+		SELECT p.pid, bno, bname, clarge, cmedium, csmall, pno, pname, pprice, c.ccolorcode, cimage1, cimage2, cimage3, ccolorimage, cmatchpid, rcnt
+		FROM (
+		        SELECT *
+		        FROM (
+		            SELECT ROWNUM rnum, p.*
+		            FROM ( SELECT productDetailView.*
+		                   FROM productDetailView 
+		                   WHERE bno = #{bno}
+		                   ORDER BY pprice DESC
+		                ) p
+		            ) 
+		        WHERE rnum BETWEEN #{startIdx} AND #{endIdx}) p, color c
+		WHERE p.pid = c.pid
+		ORDER BY pprice DESC
+		]]>
+	</select>
+	
+	<!-- 브랜드별 상품 목록(저가순) -->
+	<select id="selectBProdListLow" resultMap="productMap">
+		<![CDATA[
+		SELECT p.pid, bno, bname, clarge, cmedium, csmall, pno, pname, pprice, c.ccolorcode, cimage1, cimage2, cimage3, ccolorimage, cmatchpid, rcnt
+		FROM (
+		        SELECT *
+		        FROM (
+		            SELECT ROWNUM rnum, p.*
+		            FROM ( SELECT productDetailView.*
+		                   FROM productDetailView 
+		                   WHERE bno = #{bno}
+		                   ORDER BY pprice ASC
+		                ) p
+		            ) 
+		        WHERE rnum BETWEEN #{startIdx} AND #{endIdx}) p, color c
+		WHERE p.pid = c.pid
+		ORDER BY pprice ASC
+		]]>
+	</select>
+	
+</mapper>

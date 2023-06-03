@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:insert="~{include/head}"></head>
+
+<body>
+<header class="hsome_header">
+				<h1 class="h_ttl ellipsis" id="headerTitle">마이페이지</h1>
+				<div th:insert="~{include/member-header}"></div>
+			</header>
+	<div class="hsome_quickMenu_contents active absolute">
+		<div class="hand_footer_gnb_wrap mypage">
+			<div class="header">
+				<h2 class="sel">
+					<select id="headerMypageSelect"
+						onchange="GA_Event('마이페이지', 'MY_GNB', this.selectedOptions[0].text.replaceAll(' ', '').replace('신청/조회',''));">
+						<option value="" style="display: none"></option>
+						<option value="/mypage/mypageFloatingPopup">마이페이지</option>
+						<option value="/mypage/myOrders">주문/배송조회</option>
+						<option value="/mypage/userInfoChange">회원정보 변경</option>
+						<option value="/mypage/myCoupon">쿠폰</option>
+						<option value="/mypage/myReview">상품평</option>
+					</select>
+					<div class="selected_text">
+						<span> 마이페이지</span>
+					</div>
+
+				</h2>
+
+				<div class="mypage_card_footer_logout2008"
+					style="margin-bottom: 10px; margin-top: 10px;">
+					<h2 th:text="'안녕하세요 ' + *{#authentication.principal.mid} + ' 님'"
+						th:value="${#authentication.principal.mid}"></h2>
+
+
+					<script>
+						function deleteSubmit() {
+							$("#deleteUser").submit();
+						}
+					</script>
+
+				</div>
+
+				<form action="/member/userDelete" method="post" id="deleteUser">
+					<li sec:authorize="isAuthenticated()"><input type="hidden"
+						name="mid" th:value="${#authentication.principal.mid}" />
+				</form>
+
+				<ul class="red_border_tab">
+					<span th:text="*{#authentication.principal.mid}"></span>
+					<li class=""><a href="javascript:void(0);" class="order"
+						tab="order" onclick="moveOrderpage()">주문</a></li>
+					<li class="" sec:authorize="isAuthenticated()"><a
+						th:href="@{/member/userInfoChange}" class="benefit" tab="benefit"
+						onclick="moveCouponpage()">회원정보 변경</a></li>
+					<li class=""><a href="javascript:void(0);" class="infomation"
+						tab="info" onclick="deleteSubmit()">회원탈퇴</a></li>
+					<li class="" sec:authorize="isAuthenticated()"><a
+						th:href="@{/logout}" class="activity" tab="activity"
+						onclick="moveReviewpage()">로그아웃</a></li>
+					<li class=""
+						style="transform: translateX(87.625px); width: 34px"></li>
+				</ul>
+			</div>
+
+			<form action="/mypage/myOrders" method="post" id="myorderFrm">
+				<input type="hidden" name="mid"
+					sec:authorize-expr="isAuthenticated()"
+					th:value="${#authentication.principal.mid}">
+			</form>
+			<form action="/mypage/myCoupon" method="post" id="mycouponFrm">
+				<input type="hidden" name="mid"
+					sec:authorize-expr="isAuthenticated()"
+					th:value="${#authentication.principal.mid}">
+			</form>
+			<form action="/mypage/userInfoChange" method="post"
+				id="myuserinfoFrm">
+				<input type="hidden" name="mid"
+					sec:authorize-expr="isAuthenticated()"
+					th:value="${#authentication.principal.mid}">
+			</form>
+			<form action="/mypage/myReview" method="post" id="myreviewFrm">
+				<input type="hidden" name="mid"
+					sec:authorize-expr="isAuthenticated()"
+					th:value="${#authentication.principal.mid}">
+			</form>
+
+			<script>
+				function moveMypage() {
+					$("#mypageFrm").submit();
+				};
+				function moveMypage() {
+					$("#mycouponFrm").submit();
+				};
+				function moveMypage() {
+					$("#myuserinfoFrm").submit();
+				};
+				function moveMypage() {
+					$("#myreviewFrm").submit();
+				};
+			</script>
+
+			<div class="container">
+				<div
+					class="swiper-container mypage_card_container mpgCardCon1903 swiper-container-horizontal swiper-container-android swiper-container-wp8-horizontal">
+					<div class="swiper-wrapper"
+						style="transform: translate3d(0px, 0px, 0px)">
+						<div
+							class="swiper-slide card-type order start swiper-slide-active"
+							data-index="0" style="width: 382px; margin-right: 30px">
+							<div class="card_type_inner1903">
+								<div class="stage order_stage" th:if="${#lists.isEmpty(myOrderList)}" >
+								<h3 style="    text-align: center;
+    margin-top: 170px;">주문 내역이 없습니다.</h3></div>
+								<div class="stage order_stage"
+									th:if="${not #lists.isEmpty(myOrderList)}">
+									<div class="s-tit" style="margin-top: 10px;">
+										<b>결제완료</b>
+									</div>
+									<li class="lists grid-item page_0">
+
+										<p class="order_number">
+											<a
+												href="/ko/mypage/order/myorderdetails?code=230213P16757563"
+												onclick="GA_Event('마이페이지', '배송정보', '주문조회상세');"> <span
+												class="tit">주문번호</span> <span class="number"
+												th:if="${not #lists.isEmpty(myOrderList)}"
+												th:text="${myOrderList[0].oid}"></span>
+											</a>
+										</p>
+										<div class="order_product" style="padding-top: 10px;">
+											<!-- 개 -->
+											<a href="/ko/p/SY2C7ACK477W_SE_FR"
+												onclick="GA_Event('마이페이지', '배송정보', '상품상세');">
+												<div class="img" th:if="${not #lists.isEmpty(myOrderList)}">
+													<img th:src="${myOrderList[0].itemList[0].cimage1}"
+														alt="아일렛 글리터 양말" />
+												</div>
+												<div class="cont">
+													<p class="name" style="margin-top: 5px;">
+														<span class="tit">제품명: </span> <span class="brand"
+															th:text="${myOrderList[0].itemList[0].pname}"
+															th:if="${not #lists.isEmpty(myOrderList)}"></span>
+													</p>
+													<p class="name" style="margin-top: 5px;">
+														<span>품번: </span> <span class="brand"
+															th:text="${myOrderList[0].itemList[0].pid}"
+															th:if="${not #lists.isEmpty(myOrderList)}"></span>
+													</p>
+													<p class="name" style="margin-top: 5px;">
+														<span>상품 정보: </span> <span class="brand"
+															style="margin-left: 5px;"
+															th:text="${myOrderList[0].itemList[0].ccolorcode}"
+															th:if="${not #lists.isEmpty(myOrderList)}"></span> | <span
+															class="brand" style="margin-left: 5px;"
+															th:text="${myOrderList[0].itemList[0].ssize}"
+															th:if="${not #lists.isEmpty(myOrderList)}"></span> | <span
+															class="brand" style="margin-left: 5px;"
+															th:text="${myOrderList[0].itemList[0].oamount}"
+															th:if="${not #lists.isEmpty(myOrderList)}"></span>
+													</p>
+													<p class="name" style="margin-top: 5px;">
+														<span>가격: </span> <span class="price"
+															th:text="₩ +${#numbers.formatInteger(myOrderList[0].itemList[0].opayment, 3, 'COMMA')}"
+															th:if="${not #lists.isEmpty(myOrderList)}"></span>
+													</p>
+													<p name="__p_SY2C7ACK477W_SE_FR"
+														class="pre_order_txt1903_s" style="display: none">
+														해당 상품은 전국 매장을 통해 수급하여 배송 될 예정입니다. <br />불량 등의 이유로 수급이 어려울
+														경우, 취소될 수 있습니다. <br /> <b>(평일 기준 5일 이상 소요 예정)</b>
+													</p>
+													<script type="text/javascript">
+														getOnlineStock("SY2C7ACK477W_SE_FR");
+													</script>
+												</div>
+											</a>
+										</div>
+										<div class="address_cont">
+											<b class="tit">배송지 </b>
+											<p class="address">
+												<b class="tit"
+													th:text="${myOrderList[0].itemList[0].oaddress1}"
+													th:if="${not #lists.isEmpty(myOrderList)}"> + " " + <b
+													class="tit"
+													th:text="${myOrderList[0].itemList[0].oaddress2}"
+													th:if="${not #lists.isEmpty(myOrderList)}">
+											</p>
+											<p class="info">
+												<b class="tit" th:text="${myOrderList[0].itemList[0].oid}"
+													th:if="${not #lists.isEmpty(myOrderList)}"> | 
+											</p>
+											<p>
+												<b class="tit" th:text="${myOrderList[0].itemList[0].odate}"
+													th:if="${not #lists.isEmpty(myOrderList)}">
+											</p>
+
+										</div>
+								</div>
+							</div>
+						</div>
+
+
+						<!-- 혜택// -->
+						<div
+							class="swiper-slide card-type benefit start e-gift swiper-slide-next"
+							data-index="0" style="width: 382px; margin-right: 30px">
+							<div class="card_type_inner1903" id="myPointList">
+								<div class="stage loading_stage1903">
+									<p class="s-txt">정보를 불러오고 있습니다.</p>
+									<img
+										src="/_ui/handsomemobile/images/common/Spinner-1s-200px.png"
+										alt="loading" class="hsome_quickMenu_loader" />
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide card-type benefit" data-index="1"
+							style="width: 382px; margin-right: 30px"></div>
+
+					</div>
+				</div>
+
+				
+				<!--add indicator-->
+
+	<aside th:insert="~{include/aside}"></aside>
+
+				<div class="mypage_card_footer">
+					<span class="u_name"></span>
+				</div>
+
+			</div>
+
+			<div class="footer">
+				<a href="javascript:noLink();" class="close"
+					onclick="mypagePopupClose(this);">닫기</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

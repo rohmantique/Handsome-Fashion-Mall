@@ -1,0 +1,264 @@
+CREATE TABLE brand (
+    bno   NUMBER NOT NULL,
+    bname VARCHAR2(50) NOT NULL
+);
+
+ALTER TABLE brand ADD CONSTRAINT brand_pk PRIMARY KEY ( bno );
+
+CREATE TABLE category (
+    clarge  VARCHAR2(50) NOT NULL,
+    cmedium VARCHAR2(50) NOT NULL,
+    csmall  VARCHAR2(50) NOT NULL
+);
+
+ALTER TABLE category
+    ADD CONSTRAINT category_pk PRIMARY KEY ( clarge,
+                                             csmall,
+                                             cmedium );
+
+CREATE TABLE color (
+    pid         VARCHAR2(30) NOT NULL,
+    ccolorcode  VARCHAR2(10) NOT NULL,
+    cimage1     VARCHAR2(500) NOT NULL,
+    cimage2     VARCHAR2(500),
+    cimage3     VARCHAR2(500),
+    ccolorimage VARCHAR2(500) NOT NULL,
+    cmatchpid   VARCHAR2(30)
+);
+
+ALTER TABLE color ADD CONSTRAINT color_pk PRIMARY KEY ( ccolorcode,
+                                                        pid );
+
+CREATE TABLE coupon (
+    ccode      VARCHAR2(100) NOT NULL,
+    eid        NUMBER NOT NULL,
+    mid        VARCHAR2(20) NOT NULL,
+    cname      VARCHAR2(20) NOT NULL,
+    cstartdate DATE,
+    cenddate   DATE,
+    cstate     NUMBER NOT NULL
+);
+
+ALTER TABLE coupon ADD CONSTRAINT coupon_pk PRIMARY KEY ( ccode );
+
+CREATE TABLE event (
+    eid        NUMBER NOT NULL,
+    ename      VARCHAR2(100) NOT NULL,
+    edetail    VARCHAR2(1000),
+    estartdate TIMESTAMP WITH LOCAL TIME ZONE NOT NULL,
+    eenddate   TIMESTAMP WITH LOCAL TIME ZONE NOT NULL,
+    eimage     VARCHAR2(500) NOT NULL,
+    eamount    NUMBER NOT NULL,
+    elimit     NUMBER NOT NULL
+);
+
+ALTER TABLE event ADD CONSTRAINT event_pk PRIMARY KEY ( eid );
+
+CREATE TABLE grade (
+    gno   NUMBER NOT NULL,
+    gname VARCHAR2(100) NOT NULL,
+    gmin  NUMBER NOT NULL,
+    gmax  NUMBER NOT NULL,
+    gsale NUMBER NOT NULL
+);
+
+ALTER TABLE grade ADD CONSTRAINT grade_pk PRIMARY KEY ( gno );
+
+CREATE TABLE member (
+    mid       VARCHAR2(20) NOT NULL,
+    mpassword VARCHAR2(20) NOT NULL,
+    mname     VARCHAR2(50) NOT NULL,
+    memail    VARCHAR2(50) NOT NULL,
+    mtel      VARCHAR2(20) NOT NULL,
+    mzipcode  NUMBER,
+    maddress1 VARCHAR2(200),
+    maddress2 VARCHAR2(200),
+    mgrade    VARCHAR2(30),
+    mdate     DATE NOT NULL,
+    mpoint    NUMBER NOT NULL,
+    menabled  NUMBER NOT NULL
+);
+
+ALTER TABLE member ADD CONSTRAINT member_pk PRIMARY KEY ( mid );
+
+CREATE TABLE mycart (
+    mid     VARCHAR2(20) NOT NULL,
+    pid     VARCHAR2(30) NOT NULL,
+    psize   VARCHAR2(10) NOT NULL,
+    pcolor  VARCHAR2(10) NOT NULL,
+    pamount NUMBER NOT NULL
+);
+
+ALTER TABLE mycart
+    ADD CONSTRAINT mycart_pk PRIMARY KEY ( pid,
+                                           psize,
+                                           pcolor );
+
+CREATE TABLE orderitem (
+    oid        VARCHAR2(20) NOT NULL,
+    pid        VARCHAR2(30) NOT NULL,
+    ccolorcode VARCHAR2(10) NOT NULL,
+    ssize      VARCHAR2(10) NOT NULL,
+    oamount    NUMBER NOT NULL
+);
+
+ALTER TABLE orderitem
+    ADD CONSTRAINT orderitem_pk PRIMARY KEY ( pid,
+                                              ccolorcode,
+                                              ssize,
+                                              oid );
+
+CREATE TABLE orderlist (
+    oid              VARCHAR2(20) NOT NULL,
+    mid              VARCHAR2(20) NOT NULL,
+    ozipcode         NUMBER NOT NULL,
+    oaddress1        VARCHAR2(200) NOT NULL,
+    oaddress2        VARCHAR2(200),
+    odate            DATE NOT NULL,
+    oreceiver        VARCHAR2(50) NOT NULL,
+    otel             VARCHAR2(20) NOT NULL,
+    ousedmileage     NUMBER,
+    ousedcoupon      NUMBER,
+    opayment         NUMBER NOT NULL,
+    ostatus          NUMBER NOT NULL,
+    oaccountdeadline DATE,
+    odiscounted      NUMBER
+);
+
+ALTER TABLE orderlist ADD CONSTRAINT orderlist_pk PRIMARY KEY ( oid );
+
+CREATE TABLE product (
+    pid          VARCHAR2(30) NOT NULL,
+    bno          NUMBER NOT NULL,
+    clarge       VARCHAR2(50) NOT NULL,
+    cmedium      VARCHAR2(50) NOT NULL,
+    pno          NUMBER NOT NULL,
+    csmall       VARCHAR2(50) NOT NULL,
+    pname        VARCHAR2(50) NOT NULL,
+    pprice       NUMBER NOT NULL,
+    pdetail      VARCHAR2(4000 BYTE) NOT NULL,
+    pseason      VARCHAR2(10) NOT NULL,
+    ptotalamount NUMBER NOT NULL
+);
+
+ALTER TABLE product ADD CONSTRAINT product_pk PRIMARY KEY ( pid );
+
+CREATE TABLE qna (
+    qid           NUMBER NOT NULL,
+    mid           VARCHAR2(20) NOT NULL,
+    qtitle        VARCHAR2(20) NOT NULL,
+    qcontent      VARCHAR2(4000) NOT NULL,
+    qdate         DATE NOT NULL,
+    qreplydate    DATE,
+    qreplytitle   VARCHAR2(50),
+    qreplycontent VARCHAR2(4000),
+    qmanager      VARCHAR2(25)
+);
+
+ALTER TABLE qna ADD CONSTRAINT qna_pk PRIMARY KEY ( qid );
+
+CREATE TABLE review (
+    rno          NUMBER NOT NULL,
+    mid          VARCHAR2(20) NOT NULL,
+    mname        VARCHAR2(50),
+    pid          VARCHAR2(30) NOT NULL,
+    pname        VARCHAR2(50),
+    pcolor       VARCHAR2(10),
+    psize        VARCHAR2(10),
+    rdate        DATE,
+    rrate        NUMBER,
+    rprice       NUMBER,
+    rcomfortable NUMBER,
+    rtitle       CLOB,
+    rcontent     CLOB
+);
+
+ALTER TABLE review ADD CONSTRAINT review_pk PRIMARY KEY ( rno );
+
+CREATE TABLE stock (
+    pid        VARCHAR2(30) NOT NULL,
+    ccolorcode VARCHAR2(10) NOT NULL,
+    ssize      VARCHAR2(10) NOT NULL,
+    samount    NUMBER NOT NULL
+);
+
+ALTER TABLE stock
+    ADD CONSTRAINT stock_pk PRIMARY KEY ( ssize,
+                                          ccolorcode,
+                                          pid );
+
+CREATE TABLE wishlist (
+    mid VARCHAR2(20) NOT NULL,
+    pid VARCHAR2(30) NOT NULL
+);
+
+ALTER TABLE wishlist ADD CONSTRAINT wishlist_pk PRIMARY KEY ( pid,
+                                                              mid );
+
+ALTER TABLE color
+    ADD CONSTRAINT color_product_fk FOREIGN KEY ( pid )
+        REFERENCES product ( pid )
+            ON DELETE CASCADE;
+
+ALTER TABLE coupon
+    ADD CONSTRAINT coupon_event_fk FOREIGN KEY ( eid )
+        REFERENCES event ( eid );
+
+ALTER TABLE coupon
+    ADD CONSTRAINT coupon_member_fk FOREIGN KEY ( mid )
+        REFERENCES member ( mid )
+            ON DELETE CASCADE;
+
+ALTER TABLE mycart
+    ADD CONSTRAINT mycart_member_fk FOREIGN KEY ( mid )
+        REFERENCES member ( mid )
+            ON DELETE CASCADE;
+
+ALTER TABLE orderitem
+    ADD CONSTRAINT orderitem_orderlist_fk FOREIGN KEY ( oid )
+        REFERENCES orderlist ( oid )
+            ON DELETE CASCADE;
+
+ALTER TABLE product
+    ADD CONSTRAINT product_brand_fk FOREIGN KEY ( bno )
+        REFERENCES brand ( bno )
+            ON DELETE CASCADE;
+
+ALTER TABLE product
+    ADD CONSTRAINT product_category_fk FOREIGN KEY ( clarge,
+                                                     csmall,
+                                                     cmedium )
+        REFERENCES category ( clarge,
+                              csmall,
+                              cmedium )
+            ON DELETE CASCADE;
+
+ALTER TABLE qna
+    ADD CONSTRAINT qna_member_fk FOREIGN KEY ( mid )
+        REFERENCES member ( mid );
+
+ALTER TABLE review
+    ADD CONSTRAINT review_product_fk FOREIGN KEY ( pid )
+        REFERENCES product ( pid )
+            ON DELETE CASCADE;
+
+ALTER TABLE stock
+    ADD CONSTRAINT stock_color_fk FOREIGN KEY ( ccolorcode,
+                                                pid )
+        REFERENCES color ( ccolorcode,
+                           pid )
+            ON DELETE CASCADE;
+
+ALTER TABLE wishlist
+    ADD CONSTRAINT wishlist_member_fk FOREIGN KEY ( mid )
+        REFERENCES member ( mid )
+            ON DELETE CASCADE;
+
+
+create sequence oid_seq;
+
+create view productlist as
+	select pid, cimage1,
+	SUBSTR(ccolorimage, INSTR(ccolorimage, '"', 1, 1) + 1, INSTR(ccolorimage, '"', 1, 2) - INSTR(ccolorimage, '"', 1, 1) - 1) AS colorimage
+	from color;
+	

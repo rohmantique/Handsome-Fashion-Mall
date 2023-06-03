@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundai.pjt.mapper.MemberMapper">
+
+	<!-- 회원가입 -->
+	<insert id="memberJoin">
+
+		insert into member ( mid, mpassword, mname, memail,
+		mdate, mtel, mzipcode, maddress1, maddress2, mpoint, menabled)
+
+		values (
+		#{mid}, #{mpassword}, #{mname},#{memail},
+		#{mdate}, #{mtel},
+		#{mzipcode},#{maddress1},#{maddress2}, 2500, 0 )
+
+	</insert>
+
+
+	<!-- 권한 부여 -->
+	<insert id="memberAuth">
+		insert into member_role_set
+		values ('ROLE_MEMBER',
+		#{mid})
+	</insert>
+
+	<!-- 로그인 위한 아이디 조회 -->
+	<select id="findById" resultType="com.hyundai.pjt.dto.MemberDTO">
+		select
+		a.mid, a.mpassword,
+		a.mname, a.memail, a.mdate, a.mtel, a.mzipcode, a.maddress1,
+		a.maddress2,
+		a.mpoint, a.menabled,
+		b.role_set
+		from member a
+		join
+		member_role_set b
+		on
+		a.mid=b.mid
+		where a.mid = #{mid}
+		and a.menabled = 0
+	</select>
+
+	<!-- 아이디 중복체크 -->
+	<select id="idCheck" parameterType="String" resultType="int">
+		select
+		count(*) from member
+		where mid=#{mid}
+	</select>
+
+	<!-- 유저네임, 유저아이디, 유저이메일 가져오기 -->
+	<select id="findByUserEmailAndUserName"
+		resultType="com.hyundai.pjt.dto.MemberDTO">
+		select mid, mpassword, mname, memail,
+		mdate, mtel, mpoint,
+		menabled
+		from member
+		where memail=#{memail} and mname=#{mname}
+	</select>
+
+	<!-- 회원 정보 (비밀번호만도 포함) 업데이트 -->
+	<update id="changeInfo"
+		parameterType="com.hyundai.pjt.dto.MemberDTO">
+		update member
+		set mpassword=#{mpassword},mname=
+		#{mname},memail=#{memail},mtel=#{mtel},mpoint=#{mpoint},menabled=#{menabled}
+		where mid =#{mid}
+	</update>
+
+	<select id="findByUser"
+		resultType="com.hyundai.pjt.dto.MemberDTO">
+		select mid, mpassword, mname, memail,
+		mdate, mtel, mzipcode,
+		maddress1, maddress2, mpoint, menabled
+		from member
+		where
+		mpassword=#{mpassword}
+	</select>
+
+	<!-- 회원탈퇴 (멤버 권한 1로 변경) -->
+	<delete id="deleteUser">
+		update member
+		set menabled=1
+		where mid=#{mid}
+	</delete>
+
+	<!-- 회원정보 변경 전 비밀번호 체크 -->
+
+	<!-- 회원정보 변경 -->
+	<update id="changeUserInfo"
+		parameterType="com.hyundai.pjt.dto.MemberDTO">
+		update member
+		set memail=#{memail}, mtel=#{mtel}
+		where
+		mid=#{mid}
+	</update>
+
+	<insert id="insertCoupon">
+		INSERT INTO coupon
+		VALUES (('coupon'||to_char(ccode_seq.nextval)),41,#{mid},'생일축하 쿠폰', sysdate,
+		(SYSDATE + (INTERVAL '1' YEAR)),0 )
+
+	</insert>
+
+</mapper>

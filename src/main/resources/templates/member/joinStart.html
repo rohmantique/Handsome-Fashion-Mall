@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{include/head}"></head>
+<body>
+	<div class="layerArea" id="mapleLayer" style="display: none">
+		<div class="layerBg"></div>
+	</div>
+	<div class="hsome_allContents_wrapper">
+		<div class="hsome_allContents">
+			<script type="text/javascript">
+				function goMainpage() {
+					window.sessionStorage.removeItem("moveYn");
+					location.href = "/ko/main";
+				}
+			</script>
+			<div th:insert="~{include/member-header}"></div>
+			<input type="hidden" name="uidDuplChk" id="uidDuplChk" value="" />
+			contents s
+			<div class="hsome_contents mbr_signup_wrap">
+				<div class="mem_ct_wrap_bg">
+					<h5>더한섬닷컴 가입을 환영합니다!</h5>
+					<p>
+						본인인증 절차 없이, 더한섬닷컴에서 제공하는 서비스만<br />제한적으로 이용할 수 있습니다.
+					</p>
+				</div>
+				<div class="mem_ct_wrap">
+					<dl>
+						<dt>오프라인 매장 사용불가</dt>
+						<dd>
+							더 한섬닷컴에서 사용이 가능하며, 오프라인 매장에서는<br />사용할 수 없습니다.
+						</dd>
+						<dt>회원 전용혜택 제공 불가</dt>
+						<dd>
+							한섬마일리지와 현대백화점 그룹 H.Point 혜택, 한섬의 온라인<br />맴버쉽 서비스 ‘THE 클럽’의 혜택은
+							제공되지 않습니다.
+						</dd>
+					</dl>
+					<hr />
+					<form id="memberJoinForm" action="/ko/member/joinstart"
+						method="POST">
+						<div class="input_group">
+							<div class="txt_wrap">아이디로 사용하실 이메일 계정을 입력하세요.</div>
+							<div class="input_user_email">
+								<input type="text" id="id" name="id" class="user_email"
+									placeholder="이메일을 입력하세요." title="이메일을 입력하세요." maxlength="50" />
+							</div>
+							[TO DEV] Error msg here.
+							<div class="err_wrap">
+								<p class="err_txt" id="uidMsg"></p>
+							</div>
+						</div>
+						<div>
+							<input type="hidden" name="CSRFToken"
+								value="cf04a34e-e382-4622-a7fe-fd85845be223" />
+						</div>
+					</form>
+					<div class="btn_wrap">
+						<button class="btn btn_bg_b btn_confirm_email" id="emailAuthBtn">
+							이메일 인증하기</button>
+					</div>
+					[TODO] bullet_list 추가
+					<ul class="ul_dot">
+						<li>정보통신망법(2012.08.18 시행) 제 23조 2(주민번호 사용제한)<br />규정에 따라 온라인
+							상 주민번호 수집/이용을 제한합니다.
+						</li>
+						<li>입력하신 정보는 본인확인을 위해 나이스정보통신에 제공되며,<br />본인확인용도 외에 사용되거나
+							저장되지 않습니다.
+						</li>
+						<li>타인의 정보 및 주민등록번호를 부정하게 사용하는 경우 3년<br />이하의 징역 또는 1천만원 이하의
+							벌금에 처해지게 됩니다.<br />관련법률 : 주민등록법 제21조(벌칙)
+						</li>
+					</ul>
+
+					<div class="login_signup_area no_bg no_border">
+						<hr />
+						<div class="txt_wrap">
+							<h5>더 큰 혜택으로 보다 즐거운 쇼핑을!</h5>
+							<p class="sub_tit">H.POINT 통합회원에게만 드리는 특별한 혜택을 경험해 보세요.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$(document)
+				.ready(
+						function() {
+							// 모달 닫기
+							$(
+									".stlv-mob-stlv-20211001--closed1, .stlv-mob-stlv-20211001--closed2, .stlv-mob-stlv-20211001--closed3")
+									.on(
+											"click",
+											function() {
+												$(
+														".stlv-mob-stlv-20211001--popup")
+														.css("display", "none");
+												setTimeout(
+														function() {
+															$(
+																	".hsome_quickMenu")
+																	.removeClass(
+																			"active");
+															//작성 후 메인으로 이동한 뒤 포스트 팝업을 위한 쿠키값 셋팅
+															setCookie(
+																	"isWriteAfter",
+																	"Y", 1);
+															location.href = "/ko/sns/main?isWriteAfter=true";
+															hideLoadingLp();
+														}, 1000);
+											});
+						});
+	</script>
+</body>
+
+<body>
+</body>
+</html>

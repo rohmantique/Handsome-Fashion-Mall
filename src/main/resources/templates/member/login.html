@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{include/head}"></head>
+<body class="back">
+	<div style="display: none">
+		<div id="loadingBarDiv" style="display: none"></div>
+	</div>
+	<div class="layerArea" id="mapleLayer" style="display: none">
+		<div class="layerBg"></div>
+	</div>
+	<div class="hsome_allContents_wrapper">
+		<div class="hsome_allContents">
+			<script type="text/javascript">
+			
+				$(document).ready(function() {
+					$("#mainBtn").click(function() {
+						location.href = "/main";
+					});
+
+					$("#joinBtn").click(function() {
+						location.href = "/member/join";
+					});
+
+					$("#loginBtn").click(function() {
+						$('#loginForm').submit();
+					});
+
+				});
+			</script>
+			<header class="hsome_header">
+				<h1 class="h_ttl ellipsis" id="headerTitle">로그인</h1>
+				<div th:insert="~{include/member-header}"></div>
+			</header>
+			<input type="hidden" name="loginLayer" id="loginLayer" value="E" />
+			<!-- ID/PWD Login contents s -->
+			<div class="hsome_contents mem_ct_wrap id_login" id="handsomeCust">
+				<div class="mem_login_input_area">
+
+					<form id="loginForm" th:action="@{/member/login}" method="post">
+						<!-- 로그인 정보 입력 -->
+						<div class="input_group">
+							<!-- <input type="hidden" name="inputId" id="inputId" value="" /> -->
+							<!-- 이메일(아이디) 입력 -->
+							<div class="input_login_id">
+								<input id="j_username" name="username" type="text"
+									class="login_id" placeholder="아이디를 입력하세요." title="아이디를 입력하세요." />
+							</div>
+							<!-- 패스워드 입력 -->
+							<div class="input_login_pw">
+								<input type="password" id="j_password" name="password"
+									placeholder="비밀번호를 입력하세요." title="비밀번호를 입력하세요." />
+							</div>
+							<div class="err_wrap">
+								<p id="hpErrMsg" class="err_txt"></p>
+							</div>
+							<div class="btn_wrap">
+								<button class="btn btn_bg_b btn_login btn_popup" id="loginBtn">로그인</button>
+							</div>
+						</div>
+						<input type="hidden" name="returnType" value="" />
+					</form>
+				</div>
+			</div>
+			<!-- //################## contents ################## -->
+			<!-- ################## footer ################## -->
+			<footer class="hsome_footer mem_ct_wrap_bg id_login">
+				<div class="login_find_area">
+					<p class="tit">아이디/비밀번호를 잊으셨나요?</p>
+					<div class="btn_wrap btn_wrap_div2"></div>
+					<div class="txt_btn_wrap">
+						<a href="/mypage/findPw" class="txt_btn">한섬회원 아이디/비밀번호 찾기</a>
+					</div>
+				</div>
+				<div class="login_signup_area">
+					<div class="txt_wrap">
+						<p class="tit">더 큰 혜택으로 보다 즐거운 쇼핑을!</p>
+						<p class="sub_tit">더한섬닷컴 회원에게만 드리는 특별한 혜택을 경험하세요.</p>
+					</div>
+					<div class="btn_wrap btn_wrap_div1">
+						<button class="btnstl3 border_btn_gray btn_signup" id="joinBtn">회원가입</button>
+					</div>
+				</div>
+
+				<!-- [TO DEV] 20180625 고객센터 추가  -->
+				<div class="cscenter_area">
+					<div class="txt_wrap">
+						<ul>
+							<li>
+								<p class="sub_tit">고객센터</p> 
+								<a href="tel:1800-5700">1800-5700</a>
+							</li>
+							<li><a href="mailto:shophelp@thehandsome.com">shophelp@thehandsome.com</a>
+							</li>
+						</ul>
+						<p class="sub_tit">운영시간 평일(월~금) AM 9:00~PM 18:00 토/일/공휴일 휴무</p>
+					</div>
+					<div class="btn_wrap btn_wrap_div1">
+						<a href="/ko/svcenter/mobilemain?uiel=Mobile" class="btnstl3 border_btn_gray btn_cscenter">고객센터</a>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+	<aside th:insert="~{include/aside}"></aside>
+</html>

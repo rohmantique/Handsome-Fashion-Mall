@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundai.pjt.mapper.SearchMapper">
+	
+	<select id="searchList" resultType="com.hyundai.pjt.dto.ProductDTO">
+		select distinct p.pid, p.bname, p.pname, p.pprice price,c.cimage1,
+			listagg(c.colorimage,',') within group (order by c.colorimage) over(partition by p.pname) as colorimage
+		from(select b.bname, p.pname, p.pprice,p.pid 
+			from product p, brand b
+    		where p.bno = b.bno
+    		and p.pname like '%'||#{searchText}||'%') p, productlist c
+		where p.pid = c.pid
+	</select>
+</mapper>                          

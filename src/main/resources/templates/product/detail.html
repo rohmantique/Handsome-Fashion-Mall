@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="ko" class="">
+<head th:insert="~{product/proHead}"></head>
+<body class="">
+<input type="hidden" sec:authorize-expr="isAuthenticated()" th:value="*{#authentication.principal.mid}" id="m_mid">
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".chip").on("click", function(){
+		var id = $(this).attr("id").split("_");
+		
+		id = id[1] + "_" + id[2];
+		
+		$(".copy").text(id);
+		
+		var sizeUrl = "/dims/resize/750x1131";
+
+		var url1 = $("#prodImg1").attr("src");
+		url1 = url1.replace(sizeUrl, "");
+		var target1 = url1.substring(url1.lastIndexOf("/"));
+	    var lastAdd1 = url1.substring(url1.lastIndexOf("_"));
+		var src1 = url1.replace(target1, "/" + id) + lastAdd1;
+
+		var url2 = $("#prodImg2").attr("src");
+		url2 = url2.replace(sizeUrl, "");
+		var target2 = url2.substring(url2.lastIndexOf("/"));
+	    var lastAdd2 = url2.substring(url2.lastIndexOf("_"));
+		var src2 = url2.replace(target2, "/" + id) + lastAdd2;
+
+		var url3 = $("#prodImg3").attr("src");
+		url3 = url3.replace(sizeUrl, "");
+		var target3 = url3.substring(url3.lastIndexOf("/"));
+	    var lastAdd3 = url1.substring(url3.lastIndexOf("_"));
+		var src3 = url3.replace(target3, "/" + id) + lastAdd3;
+		
+		$("#prodImg1").attr("src", src1);
+		$("#prodImg2").attr("src", src2);
+		$("#prodImg3").attr("src", src3);
+		
+		$("#slider-W01").css("background-image", "url(" + src1 + ")");
+		$("#slider-W02").css("background-image", "url(" + src2 + ")");
+		$("#slider-W03").css("background-image", "url(" + src3 + ")");
+		
+	});
+	
+	
+});
+</script>
+  <div class="hsome_allContents_wrapper">
+    <div class="hsome_allContents">
+      <!-- ################## header ################## -->
+      <header class="hsome_header header_noline product_header">
+        <h1 class="" id="headerTitle">
+          <div th:text="${product.pname}" id="header_prodNm" class="name">상품명</div>
+          <input th:value="${product.pid}" name="pid" id="pid_">
+          <div th:text="₩ + ${#numbers.formatInteger(product.pprice, 3, 'COMMA')}" id="header_prodPrice" class="price">가격</div>
+        </h1>
+        <div class="h_leftMenu">
+          <a href="javascript:history.back();" class="h_prev">이전 페이지로 가기</a>
+          <a href="/main" class="h_home" onclick="GA_Event('상품_상세','헤더','홈');" style="display: none;">Home</a>
+        </div>
+
+        <ul class="h_gnbMenu">
+          <li class="share off" style="display: none;"><a href="javascript:void(0);" class="btn_popup_btot"><span>공유하기</span></a>
+          </li>
+          <li class="like"><a href="javascript:noLink();"><span>좋아요</span></a></li> <!-- 찜 선택시 class.on 추가 -->
+        </ul>
+      </header>
+      <div class="hsome_contents" style="margin-top: 0px;">
+        <div class="product_view_wrap" style="margin-bottom: 0px;">
+          <!-- 제품 이미지 슬라이드 -->
+          <div class="vw_slide_wrap pv-element">
+            <div class="swiper-container vw_swiper swiper-container-horizontal swiper-container-android swiper-container-wp8-horizontal"
+              style="cursor: grab;">
+              <ul th:each="prodImg : ${product.colorList}" th:if="${prodImg.cmatchpid == cmatchpid}" class="swiper-wrapper" id="prodImages" style="transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;">
+                <li class="swiper-slide swiper-slide-active" style="width: 412px; transition: all 0ms ease 0s;">
+                  <div class="slide-inner" th:style="${'background-image: url(&quot;' + prodImg.cimage1 + '&quot;);'}" id="slider-W01"></div>
+                  <a href="#">
+                    <img id="prodImg1" th:src="${prodImg.cimage1} + '/dims/resize/750x1131'"
+                      onerror="this.src='http://www.thehandsome.com/_ui/handsomemobile/images/common/no_img.jpg'">
+                  </a>
+                </li>
+                <li class="swiper-slide swiper-slide-active" style="width: 412px; transition: all 0ms ease 0s;">
+                  <div class="slide-inner" th:style="${'background-image: url(&quot;' + prodImg.cimage2 + '&quot;);'}" id="slider-W02"></div>
+                  
+                  <a href="#">
+                    <img id="prodImg2" th:src="${prodImg.cimage2} + '/dims/resize/750x1131'"
+                      onerror="this.src='http://www.thehandsome.com/_ui/handsomemobile/images/common/no_img.jpg'">
+                  </a>
+                </li>
+                <li class="swiper-slide swiper-slide-active" style="width: 412px; transition: all 0ms ease 0s;">
+                  <div class="slide-inner" th:style="${'background-image: url(&quot;' + prodImg.cimage3 + '&quot;);'}" id="slider-W03"></div>
+                  
+                  <a href="#">
+                    <img id="prodImg3" th:src="${prodImg.cimage3} + '/dims/resize/750x1131'"
+                      onerror="this.src='http://www.thehandsome.com/_ui/handsomemobile/images/common/no_img.jpg'">
+                  </a>
+                </li>
+              </ul>
+              
+              <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets"></div>
+            </div>
+          </div>
+      
+          <script type="text/javascript">
+            $(document).ready(function () {
+              /* 상품 이미지 슬라이드 클릭 시 상품 상세보기 팝업 호출 */
+              var $zoom_pop_cnt = 0;
+              $(document).on('click', '.vw_slide_wrap .swiper-slide a', function () {
+                if ($zoom_pop_cnt != 0) {
+                  $('.product_zoom_pop .pop-zoom-guide').hide();
+                } else {
+                  setTimeout(function () {
+                    $('.product_zoom_pop .pop-zoom-guide').stop().fadeOut('fast');
+                  }, 800);
+                  $zoom_pop_cnt = 1;
+                }
+                $('.product_zoom_pop').stop().fadeIn('fast');
+                $("#domElementToZoom").attr('src', $(this).find('img').attr('src')).smartZoom();
+                return false;
+              });
+              /* 상품 이미지 슬라이드 클릭 시 상품 상세보기 팝업 호출 */
+              /* 상품 상세보기 팝업 닫기 */
+              $(document).on('click', '.product_zoom_pop a.pop-zoom-cls', function () {
+                $('.product_zoom_pop').stop().fadeOut('fast', function () {
+                  $('#domElementToZoom').smartZoom('destroy');
+                });
+                return false;
+              });
+              /* 상품 상세보기 팝업 닫기 */
+            });
+
+            $(window).load(function () {
+              //상품 슬라이드 스크롤 효과
+              var $scrl_ratio = 0, $scrl_point = 0;
+              $(window).scroll(function () {
+                $scrl_point = $('.vw_slide_wrap').outerHeight() / 2;
+                $scrl_ratio = ($scrl_point - $(this).scrollTop()) * -1 / 4;
+                if ($(this).scrollTop() >= $scrl_point) {
+                  $('.vw_slide_wrap').addClass('disabled');
+
+                  if ($(this).scrollTop() >= ($('.vw_slide_wrap').outerHeight() - $scrl_ratio)) {
+                  } else {
+                    $('.vw_slide_etc').css({
+                      transform: 'translateY(' + ($scrl_ratio * -1) + 'px)'
+                      , marginBottom: $scrl_ratio * -1
+                    });
+                  }
+                } else {
+                  $('.vw_slide_wrap').removeClass('disabled');
+                  $('.vw_slide_etc').css({
+                    transform: 'translateY(0)'
+                    , marginBottom: 0
+                  });
+                }
+              });
+            });	// $(window).load
+          </script>
+          <!--// 제품 이미지 슬라이드 -->
+
+          <div class="vw_slide_etc" style="transform: translateY(0px); margin-bottom: 0px;">
+            <!-- 제품 정보 -->
+            <style>
+              .vw_prd_pInfo .selling_point {
+                margin-top: 10px;
+                font-size: 13px;
+                font-weight: bold;
+                position: relative;
+                top: 10px;
+              }
+
+              .product-detail-info-mo img {
+                height: auto;
+              }
+
+              /* .vw_prd_pInfo .item_txt{margin-top:15px;line-height: 18px;word-break:break-word;} */
+            </style>
+
+            <!-- //추가(redmine:914)품번복사 20180910 -->
+            <script type="text/javascript"
+              src="http://www.thehandsome.com/_ui/handsomemobile/js/clipboard.min.js"></script>
+            <!--  criteo 상품 페이지 트래커 START  ---->
+            <script type="text/javascript" src="//static.criteo.net/js/ld/ld.js" async="true"></script>
+            <script type="text/javascript">
+              window.criteo_q = window.criteo_q || [];
+              window.criteo_q.push(
+                { event: "setAccount", account: 24596 },
+
+                { event: "setSiteType", type: "m" },
+
+                { event: "viewItem", item: "IL2C9TTO870N" }
+              );
+            </script>
+            <!--  criteo 상품 페이지 트래커 END ---->
+
+
+            <script type="text/javascript">
+
+              var currecy = ""; // USD, CNY
+              var rate = ""; // 환율
+              var simbol = ""; // 심볼
+
+              $(document).ready(function () {
+
+
+                /* 색상 버튼 클릭 시 이벤트 hs_btn_color_chip infoColor */
+                // 		$(document).on('click', '.hs_prd_info_wrap .hs_btn_color_chip.infoColor button.chip', function() {
+                $('.hs_btn_color_chip .chip').on('click', function () {
+
+                  if ($('.hs_btn_color_chip .chip').hasClass('on') == true) {
+                    $('.hs_btn_color_chip .chip').removeClass('on');
+                    $(this).addClass('on');
+                    var prodcode = $(this).attr('id').replace("info_", "");
+                    
+                    $(".hs_prd_info_wrap .parentTxt").hide();
+                    $(".add_mileage_info_wrap").hide();
+
+                    $("#popularProudct").hide();
+                  }
+                });
+                
+                $('.line_box.hs_btn_size_wrap .size_area .size button').on('click',function(){//180904 추가(구매 플로팅 화면의 사이즈 버튼 클래스 토글링)
+            		if (!$(this).prop('disabled')) {
+            			$('.hs_btn_size_wrap .size_area .size').removeClass('on');
+            			$(this).parent().addClass('on');
+            		}
+            	});
+
+
+                //iPhone css(코리아사이즈 안내) 수정
+                if (navigator.userAgent.indexOf("iPhone") > -1) {
+                  $('#koreaSizeGuide').addClass('ios');
+                } else {
+                  $('#koreaSizeGuide').removeClass('ios');
+                }
+
+              });
+
+
+              //function changeColorChlip
+              function sizeBtnClick(elem) {
+                
+
+                $('.hs_btn_size_wrap .size_area .size').removeClass('on');
+                $(elem).parent().addClass('on');
+
+                var colorcode = $('.hs_prd_info_wrap .hs_btn_color_chip button.chip.on').attr('id').replace("info_", "");
+                var sizecode = $(elem).attr('data-value').split(" ")[0];
+				
+                console.log(colorcode);
+                
+                $('.hs_prd_info_wrap.pv-element .copy').text(colorcode + "_" + sizecode);
+                $('.hs_prd_info_wrap.pv-element .copy').attr('data-clipboard-text', colorcode + "_" + sizecode); //추가(redmine:914)품번복사 20180910
+                $("#clipboard").val(colorcode + "_" + sizecode);
+
+              }
+
+              function ReqRewarehousingDetail(productcode, layer) {
+                reloadDetailPage(productcode);
+                ReqRewarehousing(productcode, layer);
+              }
+
+              function callEditImage() {
+                var editImage = $('#prodImages .swiper-slide.swiper-slide-active .slide-inner').css('background-image');
+                editImage = editImage.replace("url(", "").replace(/\"/gi, "").replace(")", "");
+              }
+
+              function fn_goCategori(categori) {
+                window.location.href = "/ko/c/" + categori + "/" + categori;
+              }
+
+              function fn_goOuCategori(categori) {
+                window.location.href = "/ko/c/ou_" + categori + "/ou";
+              }
+
+              function fn_goSubCategori(categori, subBrandCd) {
+                window.location.href = "/ko/c/" + categori + "/" + categori + "?subBrand=" + subBrandCd;
+              }
+
+
+              function numberWithCommas(x) {
+                // 세자리마다 콤마(,) 추가
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              }
+
+              // 핏가이드 script 추가
+              function fitGuideQu() {
+                $('.product_fitguide_pop .pop_link').on('click', function () {
+                  if (!$(this).hasClass('on')) {
+                    $('.product_fitguide_pop .pop_link').removeClass('on');
+                    $('.product_fitguide_pop .fit_guide_dd').slideUp();
+                    $('.product_fitguide_pop .pop_link .arr').each(function () {
+                      $(this).removeClass('top');
+                      $(this).addClass('bottom');
+                    });
+                    $(this).find('.arr').removeClass('bottom');
+                    $(this).find('.arr').addClass('top');
+                    $(this).addClass('on');
+                    $(this).next().stop().slideDown();
+                  } else {
+                    $('.product_fitguide_pop .pop_link .arr').each(function () {
+                      $(this).removeClass('top');
+                      $(this).addClass('bottom');
+                    });
+
+                    $('.product_fitguide_pop .pop_link').each(function () {
+                      $(this).removeClass('on');
+                    });
+
+                    $('.product_fitguide_pop .fit_guide_dd').slideUp();
+                  }
+                });
+              }
+
+              //핏가이드 팝업 리스트 생성
+              function fitGuidePopList() {
+                //var imgList = ['prod_realfit_front','prod_realfit_back','prod_realfit_front2','prod_realfit_back'];//임시 이미지
+                var imgList = ["", "", "", ""];//임시 이미지
+                if ($('.fitGuidepop_swiper ul li').length <= 0) {
+                  var rlfitImgTag = '';
+                  for (var i = 0; i < imgList.length; i++) {
+                    rlfitImgTag += '<li class="swiper-slide swiper-slide-active" style="width: 375px;">';
+                    rlfitImgTag += '	<div class="slide-inner" style="background-image: url(' + imgList[i] + '); transform: translate3d(0px, 0px, 0px);" id="slider-W01"></div>';
+                    rlfitImgTag += '	<div style="display:none">';
+                    rlfitImgTag += '	<img src="' + imgList[i] + '">';
+                    rlfitImgTag += '	</div>';
+                    rlfitImgTag += '	<a href="#">';
+                    rlfitImgTag += '	<img src="' + imgList[i] + '" alt="체크 블록 티셔츠" style="width:100%;">';
+                    rlfitImgTag += '	</a>';
+                    rlfitImgTag += '</li>';
+                  }
+                  $('.fitGuidepop_swiper .swiper-wrapper').append(rlfitImgTag).find('img').on('load', function () {
+                    if (!$('.fitGuidepop_swiper').hasClass('swiper-container-horizontal')) {
+                      rlfitPopSlide1();
+                    }
+                  });
+                }
+              }
+
+              //핏가이드 슬라이더 적용
+              function rlfitPopSlide1() {
+                var fitGuiPopSwiper;
+                var swiperOptions = {
+                  speed: 500,
+                  pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                    type: 'progressbar'
+                  },
+                  parallax: true,
+                  grabCursor: true,
+                  watchSlidesProgress: true,
+                  mousewheelControl: true,
+                  keyboardControl: true,
+                  on: {
+                    progress: function () {
+                      var swiper = this;
+                      for (var i = 0; i < swiper.slides.length; i++) {
+                        var slideProgress = swiper.slides[i].progress;
+                        var innerOffset = swiper.width * interleaveOffset;
+                        var innerTranslate = slideProgress * innerOffset;
+                        swiper.slides[i].querySelector(".slide-inner").style.transform = "translate3d(" + innerTranslate + "px, 0, 0)";
+                      }
+                    },
+                    touchStart: function () {
+                      var swiper = this;
+                      for (var i = 0; i < swiper.slides.length; i++) {
+                        swiper.slides[i].style.transition = "";
+                      }
+                    },
+                    setTransition: function (speed) {
+                      var swiper = this;
+                      for (var i = 0; i < swiper.slides.length; i++) {
+                        swiper.slides[i].style.transition = speed + "ms";
+                        swiper.slides[i].querySelector(".slide-inner").style.transition = speed + "ms";
+                      }
+                    }
+                  }
+                };
+                fitGuiPopSwiper = new Swiper('.fitGuidepop_swiper.swiper-container', swiperOptions);
+                var fitGuiPopTabBtn = $('.product_fitguide_pop .ui_tab li');
+                var fitGuiPopTabBtnA = $('.product_fitguide_pop .ui_tab li.on');
+                //슬라이드 스와이프
+                fitGuiPopSwiper.on('slideChange', function () {
+                  if (fitGuiPopSwiper.activeIndex == 0 || fitGuiPopSwiper.activeIndex == 1) {
+                    fitGuiPopTabBtn.eq(0).find('> a').trigger('click');
+                    $('.fit_guide_size1810_wrap').find('li').hide();
+                    $('.fit_guide_size1810_wrap').find('li').eq(0).show();
+                  } else if (fitGuiPopSwiper.activeIndex == 2 || fitGuiPopSwiper.activeIndex == 3) {
+                    fitGuiPopTabBtn.eq(1).find('> a').trigger('click');
+                    $('.fit_guide_size1810_wrap').find('li').hide();
+                    $('.fit_guide_size1810_wrap').find('li').eq(1).show();
+                  }
+                });
+                fitGuiPopTabBtn.on('click', function () {//탭 클릭
+                  var tabIdx = $(this).index();
+                  if (tabIdx == 0) {
+                    if (fitGuiPopSwiper.activeIndex == 2 || fitGuiPopSwiper.activeIndex == 3) {
+                      fitGuiPopSwiper.slideTo(0);
+
+                      $('.fit_guide_size1810_wrap').find('li').hide();
+                      $('.fit_guide_size1810_wrap').find('li').eq(0).show();
+
+                    }
+                  } else if (tabIdx == 1) {
+                    if (fitGuiPopSwiper.activeIndex == 0 || fitGuiPopSwiper.activeIndex == 1) {
+                      fitGuiPopSwiper.slideTo(2);
+
+                      $('.fit_guide_size1810_wrap').find('li').hide();
+                      $('.fit_guide_size1810_wrap').find('li').eq(1).show();
+
+                    }
+                  }
+                });
+              }
+
+              function equalTextReturnBold(sText, tText) {
+                var rValue = '';
+                if (sText == tText) {
+                  rValue = 'class="bold"';
+                }
+                return rValue;
+              }
+
+              function additionalInfoInit() {
+                if ($(".product_info_pop div.hs_float_list").hasClass('hs_top_border_cont')) {
+                  $(".product_info_pop div.hs_float_list").removeClass('hs_top_border_cont');
+                }
+                $(".product-info-211027").remove();
+              }
+              
+            //수량계산
+              function change_qty2(t){
+              	var p_price = $('#p_price').text();
+              	p_price = p_price.substr(1,p_price.length);
+              	p_price = p_price.replace(/,/g, '');
+              	p_price = parseInt(p_price);
+              	var price = 1;
+            	var min_qty = 1;
+              	var max_qty = '3000000'; 
+              	var this_qty = $('#ordQty').val()*1;
+              	if(t=='m'){
+              			this_qty -= 1;
+              			price = this_qty * p_price;
+              		    if(this_qty<min_qty){
+              		      alert("수량은 1개 이상 입력해 주십시오.");
+              		      return;
+              		      }
+              		}
+              	  else if(t=='p'){
+              	      this_qty += 1;
+              	      price = this_qty * p_price;
+              	      if(this_qty>max_qty){
+              	        alert("죄송합니다. 재고가 부족합니다.");
+              	        return;
+              	    }
+              	  }
+              	      $('#ordQty').val(this_qty);
+              	      price = String(price);
+              	      price = price.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+              	      price = '₩'+price
+              	      $('#strPrice').text(price);
+              }
+            </script>
+
+            <!-- 사전예약 -->
+            <!-- 제품 정보 -->
+            <div class="hs_prd_info_wrap pv-element">
+              <!-- 색상 버튼 -->
+              <div class="hs_btn_color_chip infoColor" id="hs_btn_color_chip_area">
+                <button th:each="prodColor : ${product.colorList}" th:classappend="${prodColor.cmatchpid == cmatchpid} ? 'on' : ''" type="button" th:id="'info_' + ${prodColor.cmatchpid}" class="chip" th:style="${prodColor.ccolorimage}"></button>
+              </div>
+              <!--// 색상 버튼 -->
+
+              <!-- 상품 정보 -->
+              <div class="info_wrap">
+                <div class="logo">
+                  <a href="javascript:void(0)"><span th:text="${product.bname}">브랜드명</span></a>
+                </div>
+
+                <div th:text="${product.pname}" class="name">
+                  상품명&nbsp;
+                </div>
+
+                <div class="price">
+                  <span id="p_price" th:text="₩ +${#numbers.formatInteger(product.pprice, 3, 'COMMA')}">가격</span>
+                  
+
+                </div>
+
+                <div class="number">
+                  품번
+                  <button th:text="${cmatchpid}" type="button" class="copy btn_clipboard" data-clipboard-action="copy">품번</button>
+                </div>
+
+                <div class="pos_btn">
+                  <a href="javascript:void(0);" class="share btn_popup_btot">공유</a>
+                </div>
+              </div>
+              <!--// 상품 정보 -->
+
+              <!-- 사이즈 -->
+              <!-- 	<div class="hs_btn_size_wrap"> -->
+              <div class="hs_btn_size_wrap">
+                <p class="tit" style="color: rgb(0, 0, 0); font-weight: normal;">사이즈</p>
+                <div class="size_area " id="size_btn_area">
+                  <span th:each="prodSize : ${product.stockList}" th:if="${prodSize.ccolorcode == color}" class="size">
+                    <button type="button" class="btn" th:data-value="${prodSize.ssize}" th:text="${prodSize.ssize}" onclick="sizeBtnClick(this);">사이즈</button>
+                  </span>
+                </div>
+              </div>
+              <!--// 사이즈 -->
+            </div>
+            <!--// 제품 정보 -->
+
+            <!-- 제품상세내용 -->
+            <div class="vw_prd_pInfo pv-element" id="newDescriptionArea1" style="display:block;">
+              <div class="prod-detail-con-box">
+                <div class="round-style">
+                  <p th:text="${product.pdetail}">상품설명</p>
+                </div>
+
+              </div>
+            </div>
+            <!-- // 제품상세내용 -->
+            <script type="text/javascript">
+              var vwSwiper;
+              $(window).load(function () {
+                vwSwiper = new Swiper('.vw_swiper.swiper-container', swiperOptions);
+              });
+
+              /* slide */
+              //180727 수정 시작
+              var interleaveOffset = 0.5;
+
+              var swiperOptions = {
+                speed: 500,
+                pagination: {
+                  el: '.swiper-pagination',
+                  clickable: true,
+                  /* type		: 'progressbar' */
+                },
+                parallax: true,
+                grabCursor: true,
+                watchSlidesProgress: true,
+                mousewheelControl: true,
+                keyboardControl: true,
+                on: {
+                  progress: function () {
+                    var swiper = this;
+                    for (var i = 0; i < swiper.slides.length; i++) {
+                      var slideProgress = swiper.slides[i].progress;
+                      var innerOffset = swiper.width * interleaveOffset;
+                      var innerTranslate = slideProgress * innerOffset;
+                      swiper.slides[i].querySelector(".slide-inner").style.transform = "translate3d(" + innerTranslate + "px, 0, 0)";
+                    }
+                  },
+                  touchStart: function () {
+                    var swiper = this;
+                    for (var i = 0; i < swiper.slides.length; i++) {
+                      swiper.slides[i].style.transition = "";
+                    }
+                  },
+                  setTransition: function (speed) {
+                    var swiper = this;
+                    for (var i = 0; i < swiper.slides.length; i++) {
+                      swiper.slides[i].style.transition = speed + "ms";
+                      swiper.slides[i].querySelector(".slide-inner").style.transition = speed + "ms";
+                    }
+                  },
+
+                }
+              };
+            </script>
+            <!--// 제품 소개글 --><!--// 제품 정보 -->
+
+            <!-- 결제 관련안내 -->
+            <ul class="vw_prd_liInfo pv-element">
+              <li>
+                <i class="tit">H.Point</i>
+                <span class="txt" id="hpoint">
+                  <span class="txt" th:text="${#numbers.formatInteger(product.pprice * 0.001 , 3, 'COMMA')} + ' P (0.1%)'">포인트</span>
+                </span>
+              </li>
+              <li>
+                <i class="tit">카드사 혜택</i>
+                <span class="txt">
+                  <a href=".product_card_pop" class="arr_link btn_popup_trigger"
+                    onclick="javascript:GA_Event('상품_상세', '카드사혜택', '무이자 할부');">카드사 혜택 상세 보기<i
+                      class="arr wid7 right"></i></a>
+                </span>
+              </li>
+            </ul>
+            <!--// 결제 관련안내 --><!--// 결제 관련안내 -->
+ 
+            <!-- 팝업 링크 -->
+            <div class="vw_prd_tgMore pv-element">
+              <a href=".product_info_pop" class="pop_link btn_popup_trigger">상품상세정보<i class="arr wid8 right"></i></a>
+
+              <!-- 2021.08.10 화장품 상품인 경우 미노출 -->
+              <a href=".product_size_pop" class="pop_link btn_popup_trigger">사이즈 가이드<i class="arr wid8 right"></i></a>
+              <a href=".product_shipping_pop" class="pop_link btn_popup_trigger">배송 및 교환/반품<i class="arr wid8 right"></i></a>
+            </div>
+            <!--// 팝업 링크 -->
+
+            <!-- 상품평 -->
+            <div class="vw_prd_review pv-element">
+              <h2 class="hs_top_bold_tit01" th:text="'상품평(' + ${#lists.size(reviewList)} + ')'">상품평(수)</h2>
+
+			  <div id="starscore" class="star_wrap">
+			  	<div class="hs_star_score">  
+			  		<i th:class="${avgRate >= 1 ? 'on' : ''}">1점</i>    
+                    <i th:class="${avgRate >= 2 ? 'on' : ''}">2점</i>    
+                    <i th:class="${avgRate >= 3 ? 'on' : ''}">3점</i>    
+                    <i th:class="${avgRate >= 4 ? 'on' : ''}">4점</i>    
+                    <i th:class="${avgRate >= 5 ? 'on' : ''}">5점</i>  
+			  	</div>
+			  	<p class="txt">상품 만족도</p>
+			  </div>
+			  
+			  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-element-bundle.min.js"></script>
+			  <script>
+			  	function chgRPopupCont(rno){
+			  		
+					var rid = "#review_" + rno;
+			  		var mid = $(rid).find(".name").text();
+			  		var rdate = $(rid).find(".data").text();
+			  		var rChoice = $(rid).find(".info").find(".choice").find("li").text();
+			  		var rMust = $(rid).find(".info").find(".must").find("li").text();
+			  		var rContent = $(rid).find("xmp").text();
+			  		var rRate = $(rid).find(".hs_star_score").html();
+			/*   		var file1 = $(rid).find(".file1").val();
+			  		var file2 = $(rid).find(".file2").val();
+			  		var file3 = $(rid).find(".file3").val(); */
+			  		
+			  		/* console.log(file1);
+			  		console.log(file2);
+			  		console.log(file3); */
+			  		
+			  		$(".pop-comm-cnts").find(".name").text(mid);
+			  		$(".pop-comm-cnts").find(".data").text(rdate);
+			  		$(".pop-comm-cnts").find(".info").find(".choice").find("li").text(rChoice);
+			  		$(".pop-comm-cnts").find(".info").find(".must").find("li").text(rMust);
+			  		$(".pop-comm-cnts").find("xmp").text(rContent);
+			  		$(".pop-comm-cnts").find(".hs_star_score").html(rRate);
+	
+			  		var tag = `<swiper-container class="mySwiper">`;
+			  		
+			  		/* if(file1 != undefined || file1 != ''){
+			  			tag += `<swiper-slide class="swiper-slide" style="width: 363px;">`;
+				  		tag += `<img src="/display?fileName=` + file1 + `"></swiper-slide>`;
+			  		}
+			  		if(file2 != undefined || file2 != ''){
+			  			tag += `<swiper-slide class="swiper-slide" style="width: 363px;">`;            
+			          	tag += `<img src="/display?fileName=` + file2 + `"></swiper-slide>`; 
+			  		}
+			  		if(file3 != undefined || file3 != ''){
+			  			tag += `<swiper-slide class="swiper-slide" style="width: 363px;">`;            
+			          	tag += `<img src="/display?fileName=` + file3 + `"></swiper-slide>`; 
+			  		} */
+			  		
+			  		tag += `</swiper-container>`;
+			  		
+			  		$(".pop-comm-cnts").find(".review").find("ul").html(tag);      
+
+			  	}
+			  </script>
+              <!-- 상품상세 아래 상품평 목록  -->
+              <div
+                class="swiper-container review_slide swiper-container-horizontal swiper-container-android swiper-container-wp8-horizontal">
+	                <ul id="reviewLst" class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
+	                   <swiper-container class="mySwiper" space-between="10" slides-per-view="auto">
+	                  
+		                  <li th:each="review : ${reviewList}" class="swiper-slide swiper-slide-active" style="margin-right: 10px;">
+		                  <swiper-slide>
+		                  <a href=".product_comment_pop" class="hs_prd_review_cont btn_popup_trigger" th:id="'review_' + ${review.rno}" th:onclick="chgRPopupCont([[${review.rno}]])">
+		                      <div class="pro" style="width: calc(100% - 35px);">
+		                        <div class="img_wrap"><span class="img"><img
+		                              src="http://www.thehandsome.com/_ui/handsomemobile/images/content/no_pro_img.png"
+		                              alt=""></span></div>
+		                        <div class="txt">
+		                          <p class="name" th:text="${review.mid}">작성자</p>
+		                          <p class="grade">FRIEND</p>
+		                          <p class="data" th:text="${review.rdate}">작성일</p>
+		                        </div>
+		                      </div>
+		                      <div class="hs_star_score">    
+		                      	<i th:class="${review.rrate >= 1 ? 'on' : ''}">1점</i>    
+		                      	<i th:class="${review.rrate >= 2 ? 'on' : ''}">2점</i>    
+		                      	<i th:class="${review.rrate >= 3 ? 'on' : ''}">3점</i>    
+		                      	<i th:class="${review.rrate >= 4 ? 'on' : ''}">4점</i>    
+		                      	<i th:class="${review.rrate >= 5 ? 'on' : ''}">5점</i>  
+		                      </div>
+		                      <div class="info">
+		                        <ul class="info_list choice">
+		                          <li><span th:text="${review.rage != null ? review.rage : ''}">나이</span> / <span th:text="${review.rheight != null ? review.rheight + 'cm' : ''}">키</span> / <span th:text="${review.rform != null ? review.rform : ''}">체형</span> / 평소 사이즈 : <span th:text="${review.rsize != null ? review.rsize : ''}">사이즈</span></li><br>
+		                        </ul>
+		                        <ul class="info_list must">
+		                          <li>구매 정보 : <span th:text="${review.pcolor}">색</span> / <span th:text="${review.psize}">사이즈</span> / <span>더한섬닷컴</span></li>
+		                        </ul>
+		                      </div>
+		                      <div class="review">
+		                        <xmp class="txt"
+		                          style="font-family: inherit; margin-top: 0; margin-bottom: 0; height: 45px; white-space: normal;" th:text="${review.rcontent}">작성글</xmp>
+		                      	<!-- <div th:if="${review.reviewFile1 != null}" class="img">
+		                      		<img th:src="'/display?fileName=' + ${review.reviewFile1}" alt="">        
+		                      		<div class="img_count191212">
+		                      			<span class="img_count191212_inner" th:style="${review.reviewFile2 == null ? 'display: none;' : ''}"></span>
+		                      		</div>    
+		                			<input type="hidden" th:value="${review.reviewFile1 != null ? review.reviewFile1 : ''}" class="file1">
+		                			<input type="hidden" th:value="${review.reviewFile2 != null ? review.reviewFile2 : ''}" class="file2">
+		                			<input type="hidden" th:value="${review.reviewFile3 != null ? review.reviewFile3 : ''}" class="file3">
+		                      	</div> -->
+		                      </div>
+		                    </a>
+		                     </swiper-slide>
+		                    </li>
+	                     </swiper-container>
+	                </ul>
+              </div>
+              <br>
+            </div>
+            <!--// 상품평 -->
+          </div>
+          
+          <script type="text/javascript">
+            $(document).ready(function () {
+              var cur_scrl_pos = 0;
+              var $buying_type = 0;
+
+              // 쇼핑백 버튼 클릭 팝업 열기
+              $(document).on('click', '.hs_btm_btn', function(){
+            	  $('.hs_pro_view_floating').addClass('active');
+            	  $('.hs_pro_view_layer').css('display', 'block');
+              });
+
+              /* 쇼핑백담기 vs 바로구매 팝업 닫기 */
+              $(document).on('click', '.hs_pro_view_floating .floating_close', function () {
+                $(this).parent().parent().removeClass('active');
+                $('.hs_pro_view_layer').fadeOut('fast');
+                holdBodyHide(); //body 잠그기 해제
+              });
+              /* 쇼핑백담기 vs 바로구매 팝업 닫기 */
+
+              function view_floating_slide(num) {
+                $('.hs_pro_view_floating .floating_box').removeClass('active');
+                $('.hs_pro_view_floating .floating_box').eq(num).addClass('active');
+              }
+
+              if ("false" == "true") {
+                toastPopupPreOrder();
+              }
+            });
+
+            // 플로팅 사이즈 버튼 클릭 
+            $(document).ready(function () {
+              $('.line_box .hs_btn_size_wrap .size_area .size button').on('click', function () {
+                if (!$(this).prop('disabled')) {
+                  $('.hs_btn_size_wrap .size_area .size').removeClass('on');
+                  $(this).parent().addClass('on');
+                }
+              });
+
+              $(document).on('click', '.hs_number_box .number_change .plus', function () {
+                var $this = $(this);
+                $this.addClass('active');
+                setTimeout(function () {
+                  $this.removeClass('active');
+                }, 400)
+              });
+            });
+            
+            //쇼핑백 동적폼 생성
+            function shoppingbagSubmit(){
+            	var colorcode ="";
+            	var size ="";
+            	var mid = $('#m_mid').val();
+            	var quantity = $('#ordQty').val();
+            	var pid = $('#pid_').val();
+            	$('.chip').each(function(){
+            		if($(this).hasClass("on")===true){
+            			colorcode = $(this).data('colorcode');
+            		}
+            	});
+            	$('.size').each(function(){
+            		if($(this).hasClass("on")===true){
+            			size = $(this).data('size');
+            		}
+            	});
+            	
+            	var form =$('<form></form>');
+            	form.attr('action','/cart');
+            	form.attr('method','post');
+            	form.append($('<input type="hidden" value="'+colorcode+'" name=pcolor>'));
+            	form.append($('<input type="hidden" value="'+size+'" name=psize>'));
+            	form.append($('<input type="hidden" value="'+quantity+'" name=pamount>'));
+            	form.append($('<input type="hidden" value="'+pid+'" name=pid>'));
+            	form.append($('<input type="hidden" value="'+mid+'" name=mid>'));
+            	form.appendTo('body');
+            	form.submit();
+            }
+          </script>
+
+          <!-- 하단 플로팅 -->
+          <!-- 사전예약 -->
+          <!-- 하단 플로팅 -->
+          <div class="hs_btm_btnwrap two pre_order1905">
+            <button type="button" class="hs_btm_btn black trigger cart">쇼핑백 담기</button>
+            <button type="button" class="hs_btm_btn pink trigger direct">바로주문</button>
+          </div>
+          <!--// 하단 플로팅 -->
+        </div>
+        <div class="hs_pro_view_layer"></div>
+      </div>
+
+      <!-- 상품 zoom// -->
+      <div class="product_zoom_pop" style="display: none;">
+        <img src="http://newmedia.thehandsome.com/IL/2C/FW/IL2C9TTO870N_BK_W01.jpg/dims/resize/750x1131" alt=""
+          id="domElementToZoom"
+          style="transition: all 0.005s ease-out 0s; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1); cursor: default; transform-origin: 0px 0px;">
+        <div class="pop-zoom-guide" style="display: none;">
+          <i>ZOOM</i>
+          이미지를 확대해서 볼 수 있습니다.
+        </div>
+        <a href="#" class="pop-zoom-cls">닫기</a>
+      </div>
+      <!-- //상품 zoom -->
+
+      <!-- include 상품상세정보, 사이즈 가이드, 배송 및 교환/반품 -->
+      <div id="include-content" th:insert="~{include/detail_include}"></div>
+
+      <div class="hsome_layer_popup product_comment_pop" style="z-index: 1002;">
+        <h2 class="pop-comm-ttl">상품평<!-- 상품평 --></h2>
+        <div class="pop-comm-cnts">
+          <div id="reviewDetail" class="hs_prd_review_cont">
+            <div class="pro">
+              <div class="img_wrap"><span class="img"><img src="http://www.thehandsome.com/_ui/handsomemobile/images/content/no_pro_img.png"
+                    alt=""></span></div>
+              <div class="txt">
+                <p class="name">작성자</p>
+                <p class="grade">FRIEND</p>
+                <p class="data">작성일</p>
+              </div>
+            </div>
+            <div class="hs_star_score"></div>
+            <div class="info">
+              <ul class="info_list choice">
+                <li>선택 정보</li><br>
+              </ul>
+              <ul class="info_list must">
+                <li>구매 정보</li>
+              </ul>
+            </div>
+            <div class="review">
+              <xmp class="txt" id="pop-up-txt">상품평</xmp>
+              <div class="img swiper-container review_img_cont191216 swiper-container-horizontal swiper-container-autoheight swiper-container-android swiper-container-wp8-horizontal">      
+              	<ul class="swiper-wrapper" style="height: 363px; transform: translate3d(0px, 0px, 0px);">          
+
+              	</ul>      
+              	<div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets">
+              	</div>  
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a href="#" class="pop-comm-cls">닫기<!-- 닫기 --></a>
+      </div>
+      <!-- 팝업 배경 레이어 -->
+
+    </div>
+    
+    <!-- 팝업 배경 레이어 -->
+    <div class="hs_pro_view_floating">
+      <!-- 상품옵션 -->
+      <div class="floating_box active">    
+        <!-- 사전예약 -->
+        <div id="reserveDataList">
+        </div>     
+        <div class="cont">
+          <!-- 색상 버튼 -->
+          <div class="color_wrap">
+            <p class="floating_tit inline">컬러</p>
+            <div class="hs_btn_color_chip">
+              <button th:each="prodColor : ${product.colorList}" th:classappend="${prodColor.cmatchpid == cmatchpid} ? 'on' : ''" type="button" th:id="${prodColor.cmatchpid}" class="chip" 
+                th:style="${prodColor.ccolorimage + '/dims/resize/60x60'}"
+                th:data-imgvalue="${prodColor.ccolorimage}" th:data-colorcode="${prodColor.ccolorcode}"></button>
+            </div>
+            <div class="txt_color_chip">BLACK</div>
+
+          </div>
+          <!--// 색상 버튼 -->
+
+          <!-- 사이즈 버튼 -->
+          <div class="line_box hs_btn_size_wrap">
+            <p class="floating_tit">사이즈</p>
+            <div id="sizeArea" class="size_area ">
+              <span th:each="prodSize : ${product.stockList}" th:if="${prodSize.ccolorcode == color}" th:id="${prodSize.ssize}" class="size" th:data-size="${prodSize.ssize}">
+                <button th:text="${prodSize.ssize}" type="button" class="btn"></button>
+              </span>
+            </div>
+          </div>
+          <!--// 사이즈 버튼 -->
+
+          <!-- 갯수 -->
+          <div class="line_box hs_number_box">
+            <div class="number_change">
+              <button type="button" class="minus" onclick="change_qty2('m');">-</button>
+              <input type="text" id="ordQty" name="ordQty" class="num" value="1" readonly="">
+              <button type="button" class="plus" onclick="change_qty2('p');">+</button>
+            </div>
+            <p th:text="₩ + ${#numbers.formatInteger(product.pprice, 3, 'COMMA')}"  id="strPrice" class="price">가격</p>
+          </div>
+          <!-- 갯수 -->
+
+        </div>
+        <!-- 쇼핑백 담기 -->
+        <div class="hs_btm_btnwrap">
+          <a href="#" class="hs_btm_btn black" onclick="shoppingbagSubmit();">쇼핑백 담기</a>
+        </div>
+        <a href="#" class="floating_close">닫기</a>
+      </div>
+      <!--// 상품옵션 -->
+
+    </div>
+    <!-- //팝업 배경 레이어 -->
+  </div>
+  <script type="text/javascript">
+
+    var btnConfirmText = "확인";
+    var btnCancleText = "취소";
+    var btnCloseText = "닫기";
+    var layerAlert = function (msg, refresh) {
+      btnConfirmText = "확인";
+      var t = this;
+      this.confirmAction = function () {
+        //console.log('함수를 재정의 해주세요!');
+      };
+
+      var alertTag = "";
+      alertTag += "<div class=\"dvp_container\">";
+      alertTag += "	<div class=\"dvp_close_btn b-close\" id=\"alertCloseDiv\"><span>" + btnCloseText + "</span></div>";
+      alertTag += "	<h1 class=\"dvp_header\"></h1>";
+      alertTag += "	<div class=\"dvp_content\">";
+      alertTag += "		<div class=\"desc_box\">" + msg + "</div>";
+      alertTag += "	</div>";
+      alertTag += "	<div class=\"btn_wrap\">";
+      alertTag += "		<button class=\"btn btn_bg_b btn-alert-confirm\">" + btnConfirmText + "</button>";
+      alertTag += "	</div>";
+      alertTag += "</div>";
+
+
+      $("#popAlertConfirmDiv").html(alertTag);
+
+      $('.divpop_wrap_dev.pop_alert_confirm').bPopup({
+        follow: [false, false],
+        escClose: false,
+        modalClose: false,
+        opacity: 0.3,
+        positionStyle: 'fixed',
+        onClose: function () {
+          holdBodyHide();
+          $("#popAlertConfirmDiv").html("");
+        }
+      });
+      holdBodyShow();
+
+      $("#popAlertConfirmDiv").find('.btn-alert-confirm').click(function () {
+        if (refresh == true) location.reload();
+        $("#alertCloseDiv").click();
+        t.confirmAction();
+      });
+    };
+  </script>
+  <div class="divpop_wrap_dev pop_mbr pop_alert_confirm" id="popAlertConfirmDiv"
+    style="left: 0px; position: fixed; top: 100.5px; z-index: 9999; opacity: 0; display: none;"></div>
+    <aside th:insert="~{include/aside}"></aside>
+</body>
+</html>

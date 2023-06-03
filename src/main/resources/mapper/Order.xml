@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundai.pjt.mapper.OrderMapper">
+
+	<insert id="insertOrderList">
+		<selectKey keyProperty="oid" order="BEFORE" resultType="int">
+         	select oid_seq.nextval from dual
+      	</selectKey>
+		insert into orderlist
+		values(#{oid},#{mid},#{ozipcode},#{oaddress1},#{oaddress2},sysdate,#{oreceiver},#{otel},#{ousedmileage},#{ousedcoupon},#{opayment},1,sysdate+3,1)
+	</insert>
+	
+	<insert id="insertOrderItem">
+		insert into orderitem
+		values(#{oid}, #{pid},#{ccolorcode},#{ssize},#{oamount})
+	</insert>
+	
+	<select id="userSelect" resultType="com.hyundai.pjt.dto.MemberDTO">
+		select * from member
+		where mid =#{mid}
+	</select>
+	
+	<update id="updateProductOrder">
+		update product
+		set ptotalamount = ptotalamount +1
+		where pid = #{pid}
+	</update>
+	
+	<update id="updateMemberPoint">
+		update member
+		set mpoint = mpoint - #{point}
+		where mid = #{mid}
+	</update>
+
+</mapper>

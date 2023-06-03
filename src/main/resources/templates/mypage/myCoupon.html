@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{include/head}"></head>
+<body class="back">
+	<div class="hsome_allContents_wrapper">
+		<div class="hsome_allContents">
+			<header class="hsome_header header_noline header_mypage">
+				<h1 class="h_select">
+					<div th:insert="~{include/mypage-select}"></div>
+					<div class="selected_text">
+						<span>쿠폰</span>
+					</div>
+					<script type="text/javascript">
+						$(document)
+								.on(
+										'change',
+										'#headerMypageSelect',
+										function() {
+											if ($(this).val() == "")
+												return;
+
+											if ($(this).val() == "/ko/mypage/mymantomaninquiry") {
+												location.href = "/ko/mypage/mymantomaninquiry?refererUrl=mypage";
+											} else {
+												location.href = $(this).val();
+											}
+										});
+						$('#headerMypageSelect > option').each(
+								function(idx, obj) {
+									if ($(obj).attr('value') == "")
+										return true;
+									if (location.pathname == $(obj).attr(
+											'value')) {
+										$(obj).prop('selected', 'selected');
+									}
+
+									if (location.pathname
+											.indexOf("mantomaninquiry") > -1
+											&& $(obj).attr('value').indexOf(
+													"mymantomaninquiry") > -1) {
+										$(obj).prop('selected', 'selected');
+									}
+								});
+					</script>
+				</h1>
+				<div th:insert="~{include/member-header}"></div>
+			</header>
+			<script type="text/javascript">
+				//<![CDATA[ 
+				$(document)
+						.ready(
+								function() {
+									showLoadingLp(); //로딩레이어 호출
+									var idSel = 'N';
+
+									if ("Y" == idSel) {
+										$("#N").removeClass('on');
+										$("#Y").addClass('on');
+
+										$("tab_01").removeClass('on');
+										$("#tab_02").addClass('on');
+
+										$("#listBodyN").hide();
+										$("#listBodyY").show();
+
+										$("#pageN").hide();
+										$("#pageY").show();
+
+										$(".desc_box.coupon181018").show();
+									} else {
+										$("#N").addClass('on');
+										$("#Y").removeClass('on');
+
+										$("#tab_01").addClass('on');
+										$("#tab_02").removeClass('on');
+
+										$("#listBodyN").show();
+										$("#listBodyY").hide();
+
+										$("#pageN").show();
+										$("#pageY").hide();
+
+										$(".desc_box.coupon181018").hide();
+									}
+
+									var voucherList = new BoardListController(
+											'searchForm', '#listBodyN',
+											'.hs_paging', 10); //폼아이디, 리스트공간 셀렉터, 페이징공간 셀렉터, 페이지당 리스트개수
+
+									voucherList.setRowHtml = function(results) {
+										var rows = "";
+										var listTag = "";
+
+										if (results.length <= 0) {
+											listTag = '<ul class="coupon_list_wrap">';
+											listTag += '<li class="li_no_item">쿠폰이 없습니다.</li>';
+											listTag += '</ul>';
+
+											rows += listTag;
+										}
+
+										$
+												.each(
+														results,
+														function() {
+															listTag = '<li>';
+															listTag += '<div class="coupon">';
+
+															if ($("#id_sel")
+																	.val() != 'Y') {
+																// 가능
+																listTag += '<div class="flag flag_available"><span>사용<br>가능</span></div>';
+															} else {
+																if (this.usedate == null) {
+																	// 기간만료
+																	listTag += '<div class="flag flag_expired"><span>기간<br>만료</span></div>';
+																} else {
+																	// 사용완료
+																	listTag += '<div class="flag flag_used"><span>사용<br>완료</span></div>';
+																}
+															}
+
+															listTag += '<div class="coupon_ct">';
+															listTag += '<p class="coupon_ct_cate">'
+																	+ this.name
+																	+ '</p>';
+															if (this.value == 0) {
+																listTag += '<h4 class="coupon_ct_title">반품 시 배송비 무료</h4>'; // 반품 시 배송비 무료    
+															} else {
+																if (this.currency == null) {
+																	listTag += '<h4 class="coupon_ct_title">'
+																			+ this.value
+																			+ '% 할인</h4>';
+																} else {
+																	listTag += '<h4 class="coupon_ct_title">'
+																			+ addComma(this.value)
+																			+ '원 할인</h4>';
+																}
+															}
+
+															listTag += '<p class="coupon_ct_sub">'
+																	+ this.startdate
+																	+ ' ~ '
+																	+ this.enddate
+																	+ '</p>';
+															listTag += '<div class="coupon_ct_num">'
+																	+ this.vouchercode
+																	+ '</div>';
+															listTag += '</div>';
+
+															listTag += '</div>';
+															listTag += '<div class="coupon_desc">'
+																	+ this.description
+																	+ '</div>';
+															listTag += '</li>';
+
+															rows += listTag;
+														});
+
+										hideLoadingLp(); //로딩레이어 숨기
+
+										return rows;
+									};
+
+									voucherList.doWork();
+
+									$('#N, #Y')
+											.click(
+													function() {
+														showLoadingLp(); //로딩레이어 호출
+														var tid = $(this).attr(
+																'id');
+														$("#searchForm")
+																.attr("action",
+																		"/ko/mypage/voucherOnlineMobile");
+														$("#id_sel").val(tid);
+														voucherList.PARAMS.pageNum = 1;
+														$(".coupon_list_wrap")
+																.html("");
+														$(".hs_paging")
+																.html("");
+
+														if (tid == 'Y') {
+															$(
+																	".desc_box.coupon181018")
+																	.show();
+															$(
+																	".coupon_list_wrap")
+																	.css(
+																			'margin-top',
+																			'14px');
+														} else {
+															$(
+																	".desc_box.coupon181018")
+																	.hide();
+															$(
+																	".coupon_list_wrap")
+																	.css(
+																			'margin-top',
+																			'22px');
+														}
+
+														voucherList.doWork();
+													});
+
+								});
+				//]]>
+			</script>
+			<form id="searchForm" action="/ko/mypage/voucherOnlineMobile">
+				<input type="hidden" id="id_sel" name="id_sel" value="N">
+				<!-- <input type="hidden" id="pageNum" name="pageNum" value="1" /> -->
+			</form>
+
+			<!-- contents s -->
+			<div id="contents" class="hsome_contents mp_benefits_wrap">
+				<div class="mp_coupon_wrap">
+					<ul class="ui_tab red_border_tab active">
+						<li id="N" class="on"><a href="#none">사용가능</a></li>
+						<li id="Y" class=""><a href="#none">사용완료&amp;기간만료</a></li>
+
+
+						<li class="fcs" style="transform: translateX(14px);"></li>
+					</ul>
+					<div class="tab_cont">
+						<!-- #tab_01 s -->
+						<div id="tab_01" class="cont on">
+							<div class="desc_box coupon181018" style="display: none;">
+								<p>쿠폰 사용 및 유효 기간 만료 후 1개월 간 내역입니다.</p>
+							</div>
+							<ul class="coupon_list_wrap" id="listBodyN"
+								style="margin-top: 22px;">
+								<li><div class="coupon">
+										<div class="flag flag_available">
+											<span>사용<br>가능
+											</span>
+										</div>
+										<div class="coupon_ct">
+											<p class="coupon_ct_cate">[1만원] 가입 축하 쿠폰</p>
+											<h4 class="coupon_ct_title">10,000원 할인</h4>
+											<p class="coupon_ct_sub">2023-02-01 ~ 2023-07-31</p>
+											<div class="coupon_ct_num">VP2-302-FM1-A03-74VPMP</div>
+										</div>
+									</div>
+									<div class="coupon_desc">아울렛 및 라이프스타일/뷰티 상품군 제외 (온라인 전용,
+										3만원 이상 구매 시 사용 가능)</div></li>
+								<li><div class="coupon">
+										<div class="flag flag_available">
+											<span>사용<br>가능
+											</span>
+										</div>
+										<div class="coupon_ct">
+											<p class="coupon_ct_cate">[10%] FRIEND 등급 축하 바우처</p>
+											<h4 class="coupon_ct_title">10% 할인</h4>
+											<p class="coupon_ct_sub">2023-02-01 ~ 2023-07-31</p>
+											<div class="coupon_ct_num">VP2-302-FP1-0A0-3743YOD</div>
+										</div>
+									</div>
+									<div class="coupon_desc">전 상품 구매 시 사용 (온라인 전용)</div></li>
+							</ul>
+							<!-- paging s -->
+							<div class="hs_paging assist" id="pageN">
+								<a href="javascript:void(0);" class="pre disabled"></a><span
+									class="num"><a href="javascript:void(0);"
+									class="pageBtn cur " pagenum="1">1</a></span><a
+									href="javascript:void(0);" class="nxt disabled"></a>
+							</div>
+							<!-- paging e -->
+						</div>
+
+						<!-- #tab_02 s -->
+						<div id="tab_02" class="cont">
+							<ul class="coupon_list_wrap" id="listBodyY"
+								style="display: none; margin-top: 22px;"></ul>
+							<!-- paging s -->
+							<div class="hs_paging assist" id="pageY" style="display: none;">
+								<a href="javascript:void(0);" class="pre disabled"></a><span
+									class="num"><a href="javascript:void(0);"
+									class="pageBtn cur " pagenum="1">1</a></span><a
+									href="javascript:void(0);" class="nxt disabled"></a>
+							</div>
+							<!-- paging e -->
+						</div>
+					</div>
+				</div>
+				<div class="coupon_info_wrap">
+					<h4>
+						쿠폰 안내
+						<!-- 쿠폰 안내 -->
+					</h4>
+					<ul class="ul_dot">
+						<li><span>할인쿠폰<!-- 할인쿠폰 --></span> <span>상품 주문 시
+								‘배송&amp;결제정보 입력’ 화면에서 쿠폰을 적용하면 할인된 금액으로 상품을 구입하실 수 있습니다.<!-- 상품 주문 시 ‘배송&결제정보 입력’ 화면에서 쿠폰을 적용하면 할인된 금액으로 상품을 구입하실 수 있습니다. -->
+						</span></li>
+						<li><span>반품쿠폰<!-- 반품쿠폰 --></span> <span>반품 시 반품 비용 없이
+								무료로 구입하신 상품을 반품하실 수 있습니다.<!-- 반품 시 반품 비용 없이 무료로 구입하신 상품을 반품하실 수 있습니다. -->
+						</span></li>
+						<li>일부 상품은 쿠폰 할인 적용이 불가능합니다.<!-- 일부 상품은 쿠폰 할인 적용이 불가능합니다. --></li>
+						<li>유효기간이 지난 쿠폰은 자동 소멸됩니다.<!-- 유효기간이 지난 쿠폰은 자동 소멸됩니다. --></li>
+						<li>주문취소 시 사용한 쿠폰은 유효기간이 만료된 경우 재발급되지 않습니다.<!-- 주문취소 시 사용한 쿠폰은 유효기간이 만료된 경우 재발급되지 않습니다.  --></li>
+					</ul>
+				</div>
+			</div>
+			<!-- contents e -->
+
+			<script type="text/javascript">
+				//<![CDATA[ 
+				var height = 20;
+				var num = 0;
+				var max = height * num;
+				var move = 0;
+				var lastChild;
+				var notiCnt = 0;
+				var curTabId = 0;
+
+				$(document).ready(function() {
+
+					//자동로그인
+
+					$(".chatbotlink").click(function() {
+						callChatbot();
+					});
+
+					// 2022.03.29 푸터 공지사항 추가
+					getFooterNotices("/ko/svcenter");
+
+				});
+
+				function moveDesktop() {
+					location.href = location.href.replace("?uiel=Mobile", "")
+							+ "?uiel=Desktop";
+				}
+
+				$(function() {
+					var pcVersionButtons = null;
+					if (getCookie("app") != "android"
+							&& getCookie("app") != "ios") {
+						pcVersionButtons = '<a href="javascript:moveDesktop();">PC버전</a>';
+						$("#pcVersion").html(pcVersionButtons);
+					} else {
+						$("#footerMenu").prop("class", "menu m3");
+					}
+
+					// 	if(getCookie("app") == "ios"){
+					// 	    $(".f_policy .language").hide(); //ios 메인 처음 진입시 language 노출되는 오류 수정
+					// 	}
+				});
+
+				function hpAutoLogin(data) {
+					if (data.succYn == "Y") {
+						$.ajax({
+							type : "GET",
+							url : "/ko/hpoint/simpleJoinMember",
+							data : {
+								"mcustNo" : data.mcustNo
+							},
+							success : function(data) {
+								if (data.resultCode == "L") {
+									$("#hcid").val(data.uid);
+									$("#autologinForm").submit();
+								}
+							},
+							error : function(e) {
+							}
+						});
+					}
+				}
+
+				function familySiteSelect() {
+					$('.fixed_dim_layer').stop().show();
+					$('.family_site_popup_191108').stop().slideDown();
+				}
+				function familySiteSelectClosed() {
+					$('.family_site_popup_191108').stop().slideUp();
+					$('.fixed_dim_layer').stop().fadeOut(500);
+				}
+
+				//app 언어설정창 추가
+				function selectLangChg(obj) {
+
+				}
+
+				//외부 브라우저로 링크 열기  
+				function callWebBrowser() {
+					var appYn = 'N';
+					if (getCookie("app") == null || getCookie("app") == "") {
+						//
+					} else { // 앱 접속일 경우 앱 여부 Y
+						appYn = 'Y';
+					}
+					var appOs = '';
+
+					if (appYn == "Y") {
+						if (appOs == "ios") {
+							webkit.messageHandlers.callWebBrowser
+									.postMessage("http://www.naver.com");
+						} else {
+							Android.callWebBrowser("http://www.naver.com");
+						}
+					}
+				}
+
+				/************************Footer Notice Start*********************/
+				function getFooterNotices(moveUrl) {
+					to_date = new Date();
+					$.ajax({
+						type : "get",
+						url : moveUrl + "/getFooterNotices?now="
+								+ to_date.getTime(),
+						dataType : "json",
+						error : function(request, status, error) {
+							console.log(error);
+						},
+						success : function(data) {
+							notiCnt = data.length;
+							var noticeContent = "";
+							//var viewCnt = 0;
+							$.each(data, function() {
+								//if(viewCnt < 4){
+								var listTag = "<li>";
+								listTag += '<a href="' + moveUrl
+										+ '/mobilenotice?noticeCode=' + this.pk
+										+ '">' + this.subject + '</a>';
+								listTag += "</li>";
+
+								noticeContent += listTag;
+								//viewCnt++;
+								//}
+							});
+
+							$('.notice-wrap').html(noticeContent);
+						}
+					});
+				}
+				/**********************Footer Notice End****************************/
+				//]]>
+			</script>
+			<script>
+				$(window)
+						.load(
+								function() {
+									function noticeRolling() {
+										if (notiCnt > 1) {
+											height = 20;
+											num = notiCnt;
+											max = height * num;
+											move += height;
+
+											//메인여부 체크(메인진입시 1개, 메인탭별 푸터 진입시 1개씩 추가)
+											if ($(".notice-wrap").length > 1) {
+												$("#topNav1909 li")
+														.each(
+																function(index) {
+																	if ($(this)
+																			.hasClass(
+																					"on")) {
+																		curTabId = index;
+																	}
+																})
+												$(
+														"footer#footer"
+																+ curTabId
+																+ " .notice-wrap")
+														.animate(
+																{
+																	"top" : -move
+																},
+																600,
+																function() {
+																	if (move >= max) {
+																		$(this)
+																				.css(
+																						"top",
+																						0);
+																		move = 0;
+																	}
+																});
+
+											} else {
+												$(".notice-wrap").animate({
+													"top" : -move
+												}, 600, function() {
+													if (move >= max) {
+														$(this).css("top", 0);
+														move = 0;
+													}
+												});
+											}
+										}
+									}
+									;
+									noticeRollingOff = setInterval(
+											noticeRolling, 3000);
+
+									//메인여부 체크(메인진입시 1개, 메인탭별 푸터 진입시 1개씩 추가)
+									if ($(".notice-wrap").length > 1) {
+										$("#topNav1909 li")
+												.each(
+														function(index) {
+															if ($(this)
+																	.hasClass(
+																			"on")) {
+																curTabId = index;
+															}
+														})
+										$(
+												"footer#footer" + curTabId
+														+ " .notice-wrap")
+												.append(
+														$(
+																"footer#footer"
+																		+ curTabId
+																		+ " .notice-wrap li")
+																.first()
+																.clone());
+									} else {
+										$(".notice-wrap").append(
+												$('.notice-wrap li').first()
+														.clone());
+									}
+								});
+			</script>
+			<form id="autologinForm" name="autologinForm"
+				action="/ko/hp/autologin" method="get">
+				<input type="hidden" name="hcid" id="hcid" value="e2gaf@naver.com">
+			</form>
+			<!-- ################## footer ################## -->
+			<!-- 푸터 공지 추가 220404 -->
+			<footer id="footer" class="hsome_footer new181127 footer_kr">
+				<div class="main-notice">
+					<div class="tit-notice">공지</div>
+					<div class="list-notice">
+						<ul class="notice-wrap">
+							<li><a
+								href="/ko/svcenter/mobilenotice?noticeCode=8804711059376">더한섬닷컴
+									편집/해외 브랜드 종료(예정) 안내(~2/22)</a></li>
+							<li><a
+								href="/ko/svcenter/mobilenotice?noticeCode=8804711059376">더한섬닷컴
+									편집/해외 브랜드 종료(예정) 안내(~2/22)</a></li>
+						</ul>
+					</div>
+					<div class="btn-more">
+						<a href="/ko/svcenter/mobilenotice"><img
+							src="http://cdn.thehandsome.com/_ui/handsomemobile/images/main/btn_arr_notice.png"
+							alt=""></a>
+					</div>
+				</div>
+				<div class="f_wrap">
+					<div class="f_menu re1911">
+						<!-- 수정 190207 -->
+						<ul class="top_line">
+
+							<li><a href="#"></a></li>
+							<li><a href="javascript:ftLogout();" class="login"
+								style="float: left;" onclick="GA_Event('공통', '푸터_메뉴', '로그아웃');">로그아웃<!-- 로그아웃 --></a></li>
+							<li><a href="/ko/svcenter/mobilemain?uiel=Mobile"
+								class="customer" style="float: left; width: 32%;"
+								onclick="GA_Event('공통', '푸터_메뉴', '고객센터');">고객센터<!--고객센터--></a></li>
+							<li><a href="/ko/store-finder/storeInformation?uiel=Mobile"
+								class="storeinfo" style="float: left;"
+								onclick="GA_Event('공통', '푸터_메뉴', '매장안내');">매장안내</a></li>
+						</ul>
+						<ul class="btm_line1911">
+							<li><a href="/ko/svcenter/theClubInfo?uiel=Mobile"
+								class="memberBenefit" style="float: left; letter-spacing: -1px;"
+								onclick="GA_Event('공통', '푸터_메뉴', '한섬 회원 혜택');">한섬 회원 혜택<!-- 한섬 회원 혜택 --></a></li>
+							<li><a
+								href="http://www.handsome.co.kr/ko/company/aboutHandsome.do?leng=ko"
+								target="_blank" style="float: left; letter-spacing: -1px;"
+								onclick="GA_Event('공통', '푸터_메뉴', '회사소개');">회사소개</a></li>
+							<li id="family_site"><span
+								class="language family_site1911 for_iph_css1911"
+								onclick="familySiteSelect();GA_Event('공통', '푸터_CNT', 'FAMILYSITE');">FAMILY
+									SITE&nbsp;</span></li>
+						</ul>
+						<!-- 챗봇 테스트 -->
+					</div>
+
+					<div class="f_sns">
+						<a href="javascript:noLink();"
+							onclick="GA_Event('공통', '푸터_SNS', 'INSTAGRAM');window.open('https://instagram.com/thehandsome_official/','instagram');return false"
+							class="ist">인스타그램</a> <a href="javascript:noLink();"
+							onclick="GA_Event('공통', '푸터_SNS', 'YOUTUBE');window.open('https://www.youtube.com/channel/UC0fmjgbVA8iZrPbIR3dppUQ','youtube');return false"
+							class="ytb">유튜브</a>
+					</div>
+					<div class="f_policy">
+						<a href="/ko/footer/footerTermBusiness?uiel=Mobile">서비스이용약관</a> <a
+							href="/ko/footer/footerPrivacy?uiel=Mobile"
+							style="font-weight: bold;">개인정보처리방침</a>
+
+						<!-- web -->
+						<!-- 180706 추가// -->
+						<span class="language"> <select id="footerSelectLang"
+							onchange="if(this.value) language(this.value);"
+							onclick="GA_Event('공통', '푸터_CNT', 'LANGUAGE');">
+								<option value="" selected="selected" disabled="" hidden="">LANGUAGE</option>
+								<option value="ko">한국어</option>
+								<option value="en">ENGLISH</option>
+								<option value="zh">中文</option>
+						</select>
+						</span>
+						<!-- //180706 추가 -->
+					</div>
+
+					<div class="f_copyright">COPYRIGHT © 2018 HANDSOME. ALL RIGHT
+						RESERVED</div>
+
+					<a href="javascript:noLink();" class="f_info_viewer"
+						onclick="GA_Event('공통', '푸터_CNT', 'INFO');"> <span
+						class="f-txt">(주) 한섬 </span> <span class="f-logo"><img
+							src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/mob-footer-handsome-logo.png"
+							alt=""></span>
+					</a>
+
+					<div class="f_info">
+						<div class="corp">
+							대표이사 : 김민덕 | 서울시 강남구 도산대로 523 한섬빌딩<br>TEL : 1800-5700 (유료) |
+							FAX : 02-6078-2856 <br>개인정보보호책임자 : 윤인수 | 호스팅서비스 : (주) 한섬<br>사업자등록번호
+							: 120-81-26337<br>통신판매업신고번호 : 제 2009-서울강남-00826호
+						</div>
+						<div class="link">
+							<a
+								href="https://recruit.ehyundai.com/recruit-info/announcement/list.nhd?pageNo=1&amp;hireGb=01&amp;coCd=HDHAN"
+								target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'INFO_채용정보');">채용정보</a>
+							<a
+								href="http://www.handsome.co.kr/ko/sustainability/sharedGrowth01.do"
+								target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'INFO_동반성장');">동반성장</a>
+							<a
+								href="http://www.handsome.co.kr/ko/sustainability/ecoFriendly01.do"
+								target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'INFO_환경경영');">환경경영</a>
+						</div>
+					</div>
+
+				</div>
+			</footer>
+			<!-- //################## footer ################## -->
+		</div>
+
+	</div>
+
+</body>
+</html>

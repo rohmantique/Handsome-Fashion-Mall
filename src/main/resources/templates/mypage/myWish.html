@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{include/head}"></head>
+<body class="back">
+
+	<div class="hsome_allContents_wrapper">
+
+		<div class="hsome_allContents fixed_btn_on">
+
+			<header class="hsome_header header_noline header_mypage">
+				<!-- 마이페이지 알림 아이콘 -->
+				<a href="/ko/main" class="h_top_home"><span>Home</span></a>
+				<h1 class="h_select">
+					<select id="headerMypageSelect"
+						onchange="GA_Event('마이페이지', 'MY_GNB', this.selectedOptions[0].text.replaceAll(' ', '').replace('신청/조회',''));">
+						<option value="" style="display: none"></option>
+						<option value="/mypage/mypageFloatingPopup">마이페이지</option>
+						<option value="/mypage/myOrders">주문/배송조회</option>
+						<option value="/mypage/myWish">마이하트</option>
+						<option value="/mypage/userInfoChange">개인정보변경</option>
+						<option value="/mypage/myDelivery">배송지 관리</option>
+						<option value="/mypage/myCoupon">쿠폰</option>
+						<option value="/mypage/myReview">상품평</option>
+					</select>
+					<div class="selected_text">
+						<span> 마이하트</span>
+					</div>
+
+					<script type="text/javascript">
+$(document).on('change', '#headerMypageSelect', function () {
+	if ($(this).val() == "") return;
+
+	
+    
+	if($(this).val() == "/ko/mypage/mymantomaninquiry") {
+		location.href = "/ko/mypage/mymantomaninquiry?refererUrl=mypage";
+	} else {
+		location.href = $(this).val();
+	}
+});
+$('#headerMypageSelect > option').each(function (idx, obj) {
+	if ($(obj).attr('value') == "") return true;
+	if (location.pathname == $(obj).attr('value')) {
+		$(obj).prop('selected', 'selected');
+	}
+	
+	if(location.pathname.indexOf("mantomaninquiry") > -1 && $(obj).attr('value').indexOf("mymantomaninquiry") > -1) {
+		$(obj).prop('selected', 'selected');
+	}
+});
+</script>
+				</h1>
+				<a href="javascript:noLink();" onclick="goBack();" class="h_prev">이전
+					페이지로 가기</a>
+				<ul class="h_gnbMenu">
+					<li class="search"><a href="/ko/mobilecommon/search"><span>search</span></a></li>
+					<li class="cart"><a href="/ko/shoppingbag"><span>cart</span><i>0</i></a></li>
+				</ul>
+			</header>
+			<script type="text/javascript">
+var pageNumW = 1;
+var pageNumC = 1;
+var getUrlParameter = function getUrlParameter(sParam) {  // hash 가져오기
+    var hashList = document.location.hash.split("_");
+    if(hashList.length==3) {
+        pageNumW = decodeURIComponent(hashList[0]);
+        pageNumC = decodeURIComponent(hashList[1]);
+        if(sParam=="pageNumW") return hashList[0] === undefined ? true : decodeURIComponent(hashList[0].substr(1)); // 위시리스트 페이지
+        if(sParam=="pageNumC") return hashList[1] === undefined ? true : decodeURIComponent(hashList[1]); // 컨텐츠 페이지
+        if(sParam=="currentPage") return hashList[2] === undefined ? true : decodeURIComponent(hashList[2]); // 탭정보
+    }
+};
+
+function updateURL(pageNum,tab, currentPage) { // hash 변경
+    if(tab=="w") pageNumW = pageNum;
+    if(tab=="c") pageNumC = pageNum;
+    var hashYn = "#";
+    if(document.location.hash.indexOf("#") > -1) hashYn = "";
+    document.location.hash = hashYn+pageNumW+"_"+pageNumC+"_"+currentPage; // # 위시리스트 페이지 _ 컨텐츠 페이지 _ 탭정보
+}
+
+function changeTab(currentPage) { //탭 선택 시 hash 변경
+    updateURL('','',currentPage);
+}
+var normalPoint = "";
+var outletPoint = "";
+
+var myProdLoadedYn = false;
+var myContntLoadedYn = false;
+
+var cartQuantity = {};
+
+$(document).ready(function() {
+    
+    
+//	console.log('Cust\'s Display Uid >>>>> qndjd711@gmail.com');
+//	console.log('Cust\'s Cust ID >>>>> ');
+//	console.log('Cust\'s Cust No >>>>> ');
+//	console.log('Cust\'s SMS RecvYN >>>>> false');
+//	console.log('Cust\'s Moblie Num >>>>> ');
+//	console.log('Cust\'s Email Addr >>>>> ');
+	
+		var custMobileNum = '';
+		if ( custMobileNum.indexOf('-') > -1 ) {
+			var mobileNums = custMobileNum.split('-');
+			$('#telno1').val(mobileNums[0]);
+			$('#telno2').val(mobileNums[1]);
+			$('#telno3').val(mobileNums[2]);
+		} else {
+			if ( custMobileNum.length === 10 ) {
+				$('#telno1').val(custMobileNum.substring(0,3));
+				$('#telno2').val(custMobileNum.substring(3,6));
+				$('#telno3').val(custMobileNum.substring(6));
+			} else if ( custMobileNum.length === 11 ) {
+				$('#telno1').val(custMobileNum.substring(0,3));
+				$('#telno2').val(custMobileNum.substring(3,7));
+				$('#telno3').val(custMobileNum.substring(7));
+			}
+		}
+	
+
+	if(normalPoint != null){
+		normalPoint = Math.floor($('#normalPoint').val());
+	}
+	if(outletPoint != null){
+		outletPoint = Math.floor($('#outletPoint').val());
+	}
+
+	$(document).on('click', '.wish_cont_wrap li a.del', function() {
+		//alert($(this));
+		deleteWishlistContents($(this));
+	});
+	
+	$("#wish_sort").on('change', function() {
+		myWishListProd('');
+		var sortType = $("#wish_sort option:selected").val();
+		var v_label = "";
+		if(sortType == "sale"){
+		    v_label = "세일";
+		}else if(sortType == "outlet"){
+		    v_label = "아울렛";
+        }else{
+            v_label = "전체";
+        }
+		GA_Event('마이하트', '정렬', v_label);
+	});
+
+	$(document).on("click", ".color_chip .chip", function() {
+		//alert($(this).attr("data-value"));
+		var prodCode = $(this).attr("data-value");
+
+		$("#"+prodCode.substring(0, prodCode.indexOf("_"))+" .color_chip .chip").removeClass("on");
+		$(this).addClass("on");
+		
+		reloadProdSize(prodCode);
+	});
+	
+	var currentPage = getUrlParameter('currentPage'); // 페이지 초기 로딩 시 hash 값을 이용하여 탭, page number 세팅
+	var tab_wish = '';
+    if(currentPage == 1 || typeof currentPage === "undefined" ) { // 위시리스트탭
+		myWishListProd(getUrlParameter('pageNumW'));
+		tab_wish = document.getElementById('tab_wish1');
+    } else { //컨텐츠탭
+	    myWishListContents(getUrlParameter('pageNumC'));
+	    tab_wish = document.getElementById('tab_wish2');
+	}
+    //글로벌일 경우 tab 존재하지 않아 쇼핑백 담기 및 이하 스크립트 안 되는 오류 수정 (20200305)
+    tab_wish.click();
+    
+});
+
+function myWishListProd(pageNum) {
+    
+    /* 글로벌 원화 단위 변경_20200325
+       use exchangePrice(price)
+    */
+     // 국문일 때
+	        function exchangePrice(productPrice) {
+	            return "￦" + addComma(productPrice);
+	        }
+	    
+
+    scrollTo(0,0); // 목록 초기 노출 혹은 페이징 시 스크롤 최상단 위치
+	(typeof pageNum !== "undefined" && pageNum != '') ? updateURL(pageNum,'w',1) : updateURL(1,'w',1); // hash 있으면 쓰고 없으면 1페이지
+	myProdLoadedYn = true;
+	
+	var txtHtml = '쇼핑백담기';
+	$('#orderBtn').html(txtHtml);
+
+	$.ajax({
+		url		: '/ko/mypage/myWishList',
+		type	: 'GET',
+		datatype: 'json',
+		data	: {
+			'pageNum'	: pageNum,
+			'pageSize'	: 10,
+			'show'		: 'Page',
+			'wish_sort'	: $('#wish_sort option:selected').val()
+		}, 
+		success	: function(data) {
+			var txtHtml = '';
+			
+			var prodWishlist = data.results;
+			if ( prodWishlist.length === 0 ) {
+				txtHtml += '위시리스트에 저장된 상품이 없습니다.';
+			} else {
+				txtHtml += '<ul>';
+				window.sessionStorage.setItem('ecommerceDataList', JSON.stringify(prodWishlist));
+				for ( var i=0; i<prodWishlist.length; i++ ) {
+					var variantStyles;
+					var variantSizes;
+
+					var product = prodWishlist[i].productData;
+					if ( product.variantType === 'ApparelStyleVariantProduct' ) {
+						variantStyles = product.variantOptions
+					} else if ( product.baseOptions[0].options != null && product.baseOptions[0].variantType === 'ApparelStyleVariantProduct' ) {
+						variantStyles = product.baseOptions[0].options;
+						variantSizes  = product.variantOptions;
+					} else if ( product.baseOptions[1].options != null && product.baseOptions[0].variantType === 'ApparelSizeVariantProduct' ) {
+						variantStyles = product.baseOptions[1].options;
+						variantSizes  = product.baseOptions[0].options;
+					}
+					
+					var noStock = 'Y';
+					for ( var j=0; j < variantStyles.length; j++ ) {
+						if ( variantStyles[j].displayStock === 'true' || variantStyles[j].displayStock === true ) {
+							noStock = 'N';
+							break;
+						}
+					}
+					txtHtml += '<li id="'+product.code.substring(0, product.code.indexOf("_"))+'" class="float active">';
+					txtHtml += '  <div class="img_slide_container">';
+					if ( noStock === 'N' ) {
+						txtHtml += '    <a href="/ko/p/'+product.code+'" class="img_slide_contain" onclick="setEcommerceData('+ i +');">';
+					} else {
+						txtHtml += '    <a href="/ko/p/'+product.code+'" class="img_slide_contain func_so" onclick="setEcommerceData('+ i +');">';
+					}
+					
+					var productImage;
+					if ( product.productImages != null ) {
+						for ( var x=0; x < product.productImages.length; x++ ) {
+							var images = product.productImages[x];
+							if ( images.imageDivisionCode.code === 'S01' ) {
+								productImage = images.image.url;
+								break;
+							}
+						}
+					} else {
+						productImage = prodWishlist[i].productImage;
+					}
+
+					var slideClass, slideId, chipClass;
+					for ( var j=0; j < variantStyles.length; j++ ) {
+						slideClass = 'slide0' + (i+1) + '0' + (j+1);
+						//if ( variantStyles[j].displayStock === false ) {
+						if ( noStock === 'Y' ) {
+							slideClass += ' soldout';
+						}
+						if ( j === 0 ) {
+							slideClass += ' active';
+						}
+						txtHtml += '        <div class="img_slide_wrap swiper-container '+slideClass+'">';
+						txtHtml += '          <div class="img_slide swiper-wrapper">';
+						txtHtml += '            <div class="img swiper-slide"><img src="'+productImage+'" onError=\'this.src="/_ui/handsomemobile/images/common/no_img.jpg"\' alt=""></div>';
+						txtHtml += '          </div>'
+						txtHtml += '        </div>';
+					}
+					txtHtml += '    </a>';
+                    txtHtml += '    <span class="func_as">';
+                    if ( prodWishlist[i].carryingForward === "NORMAL" && (prodWishlist[i].productPrice === prodWishlist[i].productNormalPrice) ) {
+                    	/* if ( noStock === 'N' && prodWishlist[i].saleAlarmYN === 'N' ) {
+                    		txtHtml += '      <a href=".product_sale_pop" class="alt sale btn_popup_trigger" data-value="'+product.code+'#'+productImage+'#'+prodWishlist[i].brandName+'#'+prodWishlist[i].productName+'#'+prodWishlist[i].productPrice+'">세일알림</a>';
+                    	} else */ if ( noStock === 'N' && prodWishlist[i].saleAlarmYN === 'Y' ) {
+                    		txtHtml += '      <a href="javascript:void(0);" class="alt sale on" onclick="removeSaleAlarms(\''+product.code+'\');" data-value="'+product.code+'#'+productImage+'#'+prodWishlist[i].brandName+'#'+prodWishlist[i].productName+'#'+prodWishlist[i].productPrice+'">세일알림</a>';
+                    	}
+                    }
+//                    txtHtml += '      <a href="javascript:void(0);" onclick="javascript:removeSaleAlarms(\''+product.code+'\');" class="del">삭제</a>';
+                    txtHtml += '      <a href="javascript:void(0);" onclick="javascript:deleteWishlistProd(\''+prodWishlist[i].wishCode+'\',\''+product.code+'\');" class="del">삭제</a>';
+                    txtHtml += '    </span>';
+                    txtHtml += '  </div>';
+                    txtHtml += '  <div class="info_cont">';
+                    txtHtml += '    <div class="color_chip">';
+					for ( var j=0; j < variantStyles.length; j++ ) {
+					    
+					  var color_chip = data.results[i].colorChip[0].erpCode.split(';');
+					  var rgbImgChk = false;
+					  for ( var k=0; k < color_chip.length; k++ ) {
+			              var imageUrl = data.results[i].colorChip[0].C01imageUrl.split(';');
+			              if(variantStyles[j].colorcode == color_chip[k]) {
+			                  var rbgCode = "";
+			                  if(imageUrl[k] != 'ZZZZ'){
+			                      rbgCode = variantStyles[j].rgbcode+ " url('"+imageUrl[k]+"/dims/resize/40x40') center /100% auto no-repeat";
+			                      rgbImgChk = true;
+			                  }else {
+			                      rbgCode = variantStyles[j].rgbcode;
+			                  }
+			                  
+			                  chipClass = '';
+		                      if ( product.code === variantStyles[j].code ) { chipClass = " on"; }
+		                      else { chipClass = ""; }
+		                      
+		                      slideId = 'slide0' + (i+1) + '0' + (j+1);
+		                      if ( variantStyles[j].displayStock === 'false' || variantStyles[j].displayStock === false ) {
+		                          if(rgbImgChk) {
+		                              txtHtml += '     <button class="chip'+chipClass+'" data-value="'+variantStyles[j].code+'" id="'+slideId+'" style="background:'+rbgCode+';"><span class="soldout new1903">품절</span></button>';		                              
+		                          }else {
+		                              txtHtml += '     <button class="chip'+chipClass+'" data-value="'+variantStyles[j].code+'" id="'+slideId+'" style="background:'+rbgCode+';"><span class="soldout new1903">품절</span></button>';    
+		                          }
+		                      } else {
+		                          txtHtml += '     <button class="chip'+chipClass+'" data-value="'+variantStyles[j].code+'" id="'+slideId+'" style="background:'+rbgCode+';"></button>'; 
+		                      }
+			              }
+		              } 
+					     				     
+						
+					}
+					txtHtml += '    </div>';
+					txtHtml += '    <a href="javascript:void(0);">';
+					txtHtml += '      <p class="brand">'+prodWishlist[i].brandName+'</p>';
+					txtHtml += '      <p class="name">';
+// 					if(prodWishlist[i].reserveProdYn == true) txtHtml += '<strong>[예약판매]</strong> ';
+					txtHtml +=             prodWishlist[i].productName;
+					txtHtml += '     </p>';
+					txtHtml += '      <p class="price">';
+					//txtHtml +=        numberWithCommas(prodWishlist[i].productPrice);
+					txtHtml +=        exchangePrice(product.price.value);
+					
+                    if ( prodWishlist[i].carryingForward.toUpperCase() !== "CARRY_FORWARD" ) {
+                        var chkSaleFlag = false;
+                        if(prodWishlist[i].flag != null){
+                            for ( var k=0; k < prodWishlist[i].flag.length; k++ ) {
+                                if(prodWishlist[i].flag[k].code.indexOf('SALE') > -1){
+                                    chkSaleFlag = true;
+                                }
+                            }
+                        }
+                        
+                        if(chkSaleFlag) {
+                            if ( product.normalPrice.value !== null && product.normalPrice.value > product.price.value ) {
+                                txtHtml += '<strike>'+exchangePrice(product.normalPrice.value)+'</strike>';
+                                txtHtml += '<span class="sale">'+discountRate(product.price.value, product.normalPrice.value)+'%</span>';
+                                //if ( prodWishlist[i].carryingForward === 'NORMAL' ) {
+                                //  txtHtml += '<span class="sale">'+normalPoint+'%</span>';
+                                //} else {
+                                //  txtHtml += '<span class="sale">'+outletPoint+'%</span>';
+                                //}
+                            }                      
+                        }
+					} else {
+					    
+					    var productCd = variantStyles[0].code;
+					    var checkNewBrand = true;
+					    if(productCd.indexOf("5W") == 0 || productCd.indexOf("MF") == 0 || productCd.indexOf("MM") == 0 ) {
+					        if(productCd.indexOf("0") == 2 || productCd.indexOf("1") == 2 || productCd.indexOf("2") == 2
+					         || productCd.indexOf("3") == 2 || productCd.indexOf("4") == 2 || productCd.indexOf("5") == 2
+					         || productCd.indexOf("6") == 2 || productCd.indexOf("7") == 2 || productCd.indexOf("8") == 2
+					         || productCd.indexOf("9") == 2 ) {
+					            checkNewBrand = true;
+					        }else {
+					            checkNewBrand = false;
+					        }
+					    }else {
+					        checkNewBrand = true;
+					    }
+					    
+					    var checkViewDel = false;
+
+					    if ( checkNewBrand && variantStyles[0].code.toLowerCase().indexOf("a_") === -1
+								 && variantStyles[0].code.toLowerCase().indexOf("a0_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("a1_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("a2_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("a3_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("a4_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("a5_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("a6_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("a7_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("a8_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("a9_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("b_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("b0_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("b1_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("b2_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("b3_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("b4_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("b5_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("b6_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("b7_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("b8_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("b9_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("c_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("c0_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("c1_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("c2_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("c3_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("c4_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("c5_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("c6_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("c7_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("c8_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("c9_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("d_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("d0_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("d1_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("d2_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("d3_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("d4_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("d5_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("d6_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("d7_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("d8_") === -1 
+								 && variantStyles[0].code.toLowerCase().indexOf("d9_") === -1 
+						) {
+							if ( product.normalPrice.value !== null && product.normalPrice.value > product.price.value ) {
+								txtHtml += '<strike>'+exchangePrice(product.normalPrice.value)+'</strike>';
+								txtHtml += '<span class="sale">'+discountRate(product.price.value, product.normalPrice.value)+'%</span>';
+								//if ( prodWishlist[i].carryingForward === 'NORMAL' ) {
+								//	txtHtml += '<span class="sale">'+normalPoint+'%</span>';
+								//} else {
+								//	txtHtml += '<span class="sale">'+outletPoint+'%</span>';
+								//}
+							}
+							
+							checkViewDel = true;
+						}
+					    
+					    if(!checkNewBrand && productCd.indexOf("5WM") == 0) {
+					        if ( product.normalPrice.value !== null && product.normalPrice.value > product.price.value ) {
+					            txtHtml += '<strike>'+exchangePrice(product.normalPrice.value)+'</strike>';
+	                            txtHtml += '<span class="sale">'+discountRate(product.price.value, product.normalPrice.value)+'%</span>';
+					        }
+					    }
+					    
+					    if(variantStyles[0].code.toLowerCase().indexOf('cm') == 0 && variantStyles[0].code.toLowerCase().indexOf('c_') > 0){
+	                        if( product.normalPrice.value != null && product.normalPrice.value > product.price.value ) {
+	                            txtHtml += '<strike>'+exchangePrice(product.normalPrice.value)+'</strike>';
+                                txtHtml += '<span class="sale">'+discountRate(product.price.value, product.normalPrice.value)+'%</span>';
+	                        }
+	                    }
+					    
+					    if(!checkViewDel) {
+                            if(product.brandCode == 'BR15' || product.brandCode == 'BR16' || product.brandCode == 'BR30'
+                            || product.brandCode == 'BR32' || product.brandCode == 'BR35' || product.brandCode == 'BR44'
+                            || productCd.indexOf("FL") == 0) {
+                                txtHtml += '<strike>'+exchangePrice(product.normalPrice.value)+'</strike>';
+                                txtHtml += '<span class="sale">'+discountRate(product.price.value, product.normalPrice.value)+'%</span>';
+                            }
+                        }
+					    
+					    
+					}
+					txtHtml += '      </p>';
+					txtHtml += '    </a>';
+					txtHtml += '  </div>';
+					if ( noStock === 'N' ) {
+						txtHtml += '  <label class="chk_mark">';
+						txtHtml += '    <input type="checkbox" name="chkbox" data-value="'+prodWishlist[i].wishCode+'">';
+						txtHtml += '    <span class="mark"></span>';
+						txtHtml += '  </label>';
+					}
+                	txtHtml += '</li>';
+				}
+				txtHtml += '</ul>';
+				$('.btn_wrap.btn_wrap_div1.btm_fixed_wrap').addClass('on'); //리스트가 있을시 버튼 활성화
+			}
+			$('#prodWishlists').html(txtHtml);
+			
+			
+			//if ( prodWishlist.length > 0 ) {
+				var pagination = data.pagination;
+				var pages = SettingPagination('pagenation', (pagination.currentPage + 1), pagination.totalNumberOfResults, pagination.pageSize, 5, 'myWishListProd');
+				
+				var txtPaging = '';
+				txtPaging += pages;
+				
+				$('#pagination1').html(txtPaging);
+			//}
+				$("#gnbMyPageBtn").removeClass("active");
+				$("#gnbMyheartBtn").addClass("active");
+				//$(".hsome_quickMenu").addClass('active');
+		},
+		error	: function(xhr, status, error) {
+		}
+	});
+}
+
+function myWishListContents(pageNum) {
+    scrollTo(0,0); // 목록 초기 노출 혹은 페이징 시 스크롤 최상단 위치
+    (typeof pageNum !== "undefined" && pageNum != '') ? updateURL(pageNum,'c',2) : updateURL(1,'c',2); // hash 있으면 쓰고 없으면 1페이지
+	myContntLoadedYn = true;
+
+	$.ajax({
+		url		: '/ko/mypage/selectMyWishContents',
+		type	: 'GET',
+		datatype: 'json',
+		data	: {
+			'pageNum'	: pageNum,
+			'pageSize'	: 5,
+			'show'		: 'Page'
+		}, 
+		success	: function(data) {
+			//console.log(Object.entries(data));
+			var list = data.results;
+			
+			var txtHtml = '';
+			if ( list.length === 0 ) {
+				txtHtml += '<li>';
+				txtHtml += '  <a href="javascript:void(0);"><div class="wish_box">';
+				txtHtml += '    <h4 class="wish_cont_title">';
+				txtHtml += '    마이하트에 저장된 컨텐츠가 없습니다.';
+				txtHtml += '    </h4>';
+				txtHtml += '  </div></a>';
+				txtHtml += '</li>';
+			} else {
+	            for ( var i=0; i<list.length; i++ ) {
+					txtHtml += '<li>';
+					if ( list[i].contentType === 'sporlighton' ) {
+						
+						txtHtml += '  <a href="/ko/magazine/editorials/'+list[i].contentPK+'"><div class="wish_box">';
+						txtHtml += '    <span class="flag">위클리 픽</span>';
+						
+					} else if ( list[i].contentType === 'hsomepeople' ) {
+							
+							txtHtml += '  <a href="/ko/magazine/editorials/'+list[i].contentPK+'"><div class="wish_box">';
+							txtHtml += '    <span class="flag">핸썸피플</span>';
+							
+					} else if ( list[i].contentType === 'brandstory' ) {
+						
+						txtHtml += '  <a href="/ko/magazine/editorials/'+list[i].contentPK+'"><div class="wish_box">';
+						txtHtml += '    <span class="flag">에디토리얼</span>';
+						
+					} else if ( list[i].contentType === 'news' ) {
+						
+						txtHtml += '  <a href="/ko/magazine/newsDetail'+list[i].templateType+'?newsCode='+list[i].contentPK+'&typeCode=WEB"><div class="wish_box">';
+						txtHtml += '    <span class="flag">뉴스</span>';
+						
+					} else if ( list[i].contentType === 'lookbook' ) {
+						
+						txtHtml += '  <a href="/ko/magazine/lookbookDetail/'+list[i].contentPK+'?currentPage=0"><div class="wish_box">';
+						txtHtml += '    <span class="flag">룩북</span>';
+						
+					} else if ( list[i].contentType === 'video' ) {
+						
+						txtHtml += '  <a href="javascript:void(0);"><div class="wish_box">';
+						txtHtml += '    <span class="flag">비디오</span>';
+						
+					} else if ( list[i].contentType === 'exhibition' ) {
+						var images = list[i].contentImage.split("#");
+						
+						var alinkTarget;
+						if ( images[1] === "OLD" ) {
+							alinkTarget = "_self";
+						} else {
+							alinkTarget = "_blank";
+						}
+						if ( images[2] === null || images[2] === '' ) {
+							txtHtml += '  <a href="/ko/magazine/exhibitions/'+list[i].contentPK+'" target="'+alinkTarget+'"><div class="wish_box">';
+						} else {
+							txtHtml += '  <a href="'+images[2]+'" target="'+alinkTarget+'"><div class="wish_box">';
+						}
+						txtHtml += '    <span class="flag">기획전</span>';
+						
+					} else {
+						
+						txtHtml += '  <a href="javascript:void(0);"><div class="wish_box">';
+						txtHtml += '    <span class="flag">기타</span>';
+						
+					}
+					txtHtml += '    <div class="wish_cont_img">';
+					if ( list[i].contentType === 'exhibition' ) {
+						var images = list[i].contentImage.split("#");
+						txtHtml += '      <img src="'+images[0]+'" onError=\'this.src="/_ui/handsomemobile/images/common/no_img.jpg"\' style="width:100%" alt="" >';
+					} else {
+						txtHtml += '      <img src="'+list[i].contentImage+'" onError=\'this.src="/_ui/handsomemobile/images/common/no_img.jpg"\' style="width:100%" alt="" >';
+					}
+					txtHtml += '    </div>';
+					txtHtml += '    <h4 class="wish_cont_title">'+list[i].contentSubject+'<a href="javascript:void(0);" class="del" data-value="'+list[i].pk+'"></a></h4>';
+					txtHtml += '  </div></a>';
+					txtHtml += '</li>';
+	            }
+			}
+			$('#wishContents').html(txtHtml);
+			
+			//if ( prodWishlist.length > 0 ) {
+				var pagination = data.pagination;
+				var pages = SettingPagination('pagenation', (pagination.currentPage + 1), pagination.totalNumberOfResults, pagination.pageSize, 5, 'myWishListContents');
+				
+				var txtPaging = '';
+				txtPaging += pages;
+				
+				$('#pagination2').html(txtPaging);
+			//}
+		},
+		error	: function(xhr, status, error) {
+		}
+	});
+}
+function numberWithCommas(x) {
+	// 세자리마다 콤마(,) 추가
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+function discountRate(x, y) {
+	// return 100 - ((x / y) * 100);
+	return 100 - Math.round(((x / y) * 100));
+}
+
+function reloadProdSize(prodCode) {
+	//alert(prodCode);
+	$.ajax({
+		url		: "/ko/mypage/reloadProdSize",
+		type	: "POST",
+		datatype: "json",
+		data	: {
+			productCode : prodCode,
+			CSRFToken	: "97a9b800-d8d8-4799-9141-801fed3b5ff4"
+		},
+		success	: function(data) {
+			var product = data.product;
+			
+			/* 가격변경 */
+            var productPrice = data.getProductPrice;
+			var priceHtml = '';
+			
+			
+	                priceHtml += "￦"+ addComma(productPrice.productPrice);
+	                if(productPrice.productNormalityPrice != undefined && productPrice.productNormalityPrice != ""){
+	                    productSalePerCent = getDecimalToString(((productPrice.productNormalityPrice - productPrice.productPrice) / productPrice.productNormalityPrice * 100), 1, 1);
+	                    priceHtml += "<strike>￦" + addComma(productPrice.productNormalityPrice)+"</strike><span class=\"sale\">" + productSalePerCent + "%</span>";
+	                }
+	            
+        
+	        if(priceHtml != ''){
+	            $("#"+product.code.substring(0, product.code.indexOf("_"))+" .info_cont a .price").html(priceHtml);
+	        }
+			
+            /* 
+             priceHtml = product.normalPrice.formattedValue;
+             */
+            
+			// 이미지
+			var txtImage = '';
+			if ( product.productImages != null ) {
+				for ( var i=0; i<product.productImages.length; i++ ) {
+					images = product.productImages[i];
+					if ( images.imageDivisionCode.code === 'S01' ) {
+						//txtImage += '<img src="'+images.image.url+'" onError=\'this.src="/_ui/handsomemobile/images/common/no_img.jpg"\' alt="">';
+						txtImage = images.image.url
+						break;
+					}
+				}
+			}
+			//$("#"+product.code.substring(0, product.code.indexOf("_"))+" .img_slide_wrap .img_slide .img").html(txtImage);
+			$("#"+product.code.substring(0, product.code.indexOf("_"))+" .img_slide_wrap .img_slide img").attr('src', txtImage);
+		}
+	});
+}
+
+function exchangeRatePrice(koPrice){
+    
+    return exchangeAmt;
+}
+
+function deleteWishlistProd(wishcode, prodCd) {
+	var lc = new layerConfirm("위시리스트에서 선택한 상품을 삭제하시겠습니까?","확인","취소");
+	lc.cancelAction = function() {
+		return false;
+	};
+	lc.confirmAction= function() {
+		$.ajax({
+			url		: '/ko/mypage/deleteWish',
+			type	: 'GET',
+			datatype: 'json',
+			data	: {
+				wishcode : wishcode
+			},
+			success	: function(data) {
+			    var itemCnt = $("#prodWishlists").find("ul").children().length;
+			    var pageNum = getUrlParameter('pageNumW'); 
+			    if(itemCnt == 1 && Number(pageNum) > 1) pageNum = pageNum - 1; // 삭제 시점에 2페이지 이상이고 노출 상품이 1개면 삭제 후 한 페이지 전의 목록 호출
+				myWishListProd(pageNum);
+//				var la = new layerAlert('삭제가 완료 되었습니다.');
+//				return false;
+			}
+		});
+	}
+}
+function deleteWishlistAllProd() {
+	var chkedcnt = 0;
+	var deltarget= '';
+	$('.mp_wishlist_wrap .chk_mark input').each(function() {
+		if ($(this).is(':checked')) {
+			chkedcnt += 1;
+			deltarget += ',' + $(this).attr('data-value');
+		}
+	});
+	//alert(deltarget.substring(1));
+	if ( chkedcnt === 0 ) {
+		var la = new layerAlert('위시리스트에서 삭제할 상품을 선택해 주세요.');
+		return false;
+	} else {
+		var lc = new layerConfirm("위시리스트에서 선택한 상품을 삭제하시겠습니까?","확인","취소");
+		lc.cancelAction = function() {
+			return false;
+		};
+		lc.confirmAction= function() {
+			GA_Event('마이하트', '삭제', '선택상품삭제');
+			$.ajax({
+				url		: '/ko/mypage/deleteWish',
+				type	: 'GET',
+				datatype: 'json',
+				data	: {
+					wishcode : deltarget.substring(1)
+				},
+				success	: function(data) {
+				    var itemCnt = $("#prodWishlists").find("ul").children().length;
+	                var pageNum = getUrlParameter('pageNumW'); 
+	                if(itemCnt == 1 && Number(pageNum) > 1) pageNum = pageNum - 1; // 삭제 시점에 2페이지 이상이고 노출 상품이 1개면 삭제 후 한 페이지 전의 목록 호출
+	                myWishListProd(pageNum);
+				}
+			});
+		}
+	}
+}
+
+function deleteWishlistContents($this) {
+	var deltarget = $this.attr('data-value');
+	
+	$.ajax({
+		url		: '/ko/mypage/deleteWishContents',	
+		type	: 'GET',
+		datatype: 'json',
+		data	: {
+			deltarget	: deltarget
+		},
+		success	: function(data) {
+		    var itemCnt = $("#wishContents").children().length;
+            var pageNum = getUrlParameter('pageNumC'); 
+            if(itemCnt == 1 && Number(pageNum) > 1) pageNum = pageNum - 1; // 삭제 시점에 2페이지 이상이고 노출 상품이 1개면 삭제 후 한 페이지 전의 목록 호출
+			myWishListContents(pageNum);
+		}
+	});
+}
+
+</script>
+
+			<!-- contents s -->
+			<input type="hidden" id="normalPoint" value="5.0"> <input
+				type="hidden" id="outletPoint" value="1.0">
+
+			<div id="contents" class="hsome_contents mp_wishlist_wrap">
+				<ul class="ui_tab red_border_tab fw active">
+					<li class="on"><a id="tab_wish1" href="#tab_01"
+						onclick="GA_Event('마이하트', '탭', '위시리스트');">위시리스트</a></li>
+					<li class=""><a id="tab_wish2" href="#tab_02"
+						onclick="GA_Event('마이하트', '탭', '컨텐츠');">♥ 컨텐츠</a></li>
+					<li class="fcs" style="transform: translateX(0px);"></li>
+				</ul>
+				<div class="tab_cont">
+					<!-- #tab_01 s -->
+					<div id="tab_01" class="cont on">
+						<!-- 추가(47745) : 20180813 s -->
+						<div class="gray_box wish_desc_box">
+							<ul class="ul_dot">
+								<li>위시리스트에는 상품이 최대 200개까지 저장됩니다.</li>
+								<li>마이하트에 담은 상품 중 판매종료가 된 상품은 자동삭제됩니다.</li>
+							</ul>
+						</div>
+
+						<!-- 추가(47745) : 20180813 e -->
+						<div class="hs_product_list_wrap">
+							<div class="sort_chk">
+								<a href="javascript:void(0);" onclick="deleteWishlistAllProd();"
+									class="del">선택상품삭제</a>
+								<div class="hs_tit_select">
+									<select id="wish_sort" name="wish_sort">
+										<option value="">전체</option>
+										<option value="sale">세일</option>
+										<option value="outlet">아울렛</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="hs_product_list" id="prodWishlists">위시리스트에 저장된
+								상품이 없습니다.</div>
+
+							<div id="pagination1" class="hs_paging bottom"></div>
+
+							<div class="btn_wrap btn_wrap_div1 btm_fixed_wrap">
+								<!-- <div class="wish_to_order"><a href="lp_wish_to_order.html" class="btnstl6 solid_btn_point btn_layerpopup_call" data-layerpop-style="lp_stl_black" data-layerpop-depth="depth1"><span>선택상품 (5개) 주문</span></a></div> -->
+								<div class="wish_to_order">
+									<a href="javascript:void(0);"
+										onclick="goWishToOrderPopup(this); return false;"
+										class="btnstl6 solid_btn_point"
+										data-layerpop-style="lp_stl_black"
+										data-layerpop-depth="depth1"><span id="orderBtn">쇼핑백담기</span></a>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<!-- #tab_02 s -->
+					<div id="tab_02" class="cont">
+						<div class="wish_cont_wrap">
+							<p>지난 기획전의 경우 1주일 후에 자동 삭제됩니다.</p>
+							<ul id="wishContents">
+								<li><a href="javascript:void(0);"><div class="wish_box">
+											<h4 class="wish_cont_title">마이하트에 저장된 컨텐츠가 없습니다.</h4>
+										</div></a></li>
+							</ul>
+
+							<div id="pagination2" class="hs_paging bottom"></div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!-- contents e -->
+			<footer id="footer" class="hsome_footer new181127 footer_kr">
+
+				<div class="f_wrap">
+					<div class="f_menu re1911">
+						<!-- 수정 190207 -->
+						<ul class="top_line">
+
+							<li><a href="#"></a></li>
+							<li><a href="javascript:ftLogout();" class="login"
+								style="float: left;" onclick="GA_Event('공통', '푸터_메뉴', '로그아웃');">로그아웃<!-- 로그아웃 --></a></li>
+							<li><a href="/ko/svcenter/mobilemain?uiel=Mobile"
+								class="customer" style="float: left; width: 32%;"
+								onclick="GA_Event('공통', '푸터_메뉴', '고객센터');">고객센터<!--고객센터--></a></li>
+							<li><a href="/ko/store-finder/storeInformation?uiel=Mobile"
+								class="storeinfo" style="float: left;"
+								onclick="GA_Event('공통', '푸터_메뉴', '매장안내');">매장안내</a></li>
+						</ul>
+						<ul class="btm_line1911">
+							<li><a href="/ko/svcenter/theClubInfo?uiel=Mobile"
+								class="memberBenefit" style="float: left; letter-spacing: -1px;"
+								onclick="GA_Event('공통', '푸터_메뉴', '한섬 회원 혜택');">한섬 회원 혜택<!-- 한섬 회원 혜택 --></a></li>
+							<li><a
+								href="http://www.handsome.co.kr/ko/company/aboutHandsome.do?leng=ko"
+								target="_blank" style="float: left; letter-spacing: -1px;"
+								onclick="GA_Event('공통', '푸터_메뉴', '회사소개');">회사소개</a></li>
+							<li id="family_site"><span
+								class="language family_site1911 for_iph_css1911"
+								onclick="familySiteSelect();GA_Event('공통', '푸터_CNT', 'FAMILYSITE');">FAMILY
+									SITE&nbsp;</span></li>
+						</ul>
+						<!-- 챗봇 테스트 -->
+					</div>
+
+					<div class="f_sns">
+						<a href="javascript:noLink();"
+							onclick="GA_Event('공통', '푸터_SNS', 'INSTAGRAM');window.open('https://instagram.com/thehandsome_official/','instagram');return false"
+							class="ist">인스타그램</a> <a href="javascript:noLink();"
+							onclick="GA_Event('공통', '푸터_SNS', 'YOUTUBE');window.open('https://www.youtube.com/channel/UC0fmjgbVA8iZrPbIR3dppUQ','youtube');return false"
+							class="ytb">유튜브</a>
+					</div>
+					<div class="f_policy">
+						<a href="/ko/footer/footerTermBusiness?uiel=Mobile">서비스이용약관</a> <a
+							href="/ko/footer/footerPrivacy?uiel=Mobile"
+							style="font-weight: bold;">개인정보처리방침</a>
+
+						<!-- web -->
+						<!-- 180706 추가// -->
+						<span class="language"> <select id="footerSelectLang"
+							onchange="if(this.value) language(this.value);"
+							onclick="GA_Event('공통', '푸터_CNT', 'LANGUAGE');">
+								<option value="" selected="selected" disabled="" hidden="">LANGUAGE</option>
+								<option value="ko">한국어</option>
+								<option value="en">ENGLISH</option>
+								<option value="zh">中文</option>
+						</select>
+						</span>
+						<!-- //180706 추가 -->
+					</div>
+
+					<div class="f_copyright">COPYRIGHT © 2018 HANDSOME. ALL RIGHT
+						RESERVED</div>
+
+					<a href="javascript:noLink();" class="f_info_viewer"
+						onclick="GA_Event('공통', '푸터_CNT', 'INFO');"> <span
+						class="f-txt">(주) 한섬 </span> <span class="f-logo"><img
+							src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/mob-footer-handsome-logo.png"
+							alt=""></span>
+					</a>
+				</div>
+			</footer>
+			<!-- //################## footer ################## -->
+		</div>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+<html lang="ko" class="back" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta name="naver-site-verification"
+	content="2f9358e1e36605519854a595f243f0171519dd1d">
+<meta name="google-site-verification"
+	content="0bGV8gPhwO_PzritNvIsz2k74EH5yPsrXXluJ8ZUed8">
+<meta name="google-site-verification"
+	content="dO99-Ao-ywXeVDEz4jz5nJBXzQXVCgmX4WXzxl_Nf3c">
+<meta name="facebook-domain-verification"
+	content="jvxpdjfrqqan9oe1qdrjfyxj553an6">
+<meta name="fallbackUrl"
+	content="https://itunes.apple.com/app/apple-store/id1072288949">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="Cache-Control"
+	content="no-cache, no-store, must-revalidate">
+
+<meta charset="UTF-8">
+<meta name="HandheldFriendly" content="true">
+<meta name="viewport"
+	content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">
+<meta name="format-detection" content="telephone=no">
+
+<!-- Mobile Smart Banner for IOS Device -->
+<meta name="apple-itunes-app" content="app-id=1072288949">
+<!-- //Mobile Smart Banner for IOS Device -->
+<meta property="og:title" content="더한섬닷컴">
+<meta property="og:type" content="website">
+<meta name="robots" content="noindex">
+<script async="" defer=""
+	src="https://cdn.megadata.co.kr/dist/prod/enp_tracker_self_hosted.min.js"></script>
+<script>
+</script>
+<title>더한섬닷컴</title>
+<link rel="shortcut icon"
+	href="http://www.thehandsome.com/_ui/mobile/common/images/common/thehandsome_ic_16x16.ico">
+<link rel="apple-touch-icon"
+	href="http://www.thehandsome.com/_ui/mobile/common/images/common/app_ban_logo.png">
+<link rel="apple-touch-icon-precomposed"
+	href="http://www.thehandsome.com/_ui/mobile/common/images/common/app_ban_logo.png">
+<link rel="apple-touch-icon-120x120"
+	href="http://www.thehandsome.com/_ui/mobile/common/images/common/app_ban_logo.png">
+<link rel="apple-touch-icon-120x120-precomposed"
+	href="http://www.thehandsome.com/_ui/mobile/common/images/common/app_ban_logo.png">
+<link rel="shortcut icon" type="image/x-icon" media="all" href="//">
+<link
+	href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/font_80.css?20221121"
+	rel="stylesheet" type="text/css">
+<link
+	href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/jquery-ui.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/selectordie.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/default.css?202200826"
+	rel="stylesheet" type="text/css">
+<link
+	href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/display.css?20221107"
+	rel="stylesheet" type="text/css">
+<link
+	href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/assist.css?20220929"
+	rel="stylesheet" type="text/css">
+<link
+	href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/devAssist.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/popup.css"
+	rel="stylesheet" type="text/css">
+<script type="text/javascript">
+var handsomeIsoCode = "ko";
+var handsomeContextPath = "/ko"; 
+</script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/jquery.min.js"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/jquery.vticker.js"></script>
+<!-- 200318 Ã¬Â¶ÂÃªÂ°Â -->
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/masonry.pkgd.min.js"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/imagesloaded.pkgd.min.js"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/jquery.form.min.js"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/jquery.cookie.js"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/jquery-ui.min.js"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/swiper.min.js"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/selectordie.min.js"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/jquery.bpopup.min.js"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/echarts.min.js"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/common.js?20210501"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/assist_common.js?v=20220630"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/assist_new.js"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/handsome.js"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/common_function.js"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/json2.js"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/SsoAjax.js"></script>
+
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/instagramAPI.js"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/makePCookie.js"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/content.js"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/e-smart-zoom-jquery.min.js"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/popup.js"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/simplepagination.js"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/netfunnel.js"
+	charset="UTF-8"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/netfunnel_skin.js"
+	charset="UTF-8"></script>
+<script type="text/javascript"
+	src="http://www.thehandsome.com/_ui/handsomemobile/js/unorm.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"
+/>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+
+<style media="screen">
+.blsmflw1 {
+	animation: target_image 1.5s;
+	animation-iteration-count: 2;
+	transform-origin: 50% 50%;
+}
+
+@keyframes target_image { 0% {
+	transform: rotate(-2deg);
+}
+50%
+{
+transform
+:
+rotate(
+9deg
+)
+}
+100%
+{
+transform
+:
+rotate(
+-1deg
+);
+}
+}
+
+</style>
+
+<!-- Groobee -->
+<script type="text/javascript">
+(function(a,i,u,e,o) {
+a[u]=a[u]||function(){(a[u].q=a[u].q||[]).push(arguments)};
+})(window, document, "groobee");
+groobee("serviceKey", "446b3d48b07e41f68624bf7f3457f33d");
+groobee("siteType", "custom");
+</script>
+<script charset="utf-8"
+	src="//static.groobee.io/dist/g2/groobee.init.min.js"></script>
+<!-- End of Groobee -->
+<meta property="groobee:member_id" content="wls3147">
+<meta property="groobee:member_grade" content="FRIEND">
+<meta property="groobee:member_gender" content="여성">
+<meta property="groobee:member_type" content="통합회원">
+<meta property="groobee:member_age" content="27">
+<script>
+// 검색 결과 페이지
+if(window.location.pathname.indexOf("/hssearch/searchCount") > -1) {
+    var groobeeKeyword = "";                     //검색_검색어(검색결과페이지일때 사용)
+    groobee( "SE", { keyword : groobeeKeyword } );
+}
+
+</script>
+<script type="text/javascript" async=""
+	src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/943253288/?random=1675928544212&amp;cv=9&amp;fst=1675928544212&amp;num=1&amp;guid=ON&amp;resp=GooglemKTybQhCsO&amp;eid=376635471%2C375603261%2C466465925&amp;u_h=851&amp;u_w=393&amp;u_ah=851&amp;u_aw=393&amp;u_cd=24&amp;u_his=16&amp;u_tz=540&amp;u_java=false&amp;u_nplug=0&amp;u_nmime=0&amp;sendb=1&amp;ig=1&amp;frm=0&amp;url=http%3A%2F%2Fwww.thehandsome.com%2Fko%2Fsns%2Fmain&amp;ref=http%3A%2F%2Fwww.thehandsome.com%2Fko%2F&amp;tiba=%EB%8D%94%ED%95%9C%EC%84%AC%EB%8B%B7%EC%BB%B4&amp;hn=www.googleadservices.com&amp;rfmt=3&amp;fmt=4"></script>
+<script
+	src="https://cdn.megadata.co.kr/js/socialLink/social_sns_config_min.js"
+	type="text/javascript" defer="" async=""></script>
+<link rel="stylesheet" type="text/css"
+	href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css"
+	href="//static.groobee.io/dist/g2/css/grb-recommend-list_v2.css">
+<link rel="stylesheet" type="text/css"
+	href="//static.groobee.io/dist/g2/css/custom-swiper.css">
+<script type="text/javascript" async=""
+	src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/943253288/?random=1675929547655&amp;cv=9&amp;fst=1675929547655&amp;num=1&amp;guid=ON&amp;resp=GooglemKTybQhCsO&amp;eid=375603261%2C466465925&amp;u_h=851&amp;u_w=393&amp;u_ah=851&amp;u_aw=393&amp;u_cd=24&amp;u_his=5&amp;u_tz=540&amp;u_java=false&amp;u_nplug=0&amp;u_nmime=0&amp;sendb=1&amp;ig=1&amp;frm=0&amp;url=http%3A%2F%2F192.168.0.47%3A5500%2FrList.html&amp;ref=http%3A%2F%2F192.168.0.47%3A5500%2FrList.html&amp;tiba=%EB%8D%94%ED%95%9C%EC%84%AC%EB%8B%B7%EC%BB%B4&amp;hn=www.googleadservices.com&amp;rfmt=3&amp;fmt=4"></script>
+<script type="text/javascript" async=""
+	src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/943253288/?random=1675931213472&amp;cv=9&amp;fst=1675931213472&amp;num=1&amp;guid=ON&amp;resp=GooglemKTybQhCsO&amp;eid=375603260%2C466465926&amp;u_h=851&amp;u_w=393&amp;u_ah=851&amp;u_aw=393&amp;u_cd=24&amp;u_his=6&amp;u_tz=540&amp;u_java=false&amp;u_nplug=0&amp;u_nmime=0&amp;sendb=1&amp;ig=1&amp;frm=0&amp;url=http%3A%2F%2F192.168.0.47%3A5500%2FrList.html&amp;ref=http%3A%2F%2F192.168.0.47%3A5500%2FrList.html&amp;tiba=%EB%8D%94%ED%95%9C%EC%84%AC%EB%8B%B7%EC%BB%B4&amp;hn=www.googleadservices.com&amp;rfmt=3&amp;fmt=4"></script>
+<script type="text/javascript" async=""
+	src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/943253288/?random=1675931235446&amp;cv=9&amp;fst=1675931235446&amp;num=1&amp;guid=ON&amp;resp=GooglemKTybQhCsO&amp;eid=375603261%2C466465925&amp;u_h=851&amp;u_w=393&amp;u_ah=851&amp;u_aw=393&amp;u_cd=24&amp;u_his=6&amp;u_tz=540&amp;u_java=false&amp;u_nplug=0&amp;u_nmime=0&amp;sendb=1&amp;ig=1&amp;frm=0&amp;url=http%3A%2F%2F192.168.0.47%3A5500%2FrList.html&amp;ref=http%3A%2F%2F192.168.0.47%3A5500%2FrList.html&amp;tiba=%EB%8D%94%ED%95%9C%EC%84%AC%EB%8B%B7%EC%BB%B4&amp;hn=www.googleadservices.com&amp;rfmt=3&amp;fmt=4"></script>
+<script type="text/javascript" async=""
+	src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/943253288/?random=1675931264024&amp;cv=9&amp;fst=1675931264024&amp;num=1&amp;guid=ON&amp;resp=GooglemKTybQhCsO&amp;eid=375603261%2C466465925&amp;u_h=851&amp;u_w=393&amp;u_ah=851&amp;u_aw=393&amp;u_cd=24&amp;u_his=6&amp;u_tz=540&amp;u_java=false&amp;u_nplug=0&amp;u_nmime=0&amp;sendb=1&amp;ig=1&amp;frm=0&amp;url=http%3A%2F%2F192.168.0.47%3A5500%2FrList.html&amp;ref=http%3A%2F%2F192.168.0.47%3A5500%2FrList.html&amp;tiba=%EB%8D%94%ED%95%9C%EC%84%AC%EB%8B%B7%EC%BB%B4&amp;hn=www.googleadservices.com&amp;rfmt=3&amp;fmt=4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-element-bundle.min.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+</head>
+
+<body class="back">
+
+	<div id="mapleMainPopwrap"
+		style="position: fixed; top: 50%; left: 50%; width: 81.333333%; z-index: 805; transform: translate(-50%, -50%); display: none">
+	</div>
+
+	<div class="hsome_allContents_wrapper">
+
+		<div class="hsome_allContents">
+
+
+			<script language="javascript">
+			
+			
+var pageSize = 5;
+var page = 0;
+var bestPage = 0;
+var checkPostList = true;
+var myList = false;
+var chkListSearch = "all";
+var chkCallType = "CLICK"; /* 실제 클릭이벤트인지 트리거로 호출 된 것인지 판단하기 위함 */
+var nowDate = "";
+var categoryDiv = "none"; // 카테고리 구분(여성/남성/전체:wowan/man/none)
+
+
+/*더보기 팝업*/
+$(document).on("click", ".hs_sns_post_cont .btn_wrap_211203 .more", function() {  
+	$('.more_layer_cont').hide();
+    $(this).parents('.hs_sns_post_cont').find('.more_layer_cont').show();
+});
+
+/*더보기 팝업 닫기*/
+$(document).on("click", ".more_layer_cont .close", function() {
+    $(this).parent('.more_layer_cont').hide();
+
+    return false;
+});
+
+/* 180710_수정 */
+$(window).load(function(){
+  var $snsImgWrapper = $('.hs_sns_img_slide_wrap');
+  $snsImgWrapper.each(function(){
+      var $this = $(this);
+      var $options = {
+      pagination: {
+        el: '.swiper-pagination',
+      },
+        on: {
+          slideChange: function () {
+            $snsImgWrapper.each(function(){
+            var $this = $(this);
+            // $this.css({ height: 'auto' });
+            // $this.find('.swiper-wrapper').css({ height: 'auto' });
+            $this.find('.swiper-pagination-container .sp-focus').css({ 
+              transform: 'translate3d(' + $this.find('.swiper-pagination-container .swiper-pagination-bullet-active').position().left + 'px, ' + $this.find('.swiper-pagination-container .swiper-pagination-bullet-active').position().top + 'px, 0)'
+            });
+          });
+          },
+        },
+    };
+  });
+});
+  
+  var down = 0;
+  var refreshHeight = 180; sns_white
+  function touchMain(){//세로 첫번째 슬라이드에서 스와프시 gnb 나타나도록 하려함.
+      refreshHeight = $(window).height() / 3;
+  
+      var element = document.getElementById('timeline');
+      element.addEventListener( 'touchstart', function( e ) {
+          var touch = event.touches[0];
+          touchstartX = touch.clientX;
+          touchstartY = touch.clientY;
+          
+            if ( e.type === 'touchstart' && e.touches.length === 1 ) {
+              var appOs = ""; //android
+              var ua = window.navigator.userAgent;
+                  var isIOS = ((navigator.userAgent.indexOf("iPhone") > -1) || (navigator.userAgent.indexOf("iPad") > -1));
+                  
+                  if(isIOS || appOs == "ios") {
+                    $('body').addClass('style_live_refresh');
+                  }
+            }
+        }, false );
+      element.addEventListener( 'touchend', function( e ) {
+          var chkDown = false;
+          var chkUp = false;
+          if(event.touches.length == 0) {
+              var touch = event.changedTouches[event.changedTouches.length - 1];
+              touchendX = touch.clientX;
+              touchendY = touch.clientY;
+              touchoffsetX = touchendX - touchstartX;
+              touchoffsetY = touchendY - touchstartY;
+              
+              if(Math.abs(touchoffsetX) >= 80 && Math.abs(touchoffsetY) <= 10) {
+                  if(touchoffsetX < 0){
+                  }else{
+                  }
+              }else{
+                  if ( 0 == Math.floor(Math.abs(touchoffsetY)/10) ) {
+                  } else {
+                      if(touchoffsetY < 0){
+                          chkDown = true;
+                      } else if (touchoffsetY > 0) {
+                          chkUp = true;
+
+                            if($(window).scrollTop() <= 0 && (touchoffsetY >= refreshHeight)) {
+                                
+                                window.sessionStorage.setItem('snsTimelineTab', $("#listSearch").val());
+                                
+                                
+                                //초기화
+                                window.sessionStorage.removeItem('snsPostId');
+                                window.sessionStorage.removeItem('snsCommendId');
+                                window.sessionStorage.removeItem('snsTimelineScroll');
+                                window.sessionStorage.removeItem('snsPostCurrentPage');
+                                window.sessionStorage.removeItem('snsTimelineGrid');
+                                window.sessionStorage.removeItem('snsListSort');
+                                
+                                //현재시간
+                                window.sessionStorage.setItem('searchNowDate', new Date().format("yyyy-MM-dd HH:mm:ss"));
+                                
+                                //새로고침 호출
+                                location.reload();
+                            }
+                            
+                      }
+                  }
+              }
+              
+              if($('body').hasClass('style_live_refresh')) {
+                $('body').removeClass('style_live_refresh');	
+              }
+          }
+          
+      }, false );
+  }
+  
+//포스트 상세보기
+  function goPostDetail(postId) {
+      location.href = '/ko/sns/detail?postId='+postId;
+      
+      clickInfoGrid2(postId); //뒤로가기 처리
+  }
+
+    //뒤로가기 처리
+    function clickInfoGrid2(postId) {
+        
+        window.sessionStorage.setItem("snsPostId", postId);
+        window.sessionStorage.setItem("snsTimelineGrid", "grid_line2");
+        window.sessionStorage.setItem("snsTimelineScroll", $(window).scrollTop());
+        window.sessionStorage.setItem("snsListSort", $("#listSort option:selected").val());
+        
+        $(".hs_sns_grid_cont2003").each(function(){
+            if($(this).attr("postid") == postId) {
+                var classList = $(this).parent('.lists').attr("class");
+                classList = classList.replace('lists grid-item page_', "");
+                window.sessionStorage.setItem('snsPostCurrentPage', classList);
+            }
+        });
+        
+    }
+  function loadingBar(){
+      $('.timeline_list.thumbnail2003').imagesLoaded(function() {
+        $('.sns_refresh_loading_2003').remove();
+      });
+  }
+  
+</script>
+
+			<!-- collection JS start-->
+			<script>
+var pageSize = 5;
+var detailPage = 0;
+var modifyYn = "";
+var checkCollectionList = true;
+function getPostCollectionList(){
+if(checkCollectionList){
+var param = {
+  modifyYn : modifyYn,
+  pageSize : pageSize,
+  currentPage : detailPage
+};
+if("" != "")  {
+  param.collectionId = "";
+}
+
+}
+}
+</script>
+			<script>
+function collectionImg(){
+  $('.hs_collection_put_pop .collection_list .img img').each(function(){
+    $this = $(this);
+
+    imgWid = $this.width();
+    imgHei = $this.height();
+
+    if(imgWid > imgHei){
+      $this.parents('.img').addClass('hei_img');
+    }else if(imgWid < imgHei){
+      $this.parents('.img').addClass('wid_img');
+    }else if(imgWid == imgHei){
+      $this.parents('.img').addClass('same_img');
+    }
+  });
+}
+</script>
+			<!-- collection JS end-->
+
+			<header class="hsome_header">
+				<h1 class="h_ttl">타임라인</h1>
+
+				<a href="/main" class="h_prev">이전 페이지로 가기</a> 
+				<a href="javascript:void(0);" class="h_report sns mNotice">SNS 전용 알림</a>
+
+				<ul class="h_gnbMenu sns2003">
+					<li class="sns_white">
+						<a href="javascript:void(0);" onclick="reviewSubmit();"> <span>포스트 등록</span>
+							<p class="h_gnbMenu_txt">등록</p>
+					</a>
+					</li>
+				</ul>
+				<form action="/review/opList" method="post" id="reviewFrm">
+					
+					<input type="hidden" th:if="${#authorization.expr('isAuthenticated()')}" th:value="*{#authentication.principal.mid}" name="mid" id="mid">
+					
+					 <div th:if="${#authorization.expr('isAuthenticated()')}">
+				       	<input type="hidden" id="check" value="1">
+				    </div>
+				    <div th:unless="${#authorization.expr('isAuthenticated()')}">
+				        <input type="hidden" id="check" value="0">
+				    </div>
+				</form>
+				
+				<script>
+					function reviewSubmit(){
+						var check = $("#check").val();
+						
+						if(check == 0){
+							location.href="/member/CustomLogin";
+						}else if(check == 1){
+							$("#reviewFrm").submit();
+						}
+					}
+				</script>
+			</header>
+
+			<!-- ################## contents ################## -->
+			<div class="hsome_contents snscontents">
+				<div class="hs_sns_wrap timeline2003" id="timeline">
+					<div class="sns_tab_btn_wrap2003">
+						<div class="sns_tab_btn_wrap2003_inner"
+							style="position: fixed; top: 44px;">
+							<ul class="ui_tab2003 red_border_tab2003 tab2">
+								<li class="on"><a href="#tab_01" id="searchAllList"
+									onclick="GA_Event('스타일라이브_타임라인', '탭바', '전체게시글');">전체 게시글</a></li>
+							</ul>
+							
+						</div>
+					</div>
+					<script>
+						function delReview(rno){
+							$("#reviewDelFrm input[name=rno]").val(rno);
+							
+							$("#reviewDelFrm").submit();
+						};				
+					</script>
+					<form action="/review/delete" method="post" id="reviewDelFrm" sec:authorize-expr="isAuthenticated()">
+						<input type="hidden" name="mid" th:value="${#authentication.principal.mid}">
+						<input type="hidden" name="rno" value="">
+					</form>
+					<ul class="timeline_list" id="post_list">
+						<li th:each="rList : ${review}" class="lists grid-item page_0">
+							<div class="hs_sns_post_cont">
+								<div class="pro_cont">
+									<a href="javascript:void(0);" class="pro_link">
+										<div class="img_wrap">
+											<div class="img">
+												<img
+													src="http://www.thehandsome.com/_ui/handsomemobile/images/content/no_pro_img.png"
+													alt="">
+											</div>
+										</div>
+										<div class="txt">
+											<p class="name" th:text="${rList.mid}">작성자 아이디</p>
+											<p class="info">
+												<span class="level" th:text="${rList.rdate}">작성일</span>
+											</p>
+										</div>
+									</a>
+									<div class="btn_wrap_211203" th:if="${rList.mid == #authentication.principal.mid}">
+										<button sec:authorize-expr="isAuthenticated()" type="button"
+											class="more" onclick="ga_more();">
+											<span>더보기</span>
+										</button>
+									</div>
+								</div>
+								<!-- 더보기 layer -->
+								<div class="more_layer_cont" style="display: none;">
+									<div class="cont">
+										<a href="javascript:void(0);" th:onclick="delReview([[${rList.rno}]]);" class="btn btn_popup_btot">삭제</a>
+									</div>
+									<a href="#" class="close">닫기</a>
+								</div>
+								<!-- //더보기 layer -->
+
+<script type="text/javascript">
+$(document).ready( function() {
+$('.h_gnbMenu .more').click(function(){
+    $(this).parent().siblings('.more_layer_cont').show();
+});
+$('button.more').click(function(){
+    $(this).parent().parent().siblings('.more_layer_cont').show();
+});
+$('.close').click(function(){
+    $(this).parent().hide();
+});
+$('.dvp_close_btn, .btn-alert-confirm, .btn-alert-close').click(function(){
+    $('.b-modal, .divpop_wrap_dev').hide();
+});
+
+});
+
+lc.cancleAction = function(){//취소 호출 펑션
+    $(".hs_pro_view_layer").hide();    
+    $("#popAlertConfirmDiv").removeClass("pop-user-block");
+};
+
+$("#confirmCloseDiv").click(function() {
+    $(".hs_pro_view_layer").hide(); 
+    $("#popAlertConfirmDiv").removeClass("pop-user-block");
+});
+
+
+
+function toastMsg(msg) {
+$('.hs_follow_info_txt').remove();
+$("<p class='hs_follow_info_txt quick_active'>"+msg+"</p>").appendTo($('.hs_sns_wrap')); 
+}
+
+function codiChg(rno){
+	if($("#codi_" + rno).hasClass("on") == true){
+		$("#codi_" + rno).removeClass("on");
+	}else{
+		$("#codi_" + rno).addClass("on");
+	}
+}
+
+</script>
+
+								<!--// 더보기 layer -->
+								<div class="sns_cont">
+									<p class="txt">
+										<span class="inner_txt2006" th:text="${rList.rcontent}">상품평</span> <br>
+									</p>
+									<div class="tag_wrap"></div>
+								</div>
+							
+								<div class="hs_sns_img_slide_wrap swiper-container swiper-container-horizontal swiper-container-android swiper-container-wp8-horizontal">
+									<swiper-container class="swiper-wrapper">
+										<swiper-slid th:if="${rList.reviewFile1 != null}" class="swiper-slide" style="width: 373px;">
+										<img th:src="'/display?fileName=' + ${rList.reviewFile1}" style="width: 373px; max-heigth: 373px;"></swiper-slid>
+										<swiper-slid th:if="${rList.reviewFile2 != null}" class="swiper-slide" style="width: 373px;">
+										<img th:src="'/display?fileName=' + ${rList.reviewFile2}" style="width: 373px; max-heigth: 373px;"></swiper-slid>
+										<swiper-slid th:if="${rList.reviewFile3 != null}" class="swiper-slide" style="width: 373px;">
+										<img th:src="'/display?fileName=' + ${rList.reviewFile3}" style="width: 373px; max-heigth: 373px;"></swiper-slid>
+									</swiper-container>
+								</div>
+	
+								<div class="btm_wrap">
+									<div class="left_cont">
+										<a class="btn codi" id="8900691065212" th:onclick="codiChg([[${rList.rno}]]);">
+											<i class="ico">코디</i><span class="txt"></span>
+										</a>
+									</div>
+								</div>
+								<div
+									class="codi_silde swiper-container swiper-container-horizontal swiper-container-free-mode swiper-container-wp8-horizontal"
+									th:id="'codi_' + ${rList.rno}">
+									<ul class="swiper-wrapper"
+										style="transform: translate3d(0px, 0px, 0px);">
+										<li class="swiper-slide swiper-slide-active"
+											style="margin-right: 5px;">
+											<a th:href="'/product/detail/' + ${rList.cmatchpid}">
+												<div class="codi_product">
+													<div class="img">
+														<img th:src="${rList.cimage1}">
+													</div>
+													<div class="cont">
+														<p class="brand" th:text="${rList.bname}">브랜드</p>
+														<p class="price" th:text="'₩ ' + ${#numbers.formatInteger(rList.pprice, 3, 'COMMA')}">가격</p>
+													</div>
+												</div>
+										</a></li>
+									</ul>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+
+			<script type="text/javascript"
+				src="http://www.thehandsome.com/_ui/handsomemobile/js/clipboard.min.js"></script>
+			<script> 
+
+var initNotePop = function(el) {
+var data = $(el).data();
+
+if(data.attachfilepath) {
+  $(".hs_sns_note_pop .left_cont img").attr("src",data.attachfilepath);
+} else {
+  $(".hs_sns_note_pop .left_cont img").attr("src","http://www.thehandsome.com/_ui/handsomemobile/images/content/no_pro_img.png");
+}
+
+$(".hs_sns_note_pop .left_cont .name").html(data.profilename);
+
+$(".hs_sns_note_pop .right_cont .level").html(data.userlevel < 6 ?"레벨 "+ data.userlevel : '마스터');
+
+if(data.isadmin != '' && data.isadmin == true) {
+    $(".hs_sns_note_pop .right_cont .level").html('관리자');    
+}
+
+$(".hs_sns_note_pop input[id=noteTarget]").val(data.customer);
+
+$(".hs_default_input .clearInput_A").val("");
+
+}
+
+var deletePost = function(postId) {
+
+$.get("/ko/sns/isEventWinner",{postId:postId},function(data) {
+  if(data) {
+    new layerAlert('이벤트 당첨작은 삭제할 수 없습니다.');
+    return;
+  } else {
+    var la = new layerConfirm('포스트를 삭제하시겠습니까?',
+        '확인',
+        '취소');
+    la.confirmAction = function() {
+        $.get("/ko/sns/deletePost",{postId:postId},function(data){
+          location.reload(true);
+            
+          $('.hs_follow_info_txt').remove();
+          $("<p class='hs_follow_info_txt'>게시물이 삭제되었습니다.</p>").appendTo($('.hs_sns_wrap')); 
+  
+            if($('.hsome_quickMenu').hasClass('active')){
+            $('.hs_follow_info_txt').addClass('quick_active');
+          }else{
+            $('.hs_follow_info_txt').removeClass('quick_active');
+          };
+        });		
+      };
+    la.cancelAction = function() {
+      $('.hsome_layer_popup03 .pop-comm-cls').click();
+    }
+  }
+});
+};
+
+$("#reportBtn").on("click",function() {
+
+if($("#reportDivision option:selected").val() == "notSelected") {
+  layerAlert("사유를 선택해주세요");
+  return;
+} else if ($("#reportDivision option:selected").val() == "ETC" && $("#reportEctReason").val() == "") {
+  layerAlert("내용을 입력해 주세요");
+  return;
+} 
+
+
+var postReportData = {
+    postId : $("#reportPostId").val(),
+    division : $("#reportDivision option:selected").val(),
+    reportReason : $("#reportEctReason").val()
+}; 
+
+function goLogin() {
+location.href = '/ko/member/login';
+}
+
+var setPostBlind = function(el, e, postId) {
+  var la = new layerConfirm('해당 게시물을 Blind 처리 하시겠습니까?',
+            '확인',
+            '취소')
+    la.confirmAction = function() {
+        postBlindSubmit(e, postId);
+    }
+}
+
+
+//메뉴 선택시 더보기 팝업 닫기
+$(document).on("click",".more_layer_cont .cont a", function(){
+//$(".hsome_layer_popup03 .pop-comm-cls").click();
+$('.more_layer_cont').hide();
+});
+
+$(document).on("click",".more_layer_cont .close",function(){
+$(this).parent('.more_layer_cont').hide();
+return false;
+});
+
+$(document).on("click",".hsome_layer_popup03 .cancelbtn",function() {
+$(this).parents(".hsome_layer_popup03").find(".pop-comm-cls").click();
+})
+
+function snsHideBottom(){
+$(".hsome_quickMenu").removeClass("active");
+$(".hsome_topBtn").removeClass("active");
+}	
+</script>
+			<script language="javascript">
+
+var like_currPage = 0
+, like_pageSize = 10
+, like_noMoreData = false
+, like_postId = ""
+, like_totalCount = "";
+
+var getLikerList = function(likeListBtn,postId, pageNum) {
+var el = $(likeListBtn);
+//좋아요 list가 0이면  상세창 호출안됨
+var likeListUrl = '/ko/sns/getPostLikeList';
+
+if(el.parents(".sns_comment_pop").length != 0){
+likeListUrl = '/sns/getPostReplyLikeList';
+}
+
+if(el.text() == "0"){
+return;
+} 
+
+if(el.text() != "") {
+like_totalCount = el.text();
+}
+
+if(postId) {
+like_postId = postId;
+$(".hs_sns_like_pop .normal_txt").html("("+like_totalCount+")");
+}
+
+if(typeof pageNum !== "undefined" ) {
+like_currPage = pageNum - 1;
+}
+
+var param = {
+  pageSize: like_pageSize,
+  currentPage : like_currPage,
+  postId : like_postId
+};
+
+var addProfile;
+
+$.get(likeListUrl, param, function(data){
+if(data != null) {
+  $(".hsome_layer_popup.hs_sns_like_pop .hs_sns_member_list").html('');
+}
+
+var profileList = data.results;
+
+for( var index in profileList) {
+  var profile = profileList[index];
+  
+  addProfile = '<li class="lists">';
+  addProfile += '<div class="pro_cont">';
+  addProfile += '<a href="/ko/sns/myProfile?viewCustomerNo='+profile.customer+'" class="pro_link">';
+  addProfile += '<div class="img_wrap">';
+  if(profile.attachFilePath) {
+    addProfile += '<div class="img"><img src="'+ profile.attachFilePath+'/dims/resize/90x90" alt=""></div>';
+  } else {
+    addProfile += '<div class="img"><img src="http://www.thehandsome.com/_ui/handsomemobile/images/content/no_pro_img.png" alt=""></div>';
+  }
+  addProfile += '</div>';
+  
+  addProfile += '<div class="txt">';
+  addProfile += '<p class="name">'+profile.profileName+'</p>';
+  addProfile += '<p class="info">';
+  if(profile.isAdmin == null || (profile.isAdmin+"") != "true" ){
+    addProfile += '<span class="level">';
+    if(profile.userLevel == 0){
+        profile.userLevel = 1;
+    }
+    
+    if(profile.userLevel < 6){
+        addProfile += '레벨 '+ profile.userLevel;    
+    }else {
+        addProfile += '마스터';
+    }
+    
+    addProfile += '</span>';
+  }
+  if(profile.userGrade == "THESTAR") {
+      profile.userGrade = "THE STAR";
+  }
+// 			addProfile += '<span class="grade">'+profile.userGrade+'</span></p></div></a></div>';
+  addProfile += '</p></div></a></div>';
+  
+  if("8953774931972" == "") {
+    addProfile += '<button type="button" class="follow" targetUser="'+profile.customer+'" onClick="javascript:layerAlert(\'로그인이 필요합니다.\')">팔로우</button>';
+  } else if("8953774931972" != profile.customer) {
+    if(profile.deleteYn == "0") {
+      addProfile += '<button type="button" class="follow like_follow_btn on" targetUser="'+profile.customer+'" onClick="following(this)">팔로잉</button>';
+    } else {
+      addProfile += '<button type="button" class="follow like_follow_btn" targetUser="'+profile.customer+'" onClick="following(this)">팔로우</button>';
+    }
+  }
+  addProfile += '</li>';
+  
+    if(profile.blockUserYn == 'Y') { //차단한 사용자
+    
+            addProfile  = '<li class="lists block_user">                                  ';
+            addProfile += '    <div class="block_content">                                ';
+            addProfile += '        내가 차단한 사용자의 좋아요입니다.<br/>                ';
+            addProfile += '        사용자를 확인하려면, <button onclick="javascript:goUserProfile('+profile.customer+')">여기</button>를 누르세요. ';
+            addProfile += '    </div>                                                     ';
+            addProfile += '</li>                                                          ';
+        }
+        
+
+  $(".hsome_layer_popup.hs_sns_like_pop .hs_sns_member_list").append(addProfile);
+  $(".hsome_layer_popup.hs_sns_like_pop .hs_sns_member_list").scrollTop(0);
+  
+  var pagination = data.pagination;
+        var pages = postLikePagination('paging', (pagination.currentPage + 1), pagination.totalNumberOfResults, pagination.pageSize, 5, 'getLikerList#this#'+like_postId);
+        
+        var txtPaging = "";
+        txtPaging += '<div id="pagination" class="hs_paging bottom">';
+        txtPaging += pages;
+        txtPaging += '</div>';
+        
+        $('.hsome_layer_popup.hs_sns_like_pop #paging').html(txtPaging);
+}
+});
+
+};
+
+
+var first = "";
+// 첫페이지가 아니면 이벤트 생성
+if (currPageNum != 1) {
+first = '<a href="javascript:' + funcName + '(' + params + 1 + ')" class="first">&raquo;</a>';
+}
+
+var prev = "";
+// 이전블록 유효하면 이전버튼 이벤트 생성
+if (currPageNum >= startPage && currPageNum != Number(1)) {
+prev = '<a href="javascript:' + funcName + '(' + params + (Number(currPageNum) - Number(1)) + ')" class="pre">이전</a>';
+} else {
+prev = '<a href="javascript:void(0);" class="pre disabled">이전</a>';
+}
+
+// 페이징 생성
+var pageHtml = "";
+for (var i = startPage; i <= lastPage; i++) { 
+if (parseInt(currPageNum) === i) {
+  pageHtml += '<a href="javascript:void(0);" class="cur">' + i + '</a>';
+} else {
+  pageHtml += '<a href="javascript:' + funcName + '(' + params + i + ')">' + i + '</a>';
+}
+}
+
+var next = "";
+// 다음블록 유효하면 다음버튼 이벤트 생성
+if (currPageNum <= lastPage && currPageNum != totalPage) {
+next = '<a href="javascript:' + funcName + '('+ params + (Number(currPageNum) + Number(1)) + ')" class="nxt">다음</a>';
+} else {
+next = '<a href="javascript:void(0);" class="nxt disabled">다음</a>';
+}
+
+var last = "";
+// 마지막 페이지가 아니면 이벤트 생성
+if (currPageNum != totalPage) {
+last = '<a href="javascript:' + funcName + '(' + params + totalPage + ')" class="last">&raquo;</a>';
+}
+
+return (totRecordsOfResults > 0) ? prev + pageHtml + next : '';
+
+
+function goUserProfile(customerNo){
+location.href = '/ko/sns/myProfile?viewCustomerNo='+customerNo+'';
+}
+</script>
+			<!-- //레이어 팝업 -->
+			<script>
+$("#searchWordTxt").keyup(function(e){if(e.keyCode == 13)  goTotalSearch(); });
+var writePost = function(eventCode) {
+
+  if(eventCode != "") {
+    $("#imageUploadform #eventCode").attr("value",eventCode);
+  } else {
+    $("#imageUploadform #eventCode").attr("value","");
+  }
+  
+  $('#imageUpload').click();
+};	
+
+$(document)
+    .ready(
+        function() {
+// 						    window.sessionStorage.setItem('searchNowDate', new Date().format("yyyy-MM-dd HH:mm:ss"));
+            
+            hideSnsLoadingLp(); //뒤로가기시, 로딩레이어 노출케이스 때문에 강제호출
+            $("#imageUpload").val("");
+            
+            touchMain(); //새로고침처리
+            
+                scrollFix2003();//스크롤시 메뉴버튼 고정
+                
+            thumbnailList();//리스트 / 썸네일
+            $(document).on('click','.ico-btn2105',function(){ // 툴팁_토스트팝업 190628
+                if($(this).hasClass('on')){
+                    $('.tooltip-cont2105').hide();
+                    $(this).removeClass('on');
+                }else{
+                    $('.tooltip-cont2105').show();
+                    $(this).addClass('on');
+                }
+            });
+            $(document).on('click','.tooltip-cont2105 .close',function(){
+                $('.tooltip-cont2105').hide();
+                $('.ico-btn2105').removeClass('on');
+            });
+            $('.tagfollo_ex_btn2003').on('click',function(){//검색창 오픈
+                $('.top_search_wrap').addClass('open2003');
+            });
+            $('.sch_close2003').on('click',function(){//검색창 클로즈
+                $('.top_search_wrap').removeClass('open2003');
+                $("#searchWordTxt").val("");
+            });
+            var $append_cnt = 0;
+            $(document).on('click', '.ui_tab2003 li a', function(){//메뉴버튼 클릭시 애니메이션
+                var $this = $(this),
+                    $this_parent = $this.closest('.ui_tab2003');
+                var li_width = $this.closest('li').outerWidth();
+                    $this_parent.addClass('active');
+                if (($append_cnt == 0) && ($this_parent.find('.fcs3').length == 0)) {//180802 수정
+                    $this_parent.append('<li class="fcs3"></li>');
+                    $append_cnt = 1;
+                }
+                $this_parent.find('.fcs3').css({
+                    transform: 'translateX('+ $this.position().left +'px)',
+                    width:li_width+'px'
+                });
+                $(window).resize(function(){
+                    $this_parent.find('.fcs3').css({
+                        transform: 'translateX('+ $this.position().left +'px)',
+                        width:li_width+'px'
+                    });
+                });
+                $this.parent('li').siblings('li').removeClass('on');
+                $this.parent('li').addClass('on');
+                
+                bestUserLoadFlag = false;
+                isBestUserOnce = true;
+                if($this.attr("id") == "searchBestUserList"){
+                    bestUserLoadFlag = true;
+                }
+                
+                return false;
+            });
+            $('.timeline_list .btn .like').on('click',function(){//좋아요 클릭
+                if(!$(this).hasClass('on')){
+                    $(this).addClass('on');
+                    $(this).next('.bt_inner_hearts_blk2006').find('.heart_blk').show();
+                    $(this).next('.bt_inner_hearts_blk2006').find('.heart_blk.heart_show_fst').addClass('on');
+                    $(this).next('.bt_inner_hearts_blk2006').find('.heart_blk.heart_show_scd').addClass('on');
+                }else{
+                    $(this).removeClass('on');
+                    $(this).next('.bt_inner_hearts_blk2006').find('.heart_blk.heart_show_fst').removeClass('on');
+                    $(this).next('.bt_inner_hearts_blk2006').find('.heart_blk.heart_show_scd').removeClass('on');
+                }
+            });
+            
+          
+          
+                        var isWriteAfter = '';
+                        
+                        if (isWriteAfter == "true") {
+                            var offset = $(".timeline_list").offset();
+
+                            // offset은 절대 위치를 가져온다. offset.top을 통해 상단의 좌표를 가져온다.
+                            // position은 부모를 기준으로한 상대위치를 가져온다.
+                            $("html, body").animate({scrollTop:offset.top},400);
+                            //layerAlert('저장되었습니다');
+                            
+                            if(getCookie("isWriteAfter")){
+                                //작성 후 메인으로 이동한 뒤 포스트 팝업  새로고침 시 표시되지않게 하기위해 쿠키값제거 
+                                $("<p class='hs_post_update_txt'>스타일라이브가 게시되었습니다.</p>").appendTo($('.hs_sns_wrap'));  //포스트등록 토스트팝업
+                                setCookie("isWriteAfter","Y",-1);
+                            }
+                        }							
+          
+          // TimeLine 목록조회 탭클릭
+            $('#searchAllList, #searchFollowList, #searchBestList, #searchBestUserList').click(function(){
+              $(window).scrollTop(0);
+                var objId = $(this).attr('id');
+                
+               
+                $('#timeline').removeClass("stlv_best_sf_wrapper");
+                if (objId == "searchAllList" || objId == "searchFollowList" || objId == "searchBestUserList") {
+// 						        	$(".hs_sns_wrap.timeline2003").removeClass("timeline_best");
+                    if (objId == "searchAllList") {
+                                  $('#listSearch').val("all");
+                                  $('.event_post_wrap').show();
+                              } else if(objId == "searchFollowList"){
+                                  $('#listSearch').val("follow");
+                                  $('.event_post_wrap').hide();
+                              } else if(objId == "searchBestUserList"){
+                                    $('#listSearch').val("bestUser");
+                                    $('.event_post_wrap').hide();
+                                    $('#timeline').addClass("stlv_best_sf_wrapper");
+                                }
+                  $(".timeline_sorting").show();
+
+                  $('.timeline_list .hs_sns_grid_cont2003').hide();
+                    $('.timeline_list').removeClass('thumbnail2003');
+                    $('.stlv_grid_wrap_2003 .grid_line1 a').addClass("on");
+                          $('.stlv_grid_wrap_2003 .grid_line2 a').removeClass("on");
+                }else {
+// 						            $(".hs_sns_wrap.timeline2003").addClass("timeline_best");
+                    $('#listSearch').val("best");
+                    $('.event_post_wrap').hide();
+                    $(".timeline_sorting").hide();
+                }						        
+
+                            $('#searchAllList, #searchFollowList , #searchBestList, #searchBestUserList').removeClass('on');
+                            $(this).addClass('on');
+                            
+                            
+                            getPostList('first', $("#listSearch").val(), $("#listSort").val());
+                            
+            });	
+          
+            //새로고침시, 탭유지
+                        var pageNm = window.sessionStorage.getItem('snsTimelineTab');
+                        if(pageNm == "follow"){
+                            $("#listSearch").val("follow");
+                            $("#searchFollowList").trigger('click');
+                            GA_Event('스타일라이브_타임라인', '탭바', '팔로우한 게시글'); 
+                        }else if(pageNm == "best"){
+                            $("#listSearch").val("best");
+                            $("#searchBestList").trigger('click');
+                            GA_Event('스타일라이브_타임라인', '탭바', '베스트게시글'); 
+                        }else if(pageNm == "bestUser"){
+                            $('#listSearch').val("bestUser");
+                            $("#searchBestUserList").trigger('click');
+                            GA_Event('스타일라이브_타임라인', '탭바', '베스트게시글');
+                            
+                            //
+                            $('#timeline').addClass("stlv_best_sf_wrapper");
+                        }else{
+                            // 처음로딩시 TimeLine 가져오기
+                            var snsListSort = $("#listSort").val();
+                            if(window.sessionStorage.getItem('snsListSort') != null) {
+                                snsListSort = window.sessionStorage.getItem('snsListSort');
+                            }
+                            getPostList('first', 'all', snsListSort);
+                            GA_Event('스타일라이브_타임라인', '탭바', '전체게시글');                                
+                        }
+                        window.sessionStorage.removeItem('snsTimelineTab');
+          
+
+var postLoadFlag = true;
+$(document).ready(function(){
+hideLoadingLp();
+// 		hideSnsLoadingLp();
+$(window).scroll(function() { //스크롤이 최하단 으로 내려가면 리스트를 조회하고 page를 증가시킨다.
+    if($("#listSearch").val() != "bestUser"){
+        if (($(window).scrollTop() + $("footer.hsome_footer").height()) >= ($(document).height()- $(window).height()-100) 
+         && postLoadFlag && !$('.hs_sns_register_pop').hasClass('activated') && $(window).scrollTop() != 0) {
+          if ( $('.sns_refresh_loading_2003').length == 0 ) {
+            postLoadFlag = false;
+        ++page;
+        getPostList('page', $("#listSearch").val(), $("#listSort").val());
+          }
+        }
+    }else{
+        if (($(window).scrollTop() + $("footer.hsome_footer").height()) >= ($(document).height()- $(window).height()-100) 
+     && postLoadFlag && !$('.hs_sns_register_pop').hasClass('activated') && $(window).scrollTop() != 0) {
+        if ( $('.sns_refresh_loading_2003').length == 0 ) {
+            postLoadFlag = false;
+            ++bestPage;
+            getPostList('page', $("#listSearch").val(), $("#listSort").val());
+        }
+    }
+    }
+});
+
+//뒤로가기 페이징처리
+if($("#listSearch").val() != "best" && $("#listSearch").val() != "bestUser"){
+    if(window.sessionStorage.getItem('snsPostCurrentPage') != null ) {
+        if(window.sessionStorage.getItem('snsPostId') != null 
+        && window.sessionStorage.getItem('snsTimelineGrid') != null){
+            $(".timeline_sorting .stlv_grid_wrap_2003 .grid_line2 a").trigger("click");
+        }
+            
+        var currentPaging = window.sessionStorage.getItem('snsPostCurrentPage');
+        var snsListSort = window.sessionStorage.getItem('snsListSort');
+        for(var i = 0; i < currentPaging; i++) {
+            ++page;
+            getPostList('page', $("#listSearch").val(), snsListSort);
+        }
+    }    
+}
+
+
+$('.hs_sns_register_pop').scroll(
+    function() {
+      if($('.hs_sns_register_pop').hasClass('activated')){
+        var scrollT = $(this).scrollTop();
+        var scrollH = $(this).height();
+        var contentH = $('.hs_sns_register_pop').height();
+        if(scrollT >= contentH-100 && reportPostLoadFlag){
+            reportPostLoadFlag = false;
+            ++adminReportPage;
+            getAdminReportList();
+          }
+          
+        }
+      }
+);
+
+$('input[name=gender]').click(function () {
+  if ( this.id == 'gender_check_1' ) { // 여성
+    $('#gender_check_2').attr('checked', false);
+  }
+  if ( this.id == 'gender_check_2' ) { // 남성
+    $('#gender_check_1').attr('checked', false);
+  }
+  getPostList('first', 'all', $("#listSort").val());
+});
+
+});
+
+var $grid = {};
+var gridItem = '.grid-item';
+var masonryOptions = {
+columWidth: gridItem,
+itemSelector: gridItem,
+percentPosition: true,
+horizontalOrder: false,
+transitionDuration: 0
+}
+function thumbnailList(){//리스트 / 썸네일
+var $line_1 = $('.stlv_grid_wrap_2003 .grid_line1 a');
+var $line_2 = $('.stlv_grid_wrap_2003 .grid_line2 a');
+
+$line_2.on( 'click', function() {
+    if(!$(this).hasClass('on')){
+        $(this).addClass('on');
+        $line_1.removeClass('on');
+        $('#post_list').addClass('thumbnail2003');
+        $('.timeline_list .hs_sns_grid_cont2003').show();
+        if($grid.length != undefined){
+//                 $grid.masonry('destroy');    
+        }else{
+//                 $grid = $('.timeline_list.thumbnail2003').masonry(masonryOptions);
+            $grid = $('.timeline_list.thumbnail2003').imagesLoaded(function() {
+                $grid.masonry(masonryOptions);
+            });
+        }
+      $(gridItem).css('opacity',1);
+    }
+});
+$line_1.on( 'click', function() {
+    if(!$(this).hasClass('on')){
+        $(this).addClass('on');
+        $line_2.removeClass('on');
+      $('.timeline_list .hs_sns_grid_cont2003').hide();
+      $('.timeline_list').removeClass('thumbnail2003');
+    if($grid.length != undefined){
+        $grid.masonry('destroy');
+        $grid = {};
+    }
+    }
+});
+
+
+
+
+}
+
+</script>
+
+			<script>
+
+//댓글, 이미지 더 보기 팝업 script 시작
+$(window)
+    .load(
+        function() {
+            
+          // $('#yaaaa .btn_popup_trigger').trigger('click');
+          // $('.sns_comment_pop .comment_ .mr.btn_popup_trigger').trigger('click');
+          /*콜렉션 img 정렬*/
+          function collectionImg() {
+            $(
+                '.hs_collection_put_pop .collection_list .img img')
+                .each(
+                    function() {
+                      $this = $(this);
+
+                      imgWid = $this.width();
+                      imgHei = $this.height();
+
+                      if (imgWid > imgHei) {
+                        $this
+                            .parents('.img')
+                            .addClass(
+                                'hei_img');
+                      } else if (imgWid < imgHei) {
+                        $this
+                            .parents('.img')
+                            .addClass(
+                                'wid_img');
+                      } else if (imgWid == imgHei) {
+                        $this
+                            .parents('.img')
+                            .addClass(
+                                'same_img');
+                      }
+                    });
+          }
+
+          collectionImg();
+
+          $('.sns_comment_pop .comment_ .more').click(
+              function() {//대댓글 보기
+                $(this).toggleClass('active');
+                $(this).closest('.comment_').next(
+                    '.re_').toggle();
+                return false;
+              });
+          
+          
+          // 180712_수정
+          $('.sns_comment_ipt_pop .sns-comment-ipt textarea')
+              .keyup(
+                  function() {//댓글 등록 영역 내용 유무 체크
+                    if ($(this).val() != '') {
+                      $(this).parent().next()
+                          .find('button')
+                          .attr('disabled',
+                              false);
+                    } else {
+                      $(this).parent().next()
+                          .find('button')
+                          .attr('disabled',
+                              true);
+                    }
+                  });
+          // 180712_수정 end
+
+     
+
+        });
+jQuery.each(jQuery('textarea[data-autoresize]'), function() {//auto resizing textarea
+  var offset = this.offsetHeight - this.clientHeight;
+
+  var resizeTextarea = function(el) {
+    jQuery(el).css('height', 'auto').css('height',
+        el.scrollHeight + offset);
+  };
+  jQuery(this).on('keyup input', function() {
+    resizeTextarea(this);
+  }).removeAttr('data-autoresize');
+});
+//댓글, 이미지 더 보기 팝업 script 끝
+</script>
+			<!-- 검색처리 -->
+
+			<!-- 신고글 조회 -->
+			<script>
+var adminReportPageSize=5;
+var adminReportPage=0;
+var checkAdminList=true;
+var reportPostLoadFlag = true;
+function popupAdminReport(){
+$("#admin_report_list_popup").html("");
+checkAdminList= true;
+adminReportPage=0;
+getAdminReportList();	
+}
+
+function getAdminReportList() {
+$(".hsome_quickMenu").removeClass("active");
+if (checkAdminList) {
+var param = {
+  pageSize : adminReportPageSize,
+  currentPage : adminReportPage,
+};
+$.get('/ko/sns/adminReportList.ajax', param, function(data) {
+  if (data == ""){
+        checkAdminList = false;
+  }else{
+    $("#admin_report_list_popup").append(data);
+    
+    var reportListsPage = '.lists.reportPage_'+adminReportPage;
+    var $new_swiper_options = {
+        pagination: {
+          el: '.swiper-pagination',
+        },
+         observer: true,
+          on: {
+            slideChange: function () {
+              $(reportListsPage+' .hs_sns_img_slide_wrap').each(function(){
+              var $this = $(this);
+              $this.find('.swiper-pagination-container .sp-focus').css({ 
+                transform: 'translate3d(' + $this.find('.swiper-pagination-container .swiper-pagination-bullet-active').position().left + 'px, ' + $this.find('.swiper-pagination-container .swiper-pagination-bullet-active').position().top + 'px, 0)'
+              });
+            });
+            }
+          }
+      };
+    
+    $(reportListsPage+' .hs_sns_img_slide_wrap').each(function(){
+        var $this = $(this);
+        swiper = new Swiper(reportListsPage+' .' + $this.attr('class').replace(' ', '.'), $new_swiper_options);
+    });
+  }
+  $(".hsome_quickMenu").removeClass("active");
+  reportPostLoadFlag = true;
+});
+}
+}
+
+/* 검색영역 180817 추가 시작 */
+$('.top_search_wrap .hs_search_input input').on('keyup', function(){
+ipt_val_check($(this));
+});
+ipt_val_check($('.top_search_wrap .hs_search_input input'));
+function ipt_val_check($txt){
+if ($txt.val() != '') {
+$txt.parent().find('.delete_btn').fadeIn('fast');
+} else {
+$txt.parent().find('.delete_btn').fadeOut('fast');
+}
+}
+$('.top_search_wrap .hs_search_input .delete_btn').on('click', function(){
+$(this).parent().find('input').val('');
+$(this).fadeOut('fast');
+})
+/* 검색영역 180817 추가 끝 */
+
+/*slide*/
+/* 180710_수정 */
+var $snsImgWrapper = $('.hs_sns_img_slide_wrap');
+$snsImgWrapper.each(function(){
+var $this = $(this);
+var $options = {
+pagination: {
+  el: '.swiper-pagination',
+},
+  on: {
+    slideChange: function () {
+      $snsImgWrapper.each(function(){
+      var $this = $(this);
+      $this.find('.swiper-pagination-container .sp-focus').css({ 
+        transform: 'translate3d(' + $this.find('.swiper-pagination-container .swiper-pagination-bullet-active').position().left + 'px, ' + $this.find('.swiper-pagination-container .swiper-pagination-bullet-active').position().top + 'px, 0)'
+      });
+    });
+    },
+  },
+};
+snsImgSwiper = new Swiper('.' + $this.attr('class').replace(' ', '.'), $options);
+});
+/*// 180710_수정 */
+
+var relationItemSwiper = new Swiper('.relation_item_slide.swiper-container', {
+slidesPerView:'auto',
+spaceBetween:5
+});
+
+function setReportListCount(reportCount){
+$("#reportListCount").html("("+reportCount+")");
+}
+
+window.onpageshow = function (e) {
+/* if (e.persisted) {
+document.location.reload();
+} */
+if ( e.persisted || (window.performance && window.performance.navigation.type == 2)) {  // 뒤로가기
+loadingBar();
+
+if($("#searchBestUserList").parent().hasClass("on")){
+    $('#listSearch').val("bestUser");
+        $("#searchBestUserList").trigger('click');
+        $('#timeline').addClass("stlv_best_sf_wrapper");
+}
+
+  if( window.sessionStorage.getItem('snsTimelineTypeTab') != null) {
+      $("#"+window.sessionStorage.getItem('snsTimelineTypeTab')).trigger('click');
+      $("."+window.sessionStorage.getItem('snsTimelineGrid')+ " a").trigger('click');
+        timelineInit();
+  }
+
+
+    //댓글 레이어 기억하기
+    if(window.sessionStorage.getItem('snsPostId') != null 
+    && window.sessionStorage.getItem('snsCommendId') != null) {
+       $(".hs_sns_post_cont").each(function() {
+           if($(this).attr("postid") == window.sessionStorage.getItem('snsPostId')){
+               $(this).find(".btm_wrap .left_cont .btn .comment").trigger("click");
+               
+               //초기화
+               window.sessionStorage.removeItem('snsPostId');
+               window.sessionStorage.removeItem('snsCommendId');
+               window.sessionStorage.removeItem('snsTimelineScroll');
+               window.sessionStorage.removeItem('snsPostCurrentPage');
+           }
+       });
+   }else if(window.sessionStorage.getItem('snsPostId') != null 
+         && window.sessionStorage.getItem('snsTimelineGrid') != null){ //썸네일형
+         //초기화
+         window.sessionStorage.removeItem('snsPostId');
+         window.sessionStorage.removeItem('snsTimelineGrid');
+         window.sessionStorage.removeItem('snsTimelineScroll');
+         window.sessionStorage.removeItem('snsPostCurrentPage');
+         window.sessionStorage.removeItem('snsListSort');
+   }
+    
+    if($("body").hasClass("hidden")){
+        $("body").removeClass("hidden");
+        $("body").css("overflow", "auto");
+    }
+   
+   //[ios 앱 로딩바] 존재할시 비노출 처리
+   if (e.persisted ) { 
+       hideSnsLoadingLp();
+   }
+   var chkLoading = $(".loading_layer_wrap2004").css("display");
+   if(chkLoading == "block") {
+       hideSnsLoadingLp();
+   }
+   hideSnsLoadingLp();
+}
+
+}
+
+//안드로이드 우측 버튼 비활성
+$(document).bind("contextmenu", function(e){
+return false; 
+});
+
+function timelineInit(){
+window.sessionStorage.removeItem('snsTimelineTypeTab');
+window.sessionStorage.removeItem('snsTimelineGrid');
+//     window.sessionStorage.removeItem('snsTimelineScroll');
+}
+
+function commendInit(){
+window.sessionStorage.removeItem('snsPostId');
+window.sessionStorage.removeItem('snsCommendId');
+window.sessionStorage.removeItem('snsTimelineScroll');
+window.sessionStorage.removeItem('snsPostCurrentPage');
+}
+
+$('#viewTypeList').on('click',function(){//리스트정렬 클릭
+var chkCallType_A = "CLICK";
+if(typeof chkCallType === "undefined"){
+}else{
+    chkCallType_A = chkCallType;
+}
+if(chkCallType_A != "TRIGGER"){
+    GA_Event('스타일라이브_타임라인', '보기 방식', '리스트형');
+}
+});
+
+$('#viewTypeThum').on('click',function(){//썸네일정렬 클릭
+var chkCallType_B = "CLICK";
+if(typeof chkCallType === "undefined"){
+}else{
+    chkCallType_B = chkCallType;
+}
+if(chkCallType_B != "TRIGGER"){
+    GA_Event('스타일라이브_타임라인', '보기 방식', '썸네일형');
+}
+
+});
+
+
+//새로고침
+/* if(performance.navigation.type == 1){
+window.sessionStorage.removeItem('searchNowDate'); 
+} */
+
+</script>
+
+			<script type="text/javascript">
+//<![CDATA[ 
+var height = 20;
+var num = 0;
+var max = height * num;
+var move = 0;
+var lastChild;
+var notiCnt = 0;
+var curTabId = 0;
+
+$(document).ready(function() {
+
+//자동로그인
+
+
+$(".chatbotlink").click(function () {
+    callChatbot();
+});
+
+
+// 2022.03.29 푸터 공지사항 추가
+getFooterNotices("/ko/svcenter");
+
+
+});
+
+
+function moveDesktop(){
+location.href = location.href.replace("?uiel=Mobile", "") + "?uiel=Desktop";
+}
+
+$(function(){
+var pcVersionButtons = null;
+if(getCookie("app") != "android" && getCookie("app") != "ios") {
+pcVersionButtons = '<a href="javascript:moveDesktop();">PC버전</a>';
+$("#pcVersion").html(pcVersionButtons);
+} else {
+$("#footerMenu").prop("class","menu m3");
+}
+
+
+// 	if(getCookie("app") == "ios"){
+// 	    $(".f_policy .language").hide(); //ios 메인 처음 진입시 language 노출되는 오류 수정
+// 	}
+});
+
+function hpAutoLogin(data){
+if (data.succYn == "Y") {
+    $.ajax({
+        type:"GET",
+        url:"/ko/hpoint/simpleJoinMember",
+        data: {"mcustNo":data.mcustNo},
+        success:function(data){
+            if(data.resultCode == "L"){
+                $("#hcid").val(data.uid);
+                $("#autologinForm").submit();
+            }
+        },
+        error:function(e){
+        }
+    });
+}
+}
+
+function familySiteSelect(){
+$('.fixed_dim_layer').stop().show();
+$('.family_site_popup_191108').stop().slideDown();
+}
+function familySiteSelectClosed(){
+$('.family_site_popup_191108').stop().slideUp();
+$('.fixed_dim_layer').stop().fadeOut(500);
+}
+
+//app 언어설정창 추가
+function selectLangChg(obj){
+
+}
+//외부 브라우저로 링크 열기  
+function callWebBrowser(){
+var appYn='N';
+if(getCookie("app")==null || getCookie("app")=="") {
+    //
+} else { // 앱 접속일 경우 앱 여부 Y
+    appYn = 'Y';
+}
+var appOs = '';
+   
+if(appYn == "Y") {
+    if(appOs == "ios") {
+        webkit.messageHandlers.callWebBrowser.postMessage("http://www.naver.com");
+    } else {
+        Android.callWebBrowser("http://www.naver.com");
+    }
+}
+}
+
+//]]>
+</script>
+			<script>
+
+$(window).load(function(){
+function noticeRolling(){
+    if(notiCnt > 1){
+        height = 20;
+        num = notiCnt;
+        max = height * num;
+        move += height;
+        
+        //메인여부 체크(메인진입시 1개, 메인탭별 푸터 진입시 1개씩 추가)
+        if($(".notice-wrap").length > 1){
+            $("#topNav1909 li").each(function(index){
+                if($(this).hasClass("on")){
+                    curTabId = index;
+                }
+            })
+            $("footer#footer"+curTabId+" .notice-wrap").animate({"top":-move},600,function(){
+                if (move >= max){
+                    $(this).css("top",0);
+                    move = 0;
+                }
+            });
+            
+        }else{
+            $(".notice-wrap").animate({"top":-move},600,function(){
+                if (move >= max){
+                    $(this).css("top",0);
+                    move = 0;
+                }
+            });
+        }
+    }
+};
+noticeRollingOff = setInterval(noticeRolling, 3000);
+
+//메인여부 체크(메인진입시 1개, 메인탭별 푸터 진입시 1개씩 추가)
+if($(".notice-wrap").length > 1){
+    $("#topNav1909 li").each(function(index){
+        if($(this).hasClass("on")){
+            curTabId = index;
+        }
+    })
+    $("footer#footer"+curTabId+" .notice-wrap").append($("footer#footer"+curTabId+" .notice-wrap li").first().clone());
+}else{
+    $(".notice-wrap").append($('.notice-wrap li').first().clone());
+}
+});
+</script>
+
+			<!-- ################## footer ################## -->
+			<!-- 푸터 공지 추가 220404 -->
+			<footer id="footer" class="hsome_footer new181127 footer_kr">
+				<div class="main-notice">
+					<div class="tit-notice">공지</div>
+					<div class="list-notice">
+						<ul class="notice-wrap">
+							<li><a
+								href="/ko/svcenter/mobilenotice?noticeCode=8804711059376">더한섬닷컴
+									편집/해외 브랜드 종료(예정) 안내(~2/22)</a></li>
+							<li><a
+								href="/ko/svcenter/mobilenotice?noticeCode=8804711059376">더한섬닷컴
+									편집/해외 브랜드 종료(예정) 안내(~2/22)</a></li>
+						</ul>
+					</div>
+					<div class="btn-more">
+						<a href="/ko/svcenter/mobilenotice"><img
+							src="http://cdn.thehandsome.com/_ui/handsomemobile/images/main/btn_arr_notice.png"
+							alt=""></a>
+					</div>
+				</div>
+				<div class="f_wrap">
+					<div class="f_menu re1911">
+						<!-- 수정 190207 -->
+						<ul class="top_line">
+
+							<li><a href="#"></a></li>
+							<li><a href="javascript:ftLogout();" class="login"
+								style="float: left;" onclick="GA_Event('공통', '푸터_메뉴', '로그아웃');">로그아웃<!-- 로그아웃 --></a></li>
+							<li><a href="/ko/svcenter/mobilemain?uiel=Mobile"
+								class="customer" style="float: left; width: 32%;"
+								onclick="GA_Event('공통', '푸터_메뉴', '고객센터');">고객센터<!--고객센터--></a></li>
+							<li><a href="/ko/store-finder/storeInformation?uiel=Mobile"
+								class="storeinfo" style="float: left;"
+								onclick="GA_Event('공통', '푸터_메뉴', '매장안내');">매장안내</a></li>
+						</ul>
+						<ul class="btm_line1911">
+							<li><a href="/ko/svcenter/theClubInfo?uiel=Mobile"
+								class="memberBenefit" style="float: left; letter-spacing: -1px;"
+								onclick="GA_Event('공통', '푸터_메뉴', '한섬 회원 혜택');">한섬 회원 혜택<!-- 한섬 회원 혜택 --></a></li>
+							<li><a
+								href="http://www.handsome.co.kr/ko/company/aboutHandsome.do?leng=ko"
+								target="_blank" style="float: left; letter-spacing: -1px;"
+								onclick="GA_Event('공통', '푸터_메뉴', '회사소개');">회사소개</a></li>
+							<li id="family_site"><span
+								class="language family_site1911 for_iph_css1911"
+								onclick="familySiteSelect();GA_Event('공통', '푸터_CNT', 'FAMILYSITE');">FAMILY
+									SITE&nbsp;</span></li>
+						</ul>
+						<!-- 챗봇 테스트 -->
+					</div>
+
+					<div class="f_sns">
+						<a href="javascript:noLink();"
+							onclick="GA_Event('공통', '푸터_SNS', 'INSTAGRAM');window.open('https://instagram.com/thehandsome_official/','instagram');return false"
+							class="ist">인스타그램</a> <a href="javascript:noLink();"
+							onclick="GA_Event('공통', '푸터_SNS', 'YOUTUBE');window.open('https://www.youtube.com/channel/UC0fmjgbVA8iZrPbIR3dppUQ','youtube');return false"
+							class="ytb">유튜브</a>
+					</div>
+					<div class="f_policy">
+						<a href="/ko/footer/footerTermBusiness?uiel=Mobile">서비스이용약관</a> <a
+							href="/ko/footer/footerPrivacy?uiel=Mobile"
+							style="font-weight: bold;">개인정보처리방침</a>
+
+						<!-- web -->
+						<!-- 180706 추가// -->
+						<span class="language"> <select id="footerSelectLang"
+							onchange="if(this.value) language(this.value);"
+							onclick="GA_Event('공통', '푸터_CNT', 'LANGUAGE');">
+								<option value="" selected="selected" disabled="" hidden="">LANGUAGE</option>
+								<option value="ko">한국어</option>
+								<option value="en">ENGLISH</option>
+								<option value="zh">中文</option>
+						</select>
+						</span>
+						<!-- //180706 추가 -->
+					</div>
+
+					<div class="f_copyright">COPYRIGHT © 2018 HANDSOME. ALL RIGHT
+						RESERVED</div>
+
+					<a href="javascript:noLink();" class="f_info_viewer"
+						onclick="GA_Event('공통', '푸터_CNT', 'INFO');"> <span
+						class="f-txt">(주) 한섬 </span> <span class="f-logo"><img
+							src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/mob-footer-handsome-logo.png"
+							alt=""></span>
+					</a>
+
+					<div class="f_info">
+						<div class="corp">
+							대표이사 : 김민덕 | 서울시 강남구 도산대로 523 한섬빌딩<br>TEL : 1800-5700 (유료) |
+							FAX : 02-6078-2856 <br>개인정보보호책임자 : 윤인수 | 호스팅서비스 : (주) 한섬<br>사업자등록번호
+							: 120-81-26337<br>통신판매업신고번호 : 제 2009-서울강남-00826호
+						</div>
+						<div class="link">
+							<a
+								href="https://recruit.ehyundai.com/recruit-info/announcement/list.nhd?pageNo=1&amp;hireGb=01&amp;coCd=HDHAN"
+								target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'INFO_채용정보');">채용정보</a>
+							<a
+								href="http://www.handsome.co.kr/ko/sustainability/sharedGrowth01.do"
+								target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'INFO_동반성장');">동반성장</a>
+							<a
+								href="http://www.handsome.co.kr/ko/sustainability/ecoFriendly01.do"
+								target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'INFO_환경경영');">환경경영</a>
+						</div>
+					</div>
+
+				</div>
+			</footer>
+			<!-- // 푸터 공지 추가 220404 -->
+			<!-- //################## footer ################## -->
+		</div>
+
+	</div>
+	<!-- ################## //hsome_allContents_wrapper | ë³¸ë¬¸ ì»¨íì¸  ìì­ ################## -->
+	<a href="noLink();" class="hsome_topBtn upper active" id="handsomeTopBtn">mobile.bottom.top</a>
+	<!-- 20180530 추가 -->
+
+	<script type="text/javascript">
+function goMypage() {
+//if("N" == "Y") {
+//	$("#gnbMypageBtn").click();
+//} else {
+  //$.cookie("handsomeappreturnurl", location.href, {path:"/"});
+  $.cookie("handsomeappreturnurl", "/ko/", {path:"/"});
+  location.href = "/ko/mypage/mypageFloatingPopup";
+//}
+}
+
+$(window).load(function() {
+    //모든 리소스 로드 후에 처리
+    $('.hsome_quickMenu').addClass('active');
+    
+});
+
+function goMainpage() {
+  window.sessionStorage.removeItem('moveYn'); 
+  window.sessionStorage.removeItem('width'); 
+  window.sessionStorage.removeItem('height'); 
+location.href = "/ko/main";
+}
+</script>
+	<!-- ################## hsome_quickMenu | 퀵메뉴 ################## -->
+<aside th:insert="~{include/aside}"></aside>
+	<!-- ################## //hsome_quickMenu | 퀵메뉴 ################## -->
+	<iframe id="groobeeBox" name="groobeeBox" style="display: none;"></iframe>
+</body>
+</html>

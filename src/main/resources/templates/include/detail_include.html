@@ -1,0 +1,1458 @@
+<!-- 카드사 혜택 -->
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('.card_logo img').each(function () {
+      $(this).attr('src', cdnImgUrl($(this).attr('orgurl')));
+    })
+  });
+
+  // CDN 이미지 URL로 변경
+  function cdnImgUrl(mediaUrl) {
+    var rtnUrl = mediaUrl;
+    try {
+      var searchText = 'context='
+      var cdnDomain = 'http://image.thehandsome.com/sys_master/';
+      rtnUrl = rtnUrl.substr(rtnUrl.indexOf(searchText) + searchText.length, rtnUrl.length);
+      rtnUrl = decodeURIComponent(atob(rtnUrl)).split('|');
+      if (rtnUrl.length > 4) {
+        rtnUrl = rtnUrl[4];
+        rtnUrl = cdnDomain + rtnUrl;
+      } else {
+        rtnUrl = mediaUrl;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    return rtnUrl;
+  }
+
+</script>
+
+<div class="hsome_layer_popup product_card_pop" style="z-index: 1000;">
+  <h2 class="pop-comm-ttl">카드사 혜택</h2>
+  <ul class="ui_tab hs_red_border_tab size03 active">
+    <li class="on"><a href="#card_tab01" onclick="javascript:GA_Event('상품_상세', '카드사혜택', '무이자 할부');"
+        style="border-color: transparent;">무이자 할부</a>
+    </li>
+    <li class=""><a href="#card_tab02" onclick="javascript:GA_Event('상품_상세', '카드사혜택', '청구할인');">청구할인</a></li>
+    <li class=""><a href="#card_tab03" onclick="javascript:GA_Event('상품_상세', '카드사혜택', '즉시할인');">즉시할인</a></li>
+    <li class="fcs" style="transform: translateX(0px);"></li>
+  </ul>
+  <div class="pop-comm-cnts">
+    <div class="tab_cont">
+      <div class="cont on" id="card_tab01">
+        <div class="card_list_wrap">
+          <h3 class="tit_txt">무이자 할부 행사<!-- 무이자 할부 행사 --></h3>
+          <ul class="card_list">
+            <li>
+              <div class="card_logo"><img src="http://image.thehandsome.com/sys_master/hde/h2b/8814181515294.jpg"
+                  orgurl="/medias/shinhan.jpg?context=bWFzdGVyfHJvb3R8MjY1N3xpbWFnZS9qcGVnfGhkZS9oMmIvODgxNDE4MTUxNTI5NC5qcGd8NTAwMDYxM2ZmZmRlZGFhZDQ0ODNmODJjZTg2OTE3MGI3OWQ2ZmE3YzI0ZjA3MDY3NzIxYWVhNmY3NDQyYWUzMA"
+                  alt="신한카드"></div>
+              <div class="card_cont">
+                <p class="name">신한카드</p>
+                <div class="cont_area">
+                  <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                  <p class="text">
+                    <span><b>신한카드 5만원이상 결제시 2~3개월 무이자 할부</b><br>
+                      대상: 신한카드 전 회원<br>
+                      (신한BC 제외/ 법인,기프트,체크,선불카드 제외)</span>
+                    <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                    <span>2023.02.01 ~ 2023.02.28</span>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="card_logo"><img src="http://image.thehandsome.com/sys_master/h3d/h4d/8814181613598.jpg"
+                  orgurl="/medias/SAMSUNG.jpg?context=bWFzdGVyfHJvb3R8MzIxOXxpbWFnZS9qcGVnfGgzZC9oNGQvODgxNDE4MTYxMzU5OC5qcGd8ZGY1NDJiM2U1YWNmNGE5MTJkOTA0MTAxMDliMDc4ZjRlNTJmZjJlOTkxOTQzZTEwMDcxZWU2NGU2MjJmMWE2Mw"
+                  alt="삼성카드"></div>
+              <div class="card_cont">
+                <p class="name">삼성카드</p>
+                <div class="cont_area">
+                  <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                  <p class="text">
+                    <span><b>삼성카드 5만원이상 결제시 2~3개월 무이자 할부</b><br>
+                      대상: 삼성카드 전 회원<br>
+                      (법인,기프트,체크,선불카드 제외)
+                    </span>
+                    <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                    <span>2023.02.01 ~ 2023.02.28</span>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="card_logo"><img src="http://image.thehandsome.com/sys_master/hf2/h0d/8814181220382.jpg"
+                  orgurl="/medias/BC.jpg?context=bWFzdGVyfHJvb3R8MjQ1OHxpbWFnZS9qcGVnfGhmMi9oMGQvODgxNDE4MTIyMDM4Mi5qcGd8MjZlZGU2ZGQyNDBkYzU5YmY2NWY0MDU3NDc1OTA0YWI5NmM4NDJjMDFiYjBiYjBjY2FhZjhmMzg3ZmE5NGU5Yw"
+                  alt="비씨카드"></div>
+              <div class="card_cont">
+                <p class="name">비씨카드</p>
+                <div class="cont_area">
+                  <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                  <p class="text">
+                    <span><b>비씨카드 5만원이상 결제시 2~3개월 무이자 할부</b><br>
+                      대상: 비씨카드 전 회원<br>(법인,기프트,체크,선불카드 제외)
+                    </span>
+                    <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                    <span>2023.02.01 ~ 2023.02.28</span>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="card_logo"><img src="http://image.thehandsome.com/sys_master/h5d/h7c/8814181711902.jpg"
+                  orgurl="/medias/HYUNDAI.jpg?context=bWFzdGVyfHJvb3R8MjYxMHxpbWFnZS9qcGVnfGg1ZC9oN2MvODgxNDE4MTcxMTkwMi5qcGd8YmM5ZWY0ZjlhODlkMzdmMjYyNmY4NjQ4OWU5NWVjOWFlMGY4ODIwYzZlNjA0MjBlNDkwNWI0ZDllYThjMWE5Mw"
+                  alt="현대카드"></div>
+              <div class="card_cont">
+                <p class="name">현대카드</p>
+                <div class="cont_area">
+                  <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                  <p class="text">
+                    <span><b>현대카드 5만원이상 결제시 2~3개월 무이자 할부</b><br>
+                      대상: 현대카드 전 회원<br>
+                      (법인,기프트,체크,선불카드 제외)</span>
+                    <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                    <span>2023.02.01 ~ 2023.02.28</span>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="card_logo"><img src="http://image.thehandsome.com/sys_master/h2e/h34/8814181023774.jpg"
+                  orgurl="/medias/kucmin.jpg?context=bWFzdGVyfHJvb3R8MzMwM3xpbWFnZS9qcGVnfGgyZS9oMzQvODgxNDE4MTAyMzc3NC5qcGd8MjM1YjEyN2I4OTljMGIxYzY3MjhjNDhkZWMyOTE5ODZjYmRiYWExNDdhOWZmNDQ3ZWNhNGIxZjYwYzk2MDA4Zg"
+                  alt="국민카드"></div>
+              <div class="card_cont">
+                <p class="name">국민카드</p>
+                <div class="cont_area">
+                  <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                  <p class="text">
+                    <span><b>KB국민카드 5만원이상 결제시 2~3개월 무이자 할부</b><br>
+                      대상: KB국민카드 전 회원<br>
+                      (NH농협, 국민BC 제외/ 법인,기프트,체크,선불카드 제외)</span>
+                    <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                    <span>2023.02.01 ~ 2023.02.28</span>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="card_logo"><img src="http://image.thehandsome.com/sys_master/h60/hfb/8814054965278.gif"
+                  orgurl="/medias/hanacard.gif?context=bWFzdGVyfHJvb3R8MTkzNXxpbWFnZS9naWZ8aDYwL2hmYi84ODE0MDU0OTY1Mjc4LmdpZnxhMGM5OWY0MDdhNDhjYzkwOTdiMzhkM2VmMDQ2YTI0NTAyNDBjZTljNTdiYzk4YWRhZmI0NjBhOWRhNzRiMGYw"
+                  alt="하나카드"></div>
+              <div class="card_cont">
+                <p class="name">하나카드</p>
+                <div class="cont_area">
+                  <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                  <p class="text">
+                    <span><b>하나카드 5만원이상 결제시 2~8개월 무이자 할부</b><br>
+                      대상: 하나카드 전 회원 (구 하나SK, 구 외환)<br>
+                      (하나BC카드 포함/법인,기프트,체크,선불카드 제외)</span>
+                    <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                    <span>2023.02.01 ~ 2023.02.28</span>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="card_logo"><img src="http://image.thehandsome.com/sys_master/h8e/h36/8814181908510.jpg"
+                  orgurl="/medias/NH.jpg?context=bWFzdGVyfHJvb3R8Mzk3OXxpbWFnZS9qcGVnfGg4ZS9oMzYvODgxNDE4MTkwODUxMC5qcGd8ZWVlNmY1OWM0NDdmMjg2M2Y4NGZkNDZjYThmOTVkMWNmY2QwYWNkOWI1ODc5YTdiMTc5MjY4MThiZTkzYzNmMw"
+                  alt="NH카드"></div>
+              <div class="card_cont">
+                <p class="name">NH카드</p>
+                <div class="cont_area">
+                  <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                  <p class="text">
+                    <span><b>NH농협카드 5만원이상 결제시 2~4개월 무이자 할부</b><br>
+                      대상: NH농협카드 전 회원<br>
+                      (NH농협BC카드 포함/ 법인,기프트,체크,선불카드 제외)
+
+                    </span>
+                    <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                    <span>2023.02.01 ~ 2023.02.28</span>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="card_logo"><img src="http://image.thehandsome.com/sys_master/hb3/h47/8814181810206.jpg"
+                  orgurl="/medias/LOTTE.jpg?context=bWFzdGVyfHJvb3R8MzI3MXxpbWFnZS9qcGVnfGhiMy9oNDcvODgxNDE4MTgxMDIwNi5qcGd8MDliOThkNzA1ZDc2ZDE4MzZhYmUzYjI2MDMxZDk0NGU3OTVjYzBhYTA1MmMzMjAyZmE0Y2U4OTZlNTU3NDU2Zg"
+                  alt="롯데카드"></div>
+              <div class="card_cont">
+                <p class="name">롯데카드</p>
+                <div class="cont_area">
+                  <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                  <p class="text">
+                    <span><b>롯데카드 5만원이상 결제시 2~3개월 무이자 할부</b><br>
+                      대상:롯데카드 전 회원<br>
+                      (법인,기프트,체크,선불카드 제외)</span>
+                    <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                    <span>2023.02.01 ~ 2023.02.28</span>
+                  </p>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <h3 class="tit_txt mt">부분 무이자 할부 행사</h3>
+          <ul class="card_list">
+            <li>
+              <div class="card_logo"><img src="http://image.thehandsome.com/sys_master/hde/h2b/8814181515294.jpg"
+                  orgurl="/medias/shinhan.jpg?context=bWFzdGVyfHJvb3R8MjY1N3xpbWFnZS9qcGVnfGhkZS9oMmIvODgxNDE4MTUxNTI5NC5qcGd8NTAwMDYxM2ZmZmRlZGFhZDQ0ODNmODJjZTg2OTE3MGI3OWQ2ZmE3YzI0ZjA3MDY3NzIxYWVhNmY3NDQyYWUzMA"
+                  alt="신한카드"></div>
+              <div class="card_cont">
+                <p class="name">신한카드</p>
+                <div class="cont_area">
+                  <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                  <p class="text">
+                    <span><b>10개월 부분무이자</b><br>
+                      (5만원이상 결제시/1,2,3,4회차 고객부담, 잔여할부 수수료 면제/법인,체크,기프트카드 제외)</span>
+                    <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                    <span>2023.02.01 ~ 2023.02.28</span>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="card_logo"><img src="http://image.thehandsome.com/sys_master/hde/h2b/8814181515294.jpg"
+                  orgurl="/medias/shinhan.jpg?context=bWFzdGVyfHJvb3R8MjY1N3xpbWFnZS9qcGVnfGhkZS9oMmIvODgxNDE4MTUxNTI5NC5qcGd8NTAwMDYxM2ZmZmRlZGFhZDQ0ODNmODJjZTg2OTE3MGI3OWQ2ZmE3YzI0ZjA3MDY3NzIxYWVhNmY3NDQyYWUzMA"
+                  alt="신한카드"></div>
+              <div class="card_cont">
+                <p class="name">신한카드</p>
+                <div class="cont_area">
+                  <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                  <p class="text">
+                    <span><b>12개월 부분무이자</b><br>
+                      (5만원이상 결제시/1,2,3,4,5회차 고객부담, 잔여할부 수수료 면제/법인,체크,기프트카드 제외)</span>
+                    <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                    <span>2023.02.01 ~ 2023.02.28</span>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="card_logo"><img src="http://image.thehandsome.com/sys_master/h3d/h4d/8814181613598.jpg"
+                  orgurl="/medias/SAMSUNG.jpg?context=bWFzdGVyfHJvb3R8MzIxOXxpbWFnZS9qcGVnfGgzZC9oNGQvODgxNDE4MTYxMzU5OC5qcGd8ZGY1NDJiM2U1YWNmNGE5MTJkOTA0MTAxMDliMDc4ZjRlNTJmZjJlOTkxOTQzZTEwMDcxZWU2NGU2MjJmMWE2Mw"
+                  alt="삼성카드"></div>
+              <div class="card_cont">
+                <p class="name">삼성카드</p>
+                <div class="cont_area">
+                  <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                  <p class="text">
+                    <span><b>6개월 부분무이자</b><br>
+                      (5만원이상 결제시/1,2,3회차 고객 부담, 잔여할부 수수료 면제/법인,체크,기프트카드 제외)</span>
+                    <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                    <span>2023.02.01 ~ 2023.02.28</span>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="card_logo"><img src="http://image.thehandsome.com/sys_master/h3d/h4d/8814181613598.jpg"
+                  orgurl="/medias/SAMSUNG.jpg?context=bWFzdGVyfHJvb3R8MzIxOXxpbWFnZS9qcGVnfGgzZC9oNGQvODgxNDE4MTYxMzU5OC5qcGd8ZGY1NDJiM2U1YWNmNGE5MTJkOTA0MTAxMDliMDc4ZjRlNTJmZjJlOTkxOTQzZTEwMDcxZWU2NGU2MjJmMWE2Mw"
+                  alt="삼성카드"></div>
+              <div class="card_cont">
+                <p class="name">삼성카드</p>
+                <div class="cont_area">
+                  <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                  <p class="text">
+                    <span><b>10개월 부분무이자</b><br>
+                      (5만원이상 결제시/1,2,3,4회차 고객 부담, 잔여할부 수수료 면제/법인,체크,기프트카드 제외)</span>
+                    <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                    <span>2023.02.01 ~ 2023.02.28</span>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="card_logo"><img src="http://image.thehandsome.com/sys_master/h3d/h4d/8814181613598.jpg"
+                  orgurl="/medias/SAMSUNG.jpg?context=bWFzdGVyfHJvb3R8MzIxOXxpbWFnZS9qcGVnfGgzZC9oNGQvODgxNDE4MTYxMzU5OC5qcGd8ZGY1NDJiM2U1YWNmNGE5MTJkOTA0MTAxMDliMDc4ZjRlNTJmZjJlOTkxOTQzZTEwMDcxZWU2NGU2MjJmMWE2Mw"
+                  alt="삼성카드"></div>
+              <div class="card_cont">
+                <p class="name">삼성카드</p>
+                <div class="cont_area">
+                  <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                  <p class="text">
+                    <span><b>12개월 부분무이자</b><br>
+                      (5만원이상 결제시/1,2,3,4,5회차 고객 부담, 잔여할부 수수료 면제/법인,체크,기프트카드 제외)
+                    </span>
+                    <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                    <span>2023.02.01 ~ 2023.02.28</span>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="card_logo"><img src="http://image.thehandsome.com/sys_master/hf2/h0d/8814181220382.jpg"
+                  orgurl="/medias/BC.jpg?context=bWFzdGVyfHJvb3R8MjQ1OHxpbWFnZS9qcGVnfGhmMi9oMGQvODgxNDE4MTIyMDM4Mi5qcGd8MjZlZGU2ZGQyNDBkYzU5YmY2NWY0MDU3NDc1OTA0YWI5NmM4NDJjMDFiYjBiYjBjY2FhZjhmMzg3ZmE5NGU5Yw"
+                  alt="비씨카드"></div>
+              <div class="card_cont">
+                <p class="name">비씨카드</p>
+                <div class="cont_area">
+                  <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                  <p class="text">
+                    <span><b> 우리BC 10개월 부분무이자</b><br>
+                      (5만원이상 결제시/1,2,3회차 고객부담, 잔여할부 수수료 면제/법인,체크,기프트카드 제외)
+                    </span>
+                    <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                    <span>2023.02.01 ~ 2023.02.28</span>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="card_logo"><img src="http://image.thehandsome.com/sys_master/hf2/h0d/8814181220382.jpg"
+                  orgurl="/medias/BC.jpg?context=bWFzdGVyfHJvb3R8MjQ1OHxpbWFnZS9qcGVnfGhmMi9oMGQvODgxNDE4MTIyMDM4Mi5qcGd8MjZlZGU2ZGQyNDBkYzU5YmY2NWY0MDU3NDc1OTA0YWI5NmM4NDJjMDFiYjBiYjBjY2FhZjhmMzg3ZmE5NGU5Yw"
+                  alt="비씨카드"></div>
+              <div class="card_cont">
+                <p class="name">비씨카드</p>
+                <div class="cont_area">
+                  <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                  <p class="text">
+                    <span><b>우리BC 12개월 부분무이자</b><br>
+                      (5만원이상 결제시/1,2,3,4회차 고객부담, 잔여할부 수수료 면제/법인,체크,기프트카드 제외)
+                    </span>
+                    <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                    <span>2023.02.01 ~ 2023.02.28</span>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="card_logo"><img src="http://image.thehandsome.com/sys_master/h2e/h34/8814181023774.jpg"
+                  orgurl="/medias/kucmin.jpg?context=bWFzdGVyfHJvb3R8MzMwM3xpbWFnZS9qcGVnfGgyZS9oMzQvODgxNDE4MTAyMzc3NC5qcGd8MjM1YjEyN2I4OTljMGIxYzY3MjhjNDhkZWMyOTE5ODZjYmRiYWExNDdhOWZmNDQ3ZWNhNGIxZjYwYzk2MDA4Zg"
+                  alt="국민카드"></div>
+              <div class="card_cont">
+                <p class="name">국민카드</p>
+                <div class="cont_area">
+                  <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                  <p class="text">
+                    <span><b>6개월 부분무이자</b><br>
+                      (5만원이상 결제시/1,2,3회차 고객부담, 잔여할부 수수료 면제/법인,체크,기프트카드 제외)</span>
+                    <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                    <span>2023.02.01 ~ 2023.02.28</span>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="card_logo"><img src="http://image.thehandsome.com/sys_master/h2e/h34/8814181023774.jpg"
+                  orgurl="/medias/kucmin.jpg?context=bWFzdGVyfHJvb3R8MzMwM3xpbWFnZS9qcGVnfGgyZS9oMzQvODgxNDE4MTAyMzc3NC5qcGd8MjM1YjEyN2I4OTljMGIxYzY3MjhjNDhkZWMyOTE5ODZjYmRiYWExNDdhOWZmNDQ3ZWNhNGIxZjYwYzk2MDA4Zg"
+                  alt="국민카드"></div>
+              <div class="card_cont">
+                <p class="name">국민카드</p>
+                <div class="cont_area">
+                  <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                  <p class="text">
+                    <span><b>10개월 부분무이자</b><br>
+                      (5만원이상 결제시/1,2,3,4 회차 고객부담, 잔여할부 수수료 면제/법인,체크,기프트카드 제외)</span>
+                    <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                    <span>2023.02.01 ~ 2023.02.28</span>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="card_logo"><img src="http://image.thehandsome.com/sys_master/h2e/h34/8814181023774.jpg"
+                  orgurl="/medias/kucmin.jpg?context=bWFzdGVyfHJvb3R8MzMwM3xpbWFnZS9qcGVnfGgyZS9oMzQvODgxNDE4MTAyMzc3NC5qcGd8MjM1YjEyN2I4OTljMGIxYzY3MjhjNDhkZWMyOTE5ODZjYmRiYWExNDdhOWZmNDQ3ZWNhNGIxZjYwYzk2MDA4Zg"
+                  alt="국민카드"></div>
+              <div class="card_cont">
+                <p class="name">국민카드</p>
+                <div class="cont_area">
+                  <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                  <p class="text">
+                    <span><b>12개월 부분무이자</b><br>
+                      (5만원이상 결제시/1,2,3,4,5 회차 고객부담, 잔여할부 수수료 면제/법인,체크,기프트카드 제외)</span>
+                    <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                    <span>2023.02.01 ~ 2023.02.28</span>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="card_logo"><img src="http://image.thehandsome.com/sys_master/h60/hfb/8814054965278.gif"
+                  orgurl="/medias/hanacard.gif?context=bWFzdGVyfHJvb3R8MTkzNXxpbWFnZS9naWZ8aDYwL2hmYi84ODE0MDU0OTY1Mjc4LmdpZnxhMGM5OWY0MDdhNDhjYzkwOTdiMzhkM2VmMDQ2YTI0NTAyNDBjZTljNTdiYzk4YWRhZmI0NjBhOWRhNzRiMGYw"
+                  alt="하나카드"></div>
+              <div class="card_cont">
+                <p class="name">하나카드</p>
+                <div class="cont_area">
+                  <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                  <p class="text">
+                    <span><b>10개월 부분무이자</b><br>
+                      (5만원이상 결제시/1,2,3,4회차 고객부담, 잔여할부 수수료 면제/법인,체크,기프트카드 제외)</span>
+                    <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                    <span>2023.02.01 ~ 2023.02.28</span>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="card_logo"><img src="http://image.thehandsome.com/sys_master/h60/hfb/8814054965278.gif"
+                  orgurl="/medias/hanacard.gif?context=bWFzdGVyfHJvb3R8MTkzNXxpbWFnZS9naWZ8aDYwL2hmYi84ODE0MDU0OTY1Mjc4LmdpZnxhMGM5OWY0MDdhNDhjYzkwOTdiMzhkM2VmMDQ2YTI0NTAyNDBjZTljNTdiYzk4YWRhZmI0NjBhOWRhNzRiMGYw"
+                  alt="하나카드"></div>
+              <div class="card_cont">
+                <p class="name">하나카드</p>
+                <div class="cont_area">
+                  <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                  <p class="text">
+                    <span><b>12개월 부분무이자</b><br>
+                      (5만원이상 결제시/1,2,3,4,5회차 고객부담, 잔여할부 수수료 면제/법인,체크,기프트카드 제외)</span>
+                    <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                    <span>2023.02.01 ~ 2023.02.28</span>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="card_logo"><img src="http://image.thehandsome.com/sys_master/h8e/h36/8814181908510.jpg"
+                  orgurl="/medias/NH.jpg?context=bWFzdGVyfHJvb3R8Mzk3OXxpbWFnZS9qcGVnfGg4ZS9oMzYvODgxNDE4MTkwODUxMC5qcGd8ZWVlNmY1OWM0NDdmMjg2M2Y4NGZkNDZjYThmOTVkMWNmY2QwYWNkOWI1ODc5YTdiMTc5MjY4MThiZTkzYzNmMw"
+                  alt="NH카드"></div>
+              <div class="card_cont">
+                <p class="name">NH카드</p>
+                <div class="cont_area">
+                  <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                  <p class="text">
+                    <span><b>4-6개월 부분무이자</b><br>
+                      (5만원이상 결제시/1,2회차 고객부담, 잔여할부 수수료 면제/법인,체크,기프트카드 제외)
+                      (NH농협BC카드 포함/ 법인,기프트,체크,선불카드 제외)
+                    </span>
+                    <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                    <span>2023.02.01 ~ 2023.02.28</span>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="card_logo"><img src="http://image.thehandsome.com/sys_master/h8e/h36/8814181908510.jpg"
+                  orgurl="/medias/NH.jpg?context=bWFzdGVyfHJvb3R8Mzk3OXxpbWFnZS9qcGVnfGg4ZS9oMzYvODgxNDE4MTkwODUxMC5qcGd8ZWVlNmY1OWM0NDdmMjg2M2Y4NGZkNDZjYThmOTVkMWNmY2QwYWNkOWI1ODc5YTdiMTc5MjY4MThiZTkzYzNmMw"
+                  alt="NH카드"></div>
+              <div class="card_cont">
+                <p class="name">NH카드</p>
+                <div class="cont_area">
+                  <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                  <p class="text">
+                    <span><b>7-10개월 부분무이자</b><br>
+                      (5만원이상 결제시/1,2,3회차 고객부담, 잔여할부 수수료 면제/법인,체크,기프트카드 제외)
+                      (NH농협BC카드 포함/ 법인,기프트,체크,선불카드 제외)
+                    </span>
+                    <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                    <span>2023.02.01 ~ 2023.02.28</span>
+                  </p>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <ul class="hs_bul_list btm">
+            <li class="dot">ARS 무이자 할부는 해당 카드사 ARS 번호로 사전 신청을 하신 경우에 한하여 무이자 혜택이 적용됩니다. (ARS 부문 무이자 할부 포함)</li>
+            <li class="dot">상기 부분 무이자 할부는 5만원 이상 결제 시 자동 적용되며, 결제창에는 무이자 표시가 되지 않을 수 있습니다.</li>
+            <li class="dot">법인 / 체크 / 선불 / 기프트 / 은행 계열 카드는 제외됩니다.</li>
+            <li class="dot">고객 부담 수수료는 해당 카드사로 문의 바랍니다.</li>
+            <li class="dot">본 행사는 카드사 사정에 따라 일부 내용이 변경 또는 중단될 수 있습니다.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="cont" id="card_tab02">
+        <div class="card_list_wrap">
+          <ul class="card_list">
+            <p class="no_data">카드행사가 없습니다.<!-- 카드행사가 없습니다. --></p> <!-- 180615_카드행사 없음 케이스 추가 -->
+          </ul>
+          <ul class="hs_bul_list btm">
+            <li class="dot">법인/체크/선불/기프트/은행 계열 카드는 제외됩니다.<!-- 법인 / 선불 / 기프트 / 은행 계열 카드는 제외됩니다. --></li>
+            <li class="dot">본 행사는 카드사 사정에 따라 일부 내용이 변경 또는 중단될 수
+              있습니다.<!-- 본 행사는 카드사 사정에 따라 일부 내용이 변경 또는 중단될 수 있습니다. --></li>
+          </ul>
+        </div>
+      </div>
+      <div class="cont" id="card_tab03">
+        <div class="card_list_wrap">
+          <ul class="card_list">
+            <p class="no_data">카드행사가 없습니다.<!-- 카드행사가 없습니다. --></p> <!-- 180615_카드행사 없음 케이스 추가 -->
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a href="#" class="pop-comm-cls">닫기<!-- 닫기 --></a>
+</div><!--// 카드사 혜택 -->
+
+<!-- 상품상세정보 -->
+<script>
+
+  function onErrorImg(washCode) {
+    $('#launderingMethodWrap img').each(function () {
+      if ($(this).attr("alt") == washCode) {
+        $(this).hide();
+        $(this).parent().find(".code_num").css("display", "block");
+      }
+    });
+  }
+
+</script>
+
+<!-- 2021.08.12 오에라 상품상세 팝업 -->
+<div class="hsome_layer_popup product_info_pop" style="z-index: 1000;">
+  <h2 class="pop-comm-ttl">상품상세정보</h2>
+  <div class="pop-comm-cnts">
+    <!-- 상품상세 정보창 변경 211027 S -->
+    <div class="product-info-211027">
+      <h3>상품 추가 정보</h3>
+      <table>
+        <caption>상품 추가 정보</caption>
+        <colgroup>
+          <col style="width:21.1%">
+          <col style="width:26.3%">
+          <col style="width:26.3%">
+          <col style="width:26.3%">
+        </colgroup>
+        <tbody>
+          <tr>
+            <th>핏</th>
+            <td>슬림핏</td>
+            <td class="bold">레귤러핏</td>
+            <td>루즈핏</td>
+          </tr>
+          <tr>
+            <th>신축성</th>
+            <td>없음</td>
+            <td>조금 있음</td>
+            <td class="bold">있음</td>
+          </tr>
+          <tr>
+            <th>비침</th>
+            <td class="bold">없음</td>
+            <td>약간</td>
+            <td>있음</td>
+          </tr>
+          <tr>
+            <th>두께</th>
+            <td class="bold">얇음</td>
+            <td>보통</td>
+            <td>두꺼움</td>
+          </tr>
+          <tr>
+            <th>안감</th>
+            <td class="bold">없음</td>
+            <td>부분 안감</td>
+            <td>전체 안감</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>상기 정보는 주관적 내용이므로 참고해주세요</p>
+    </div>
+    <!-- 상품상세 정보창 변경 211027 E -->
+    <!-- 상품상세 정보창 변경 211103 S -->
+    <div class="hs_float_list hs_top_border_cont">
+      <!-- 상품상세 정보창 변경 211103 E -->
+
+      <!-- 상품상세 정보창 변경 211027 S -->
+      <h3>상품정보제공고시</h3>
+      <!-- 상품상세 정보창 변경 211027 E -->
+
+      <ul class="hs_float_list">
+        <li>
+          <span class="tit">상품품번</span>
+          <span class="txt">
+            IL2C9TTO870N</span>
+        </li>
+        <li>
+          <span class="tit">품목</span>
+          <span class="txt">
+            의류</span>
+        </li>
+        <li>
+          <span class="tit">소재</span>
+          <span class="txt">겉감 폴리우레탄 4%, 레이온 65%, 모 31%(BK,GY,IV,LE,MV)</span>
+        </li>
+        <li>
+          <span class="tit">색상</span>
+          <span class="txt">LE(LIGHT BEIGE), IV(IVORY), GY(GREY), MV(SMOKE VIOLET), BK(BLACK)</span>
+        </li>
+        <li>
+          <span class="tit">사이즈</span>
+          <span class="txt">82, 88</span>
+        </li>
+        <li>
+          <span class="tit">제조국</span>
+          <span class="txt">한국</span>
+        </li>
+        <li>
+          <span class="tit">제조사</span>
+          <span class="txt">(주)한섬</span>
+        </li>
+        <li>
+          <span class="tit">제조연월</span>
+          <span class="txt">
+            2022/08</span>
+        </li>
+      </ul>
+    </div>
+    <div id="launderingMethodWrap">
+      <div class="howToWash ko hs_top_border_cont">
+        <h3>세탁방법 및 취급 시 주의사항</h3>
+        <ul>
+          <li>
+            <div class="left_wrap">
+              <img src="http://cdn.thehandsome.com/mobile/laundryMark/m_ko/008.png"
+                onerror="javascript:onErrorImg('008');" alt="008">
+              <span class="code_num">008</span>
+            </div>
+            <span class="txt empty_box">그늘 옷걸이</span>
+          </li>
+          <li>
+            <div class="left_wrap">
+              <img src="http://cdn.thehandsome.com/mobile/laundryMark/m_ko/029.png"
+                onerror="javascript:onErrorImg('029');" alt="029">
+              <span class="code_num">029</span>
+            </div>
+            <span class="txt empty_box">염소계 표백제 불가</span>
+          </li>
+          <li>
+            <div class="left_wrap">
+              <img src="http://cdn.thehandsome.com/mobile/laundryMark/m_ko/049.png"
+                onerror="javascript:onErrorImg('049');" alt="049">
+              <span class="code_num">049</span>
+            </div>
+            <span class="txt empty_box">물세탁 금지</span>
+          </li>
+          <li>
+            <div class="left_wrap">
+              <img src="http://cdn.thehandsome.com/mobile/laundryMark/m_ko/003.png"
+                onerror="javascript:onErrorImg('003');" alt="003">
+              <span class="code_num">003</span>
+            </div>
+            <span class="txt empty_box">석유계 드라이</span>
+          </li>
+          <li>
+            <div class="left_wrap">
+              <img src="http://cdn.thehandsome.com/mobile/laundryMark/m_ko/019.png"
+                onerror="javascript:onErrorImg('019');" alt="019">
+              <span class="code_num">019</span>
+            </div>
+            <span class="txt empty_box">헝겊다림질(80~120)</span>
+          </li>
+        </ul>
+        <div class="hs_tit_list">
+          <p class="list_txt">
+            본 제품은 반드시 드라이크리닝 하십시오. 세탁 시 이염, 변색, 탈색될 수 있으니 유의하시기 바랍니다. 단추나 악세서리는 세탁 시 손상될 수 있으므로 은박지로 싸거나 분리하여
+            주십시오. 특성상 마찰에 의해 올 뜯김 등 원단 손상이 발생할 수 있으니 취급 시 주의하시기 바랍니다.</p>
+        </div>
+      </div>
+    </div>
+    <div class="hs_top_border_cont hs_tit_list">
+      <ul>
+        <li class="lists">
+          <h3 class="hs_tit16">품질보증기준</h3>
+          <ul class="list_txt">
+            <li>1. 본 제품은 정부 고시 소비자 분쟁해결 기준에 의거 고객의 정당한 피해를 보상해드립니다. <br> - 원단 불량, 부자재 불량, 봉제 불량, 사이즈 부정확, 부당
+              표시(미표시 및 부실표시) 및 소재 구성 부적합으로 인한 세탁 사고 : 구입일로부터 1년 이내분은 무상수리, 교환, 구입가 환불함. (단, 봉제 불량은 1년 경과 후에도 무상 수선
+              가능) <br> - 사이즈가 맞지 않거나 디자인, 색상 불만 제품 : 구입 후 7일 이내로서 제품에 손상이 없는 경우 동일 가격, 동일 제품으로 교환 가능. <br> - 상하의 한
+              벌(세트/일착)인 경우 한 쪽에만 이상이 있어도 한 벌(세트/일착)로 처리함. 단, 소재 및 디자인이 다른 경우에는 해당 의류만 교환 가능. <br>2. 소비자 부주의에 의한 제품
+              훼손, 세탁 잘못으로 인한 변형 및 품질 보증기간(1년)이 경과한 제품에 대해서는 보상의 책임을 지지 않으며, 수선 가능시에는 실비로 수선해드립니다. <br>3. 제품에 이상이
+              있는 경우 바로 본사로 연락주시면 수선/교환/환불이 가능하나, 타업체(일반 수선실 등)에서 수선했을 경우는 불가능합니다.</li>
+          </ul>
+        </li>
+        <li class="lists" id="laundryMarkDisplayYn" style="display:none;">
+          <h3 class="hs_tit16">세탁방법 및 취급 시 주의사항</h3>
+          <p class="list_txt">
+            본 제품은 반드시 드라이크리닝 하십시오. 세탁 시 이염, 변색, 탈색될 수 있으니 유의하시기 바랍니다. 단추나 악세서리는 세탁 시 손상될 수 있으므로 은박지로 싸거나 분리하여
+            주십시오. 특성상 마찰에 의해 올 뜯김 등 원단 손상이 발생할 수 있으니 취급 시 주의하시기 바랍니다.</p>
+        </li>
+        <li class="lists pit_rla">
+          <h3 class="hs_tit16">AS 책임자와 연락처</h3>
+          <p class="list_txt"><a href="tel:1800-5700" class="link">㈜한섬/1800-5700</a></p>
+          <!-- 20200218 마크 추가 -->
+          <div class="sft_ks">
+          </div>
+          <!-- // 20200218 마크 추가 -->
+        </li>
+      </ul>
+      <p class="btm_txt">위 내용은 상품정보제공 고시에 따라 작성되었습니다.</p>
+    </div>
+  </div>
+  <a href="#" class="pop-comm-cls">닫기</a>
+</div>
+<!--// 상품상세정보 -->
+
+<!-- 사이즈 가이드 -->
+<script type="text/javascript">
+  $(document).ready(function () {
+    //신상품 카테고리에 담겨있는 요소들에도 사이즈조견표를 적용하기 위해, 신상품카테고리를 제외한 카테고리 정보를 가져오는 부분
+
+    var chkSizeType = "WE011";
+    if (chkSizeType != "") {
+      if (chkSizeType.indexOf('WE01') != -1) { $("#sizeQuickSelect").val("1").prop("selected", true); }
+      else if (chkSizeType.indexOf('WE02') != -1) { $("#sizeQuickSelect").val("2").prop("selected", true); }
+      else if (chkSizeType.indexOf('WE03') != -1) { $("#sizeQuickSelect").val("2").prop("selected", true); }
+      else if (chkSizeType.indexOf('WE04') != -1) { $("#sizeQuickSelect").val("1").prop("selected", true); }
+      else if (chkSizeType.indexOf('WE05') != -1) { $("#sizeQuickSelect").val("1").prop("selected", true); }
+      else if (chkSizeType.indexOf('WE063') != -1) { $("#sizeQuickSelect").val("3").prop("selected", true); }
+      else if (chkSizeType.indexOf('KD01') != -1) { $("#sizeQuickSelect").val("7").prop("selected", true); }
+      else if (chkSizeType.indexOf('ME01') != -1) { $("#sizeQuickSelect").val("4").prop("selected", true); }
+      else if (chkSizeType.indexOf('ME02') != -1) { $("#sizeQuickSelect").val("5").prop("selected", true); }
+      else if (chkSizeType.indexOf('ME03') != -1) { $("#sizeQuickSelect").val("4").prop("selected", true); }
+      else if (chkSizeType.indexOf('ME041') != -1) { $("#sizeQuickSelect").val("4").prop("selected", true); }
+      else if (chkSizeType.indexOf('ME042') != -1) { $("#sizeQuickSelect").val("4").prop("selected", true); }
+      else if (chkSizeType.indexOf('ME044') != -1) { $("#sizeQuickSelect").val("5").prop("selected", true); }
+      else if (chkSizeType.indexOf('ME053') != -1) { $("#sizeQuickSelect").val("6").prop("selected", true); }
+      else if (chkSizeType.indexOf('FA01') != -1) {
+        if (chkSizeType.indexOf('FA016') != -1) { $("#sizeQuickSelect").val("6").prop("selected", true); }
+        else { $("#sizeQuickSelect").val("3").prop("selected", true); }
+      }
+      else if (chkSizeType.indexOf('AC05') != -1) {
+        if (chkSizeType.indexOf('AC056') != -1) { $("#sizeQuickSelect").val("6").prop("selected", true); }
+        else { $("#sizeQuickSelect").val("3").prop("selected", true); }
+      }
+      else { $("#sizeQuickSelect").val("0").prop("selected", true); }
+    } else {
+      //카테고리 코드를 등록하지 않았거나, Special Shop 코드만 등록한 경우
+      $("#sizeQuickSelect").val("0").prop("selected", true);
+    }
+    $("#sizeQuickSelect").change();
+  });
+
+  function changeSize(param) {
+    $("#sizeQuickName").html($("#sizeQuickSelect option:selected").text());
+    for (var i = 1; i < 8; i++) {
+      var selectAllDiv = "#sizSelDiv" + i;
+      $(selectAllDiv).css("display", "none");
+    }
+
+    if (param != 0) {
+      var selectDiv = "#sizSelDiv" + param;
+      $(selectDiv).css("display", "block");
+    } else {
+      $("#sizeQuickName").attr("style", "text-align:center; font-weight:normal; color:#666;");
+    }
+
+  };
+</script>
+
+<div class="hsome_layer_popup product_size_pop" style="z-index: 1000;">
+  <h2 class="pop-comm-ttl">
+    사이즈 가이드</h2>
+  <ul class="ui_tab hs_red_border_tab size02 active">
+    <li class="on"><a href="#size_tab01" onclick="GA_Event('상품_상세', '사이즈 가이드', '실측사이즈');"
+        style="border-color: transparent;">실측사이즈</a></li>
+    <li class=""><a href="#size_tab02" id="sizeTab02" onclick="GA_Event('상품_상세', '사이즈 가이드', '사이즈 조견표');">사이즈
+        조견표</a></li>
+    <li class="fcs" style="transform: translateX(0px);"></li>
+  </ul>
+  <div class="pop-comm-cnts">
+    <div class="tab_cont">
+      <div class="cont on" id="size_tab01">
+        <div class="ko size_img SZ01"></div>
+        <!-- 20160627 -->
+        <!-- info_tbl -->
+        <div class="hs_table_wrap">
+          <h3 class="hs_tit16">티셔츠</h3>
+          <!-- 20160627 -->
+          <!-- 아우터 사이즈 -->
+          <div class="detail-size-bd">
+            <table class="unit-board" border="0">
+
+              <!-- 2019.07.24 아이템별 노출항목 판단 -->
+              <!-- 탑(베스트 제외) -->
+              <caption></caption>
+              <colgroup>
+                <col style="width:55px;">
+                <col style="width:auto;">
+                <col style="width:auto;">
+                <col style="width:auto;">
+              </colgroup>
+
+              <thead>
+                <tr>
+                  <th scope="col">사이즈</th>
+                  <th scope="col">82</th>
+                  <th scope="col">88</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">총길이</th>
+                  <td>
+                    68.9</td>
+                  <td>
+                    70.17</td>
+                </tr>
+                <tr>
+                  <th scope="row">가슴단면</th>
+                  <td>
+                    42.23</td>
+                  <td>
+                    45.4</td>
+                </tr>
+                <tr>
+                  <th scope="row">어깨너비</th>
+                  <td>
+                    36.2</td>
+                  <td>
+                    37.46</td>
+                </tr>
+                <tr>
+                  <th scope="row">소매길이</th>
+                  <td>
+                    61.28</td>
+                  <td>
+                    62.23</td>
+                </tr>
+                <tr>
+                  <th scope="row">소매부리</th>
+                  <td>
+                    18.73</td>
+                  <td>
+                    19.68</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- info_tbl -->
+
+        <!-- //info_tbl -->
+        <!-- numlist -->
+        <p class="size_info_txt">실측 사이즈 (82) 기준<br>
+          <span class="hs_color_red">
+            원단, 측정방법에 따라 약간의 오차 가능성이 있습니다.</span>
+        </p>
+        <!-- //numlist -->
+        <div class="timehomme_pants_fit" style="display: none"></div>
+      </div>
+
+      <!-- 사이즈 조견표 관련 데이터가 없어서, 기존Mobile 화면 하드코딩 되어있는 부분 그대로 가져왔습니다. selectBox 이벤트로 해당영역이 나눠집니다. -->
+      <div class="cont" id="size_tab02">
+        <div class="hs_table_wrap">
+          <h3 class="hs_tit16" id="sizeQuickName">WOMEN TOP</h3>
+          <select name="sizeQuickSelect" id="sizeQuickSelect" style="display:none;" onchange="changeSize(this.value);">
+            <option value="0" style="text-align:center;">사이즈 조견표가 존재하지 않습니다.</option>
+            <option value="1">WOMEN TOP</option>
+            <option value="2">WOMEN BOTTOMS</option>
+            <option value="3">WOMEN SHOES</option>
+            <option value="4">MEN TOP</option>
+            <option value="5">MEN BOTTOMS</option>
+            <option value="6">MEN SHOES</option>
+            <option value="7">KIDS</option>
+          </select>
+          <!-- chart table total wrap -->
+          <div class="table01" id="sizSelDiv1" style="display: block;">
+            <table>
+              <caption>
+                사이즈조견표</caption>
+              <colgroup>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+              </colgroup>
+              <thead>
+                <tr>
+                  <th scope="col">BRAND/SIZE</th>
+                  <th scope="col">XS</th>
+                  <th scope="col">S</th>
+                  <th scope="col">M</th>
+                  <th scope="col">L</th>
+                  <th scope="col">FREE</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">TIME</th>
+                  <td>76</td>
+                  <td>82</td>
+                  <td>88</td>
+                  <td>94</td>
+                  <td>90</td>
+                </tr>
+                <tr>
+                  <th scope="row">MINE</th>
+                  <td>76</td>
+                  <td>82</td>
+                  <td>88</td>
+                  <td>94</td>
+                  <td>90</td>
+                </tr>
+                <tr>
+                  <th scope="row">SYSTEM</th>
+                  <td>76</td>
+                  <td>82</td>
+                  <td>88</td>
+                  <td>-</td>
+                  <td>90</td>
+                </tr>
+                <tr>
+                  <th scope="row">SJSJ</th>
+                  <td>76</td>
+                  <td>82</td>
+                  <td>88</td>
+                  <td>-</td>
+                  <td>90</td>
+                </tr>
+                <tr>
+                  <th scope="row" rowspan="2">KOREA</th>
+                  <td></td>
+                  <td>85</td>
+                  <td>90</td>
+                  <td>95</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>44</td>
+                  <td>55</td>
+                  <td>66</td>
+                  <td>77</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <th scope="row">US</th>
+                  <td>2</td>
+                  <td>4</td>
+                  <td>6</td>
+                  <td>8</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <th scope="row">EUROPE</th>
+                  <td>34</td>
+                  <td>36</td>
+                  <td>38</td>
+                  <td>40</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <th scope="row">CHINA</th>
+                  <td>160/80A
+                  </td>
+                  <td>165/84A
+                  </td>
+                  <td>170/88A
+                  </td>
+                  <td>175/92A
+                  </td>
+                  <td>-</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table01" id="sizSelDiv2" style="display: none;">
+            <table>
+              <caption>
+                사이즈조견표</caption>
+              <colgroup>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+              </colgroup>
+              <thead>
+                <tr>
+                  <th scope="col">BRAND/SIZE
+                  </th>
+                  <th scope="col">XS</th>
+                  <th scope="col">S</th>
+                  <th scope="col">M</th>
+                  <th scope="col">L</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">TIME</th>
+                  <td>61</td>
+                  <td>64</td>
+                  <td>67</td>
+                  <td>70</td>
+                </tr>
+                <tr>
+                  <th scope="row">MINE</th>
+                  <td>61</td>
+                  <td>64</td>
+                  <td>67</td>
+                  <td>70</td>
+                </tr>
+                <tr>
+                  <th scope="row">SYSTEM</th>
+                  <td>61</td>
+                  <td>64</td>
+                  <td>67</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <th scope="row">SJSJ</th>
+                  <td>61</td>
+                  <td>64</td>
+                  <td>67</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <th scope="row" rowspan="2">KOREA</th>
+                  <td>24</td>
+                  <td>26</td>
+                  <td>28</td>
+                  <td>30</td>
+                </tr>
+                <tr>
+                  <td>44</td>
+                  <td>55</td>
+                  <td>66</td>
+                  <td>77</td>
+                </tr>
+                <tr>
+                  <th scope="row">US</th>
+                  <td>2</td>
+                  <td>4</td>
+                  <td>6</td>
+                  <td>8</td>
+                </tr>
+                <tr>
+                  <th scope="row">EUROPE</th>
+                  <td>34</td>
+                  <td>36</td>
+                  <td>38</td>
+                  <td>40</td>
+                </tr>
+                <tr>
+                  <th scope="row">CHINA</th>
+                  <td>160/66A
+                  </td>
+                  <td>165/68A
+                  </td>
+                  <td>170/70A
+                  </td>
+                  <td>175/72A
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table01" id="sizSelDiv3" style="display: none;">
+            <table>
+              <caption>
+                사이즈조견표</caption>
+              <colgroup>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+              </colgroup>
+              <thead>
+                <tr>
+                  <th scope="col">BRAND/SIZE
+                  </th>
+                  <th scope="col">XS</th>
+                  <th scope="col">S</th>
+                  <th scope="col">M</th>
+                  <th scope="col">L</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">TIME</th>
+                  <td>230</td>
+                  <td>235</td>
+                  <td>240</td>
+                  <td>245</td>
+                </tr>
+                <tr>
+                  <th scope="row">MINE</th>
+                  <td>230</td>
+                  <td>235</td>
+                  <td>240</td>
+                  <td>245</td>
+                </tr>
+                <tr>
+                  <th scope="row">SYSTEM</th>
+                  <td>230</td>
+                  <td>235</td>
+                  <td>240</td>
+                  <td>245</td>
+                </tr>
+                <tr>
+                  <th scope="row">SJSJ</th>
+                  <td>230</td>
+                  <td>235</td>
+                  <td>240</td>
+                  <td>245</td>
+                </tr>
+                <tr>
+                  <th scope="row">KOREA</th>
+                  <td>230</td>
+                  <td>235</td>
+                  <td>240</td>
+                  <td>245</td>
+                </tr>
+                <tr>
+                  <th scope="row">US</th>
+                  <td>6</td>
+                  <td>6.5</td>
+                  <td>7</td>
+                  <td>7.5</td>
+                </tr>
+                <tr>
+                  <th scope="row">EUROPE</th>
+                  <td>36</td>
+                  <td>36.5</td>
+                  <td>37</td>
+                  <td>37.5</td>
+                </tr>
+                <tr>
+                  <th scope="row">CHINA</th>
+                  <td>36</td>
+                  <td>37</td>
+                  <td>38</td>
+                  <td>39</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table01" id="sizSelDiv4" style="display: none;">
+            <table>
+              <caption>
+                사이즈조견표</caption>
+              <colgroup>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+              </colgroup>
+              <thead>
+                <tr>
+                  <th scope="col">BRAND/SIZE
+                  </th>
+                  <th scope="col">S</th>
+                  <th scope="col">M</th>
+                  <th scope="col">L</th>
+                  <th scope="col">XL</th>
+                  <th scope="col">XXL</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">TIME<br>HOMME
+                  </th>
+                  <td>90</td>
+                  <td>95</td>
+                  <td>100</td>
+                  <td>105</td>
+                  <td>110</td>
+                </tr>
+                <tr>
+                  <th scope="row">SYSTEM<br>HOMME
+                  </th>
+                  <td>90</td>
+                  <td>95</td>
+                  <td>100</td>
+                  <td>105</td>
+                  <td>110</td>
+                </tr>
+                <tr>
+                  <th scope="row">CLUB<br>MONACO
+                  </th>
+                  <td>XS</td>
+                  <td>S</td>
+                  <td>M</td>
+                  <td>L</td>
+                  <td>XL</td>
+                </tr>
+                <tr>
+                  <th scope="row">KOREA</th>
+                  <td>90</td>
+                  <td>95</td>
+                  <td>100</td>
+                  <td>105</td>
+                  <td>110</td>
+                </tr>
+                <tr>
+                  <th scope="row">US</th>
+                  <td>36</td>
+                  <td>38</td>
+                  <td>40</td>
+                  <td>42</td>
+                  <td>44</td>
+                </tr>
+                <tr>
+                  <th scope="row">EUROPE</th>
+                  <td>46</td>
+                  <td>48</td>
+                  <td>50</td>
+                  <td>52</td>
+                  <td>54</td>
+                </tr>
+                <tr>
+                  <th scope="row">CHINA</th>
+                  <td>165/<br>80-90
+                  </td>
+                  <td>170/<br>96-98
+                  </td>
+                  <td>175/<br>108-110
+                  </td>
+                  <td>180/<br>118-122
+                  </td>
+                  <td>185/<br>126-130
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table01" id="sizSelDiv5" style="display: none;">
+            <table>
+              <caption>
+                사이즈조견표</caption>
+              <colgroup>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+              </colgroup>
+              <thead>
+                <tr>
+                  <th scope="col">BRAND/SIZE
+                  </th>
+                  <th scope="col">S</th>
+                  <th scope="col" colspan="2">M</th>
+                  <th scope="col" colspan="2">L</th>
+                  <th scope="col" colspan="2">XL</th>
+                  <th scope="col" colspan="2">XXL</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">TIME<br>HOMME </th>
+                  <td>74</td>
+                  <td colspan="2">78</td>
+                  <td>82</td>
+                  <td>84</td>
+                  <td>86</td>
+                  <td>88</td>
+                  <td>90</td>
+                  <td>92</td>
+                </tr>
+                <tr>
+                  <th scope="row">SYSTEM<br>HOMME
+                  </th>
+                  <td>74</td>
+                  <td colspan="2">78</td>
+                  <td>82</td>
+                  <td>84</td>
+                  <td>86</td>
+                  <td>88</td>
+                  <td>90</td>
+                  <td>92</td>
+                </tr>
+                <tr>
+                  <th scope="row">CLUB<br>MONACO
+                  </th>
+                  <td>29</td>
+                  <td>30</td>
+                  <td>31</td>
+                  <td>32</td>
+                  <td>33</td>
+                  <td colspan="2">34</td>
+                  <td colspan="2">36</td>
+                </tr>
+                <tr>
+                  <th scope="row">KOREA</th>
+                  <td>29</td>
+                  <td colspan="2">30</td>
+                  <td>32</td>
+                  <td>33</td>
+                  <td>34</td>
+                  <td>35</td>
+                  <td>35.5</td>
+                  <td>36</td>
+                </tr>
+                <tr>
+                  <th scope="row">US</th>
+                  <td>44T</td>
+                  <td colspan="2">46T</td>
+                  <td colspan="2">48T</td>
+                  <td colspan="2">50T</td>
+                  <td colspan="2">52T</td>
+                </tr>
+                <tr>
+                  <th scope="row">EUROPE</th>
+                  <td>44</td>
+                  <td colspan="2">46</td>
+                  <td colspan="2">48</td>
+                  <td colspan="2">50</td>
+                  <td colspan="2">52</td>
+                </tr>
+                <tr>
+                  <th scope="row">CHINA</th>
+                  <td>44</td>
+                  <td colspan="2">46</td>
+                  <td colspan="2">48</td>
+                  <td colspan="2">50</td>
+                  <td colspan="2">52</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table01" id="sizSelDiv6" style="display: none;">
+            <table>
+              <caption>
+                사이즈조견표</caption>
+              <colgroup>
+                <col>
+                <col>
+                <col>
+                <col>
+              </colgroup>
+              <thead>
+                <tr>
+                  <th scope="col">BRAND/SIZE</th>
+                  <th scope="col">S</th>
+                  <th scope="col">M</th>
+                  <th scope="col">L</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">TIME HOMME</th>
+                  <td>260</td>
+                  <td>270</td>
+                  <td>280</td>
+                </tr>
+                <tr>
+                  <th scope="row">SYSTEM HOMME</th>
+                  <td>260</td>
+                  <td>270</td>
+                  <td>280</td>
+                </tr>
+                <tr>
+                  <th scope="row">KOREA</th>
+                  <td>260</td>
+                  <td>270</td>
+                  <td>280</td>
+                </tr>
+                <tr>
+                  <th scope="row">US</th>
+                  <td>8</td>
+                  <td>9</td>
+                  <td>10</td>
+                </tr>
+                <tr>
+                  <th scope="row">EUROPE</th>
+                  <td>41</td>
+                  <td>42</td>
+                  <td>43.5</td>
+                </tr>
+                <tr>
+                  <th scope="row">CHINA</th>
+                  <td>43</td>
+                  <td>45</td>
+                  <td>47</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- KIDS 사이즈 조견표 추가 -->
+          <div class="table01" id="sizSelDiv7" style="display: none;">
+            <table>
+              <caption>
+                사이즈조견표</caption>
+              <colgroup>
+                <col>
+                <col>
+                <col>
+                <col>
+              </colgroup>
+              <thead>
+                <tr>
+                  <th scope="col">SIZE</th>
+                  <th scope="col">80</th>
+                  <th scope="col">100</th>
+                  <th scope="col">120</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Age(Month)</th>
+                  <td>~12</td>
+                  <td>36~48</td>
+                  <td>48~72</td>
+                </tr>
+                <tr>
+                  <th scope="row">height(CM)</th>
+                  <td>80cm</td>
+                  <td>100cm</td>
+                  <td>120cm</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- //chart table total wrap -->
+      </div>
+    </div>
+    <a href="#" class="pop-comm-cls">닫기</a>
+  </div>
+</div><!--// 사이즈 가이드 -->
+<!-- 배송 및 반품 안내 -->
+<div class="hsome_layer_popup product_shipping_pop" style="z-index: 1000;">
+  <h2 class="pop-comm-ttl">배송 및 교환/반품</h2>
+  <div class="pop-comm-cnts">
+    <div class="hs_float_list">
+      <h3 class="hs_tit16">배송안내</h3>
+      <ul>
+        <li> <span class="tit">배송방식</span> <span class="txt">우체국택배, CJ대한통운, 로젠택배</span> </li>
+        <li> <span class="tit">배송지역</span> <span class="txt">전국 (일부 지역 제외)</span> </li>
+        <li> <span class="tit">배송정보</span> <span class="txt">평균 입금완료일 기준 2 ~ 4일 소요됩니다.<br>(토/일/공휴일 제외)</span>
+        </li>
+        <li> <span class="tit">배송비</span> <span class="txt"> 실결제금액 기준 30,000원 이상 결제 시 무료배송<br> 30,000원 미만 결제 시
+            2,500원(기본 배송비)<br>*실결제금액이란, 쿠폰/바우처 할인액 및 <br> 한섬마일리지/H.Point 사용 금액을 제외한 금액입니다. <br> (e-money 사용은
+            실결제금액에 포함) <br>* 도서산간 지역은 3,000원의 별도 배송비가 부과됩니다.<br>* 일부 도서지역은 도선료가 부가될 수 있습니다.<br></span> </li>
+      </ul>
+    </div>
+    <div class="hs_top_border_cont hs_float_list">
+      <h3 class="hs_tit16">교환 및 반품안내</h3>
+      <ul>
+        <li> <span class="tit">교환/반품<br>기간</span> <span class="txt">상품 수령 후, 7일 이내</span> </li>
+        <li> <span class="tit">교환절차</span> <span class="txt">사이즈 및 상품불량 교환만 가능(색상교환 불가)하며 교환을 원하실 경우 고객센터로 문의해주시기
+            바랍니다. (교환 재고가 없을 경우, 환불로 안내예정) <br>화장품은 상품 불량만 교환 가능하며(상품 개봉 후 교환 불가), 고객센터로 문의해주시기 바랍니다</span> </li>
+        <li> <span class="tit">반품절차</span> <span class="txt">[배송완료] 7일 이내에 마이페이지 주문/배송/취소/반품 메뉴에서 [반품신청] 버튼을 클릭 시
+            가능합니다.</span> </li>
+        <li> <span class="tit">교환/반품<br>배송비</span> <span class="txt">배송비는 5,000원 이며(반품비는 주문시 배송비 결제 유무에 따라 변동) 상품
+            불량 등의 이유로 교환/반품하실 경우, 배송비는 무료입니다.</span> </li>
+        <li> <span class="tit">교환/반품<br>불가사유</span>
+          <div class="txt">
+            <p>다음의 경우에는 교환/반품이 불가합니다.</p>
+            <ul>
+              <li>- 교환/반품 기간(상품 수령 후 7일 이내)을 초과하였을 경우</li>
+              <li>- 고객님의 요청에 의해 제품 사양이 변경(이니셜 제품, 사이즈 맞춤 제품 등)된 경우</li>
+              <li>- 제품을 이미 사용하였거나, 제품 일부를 소비하였을 경우</li>
+              <li>- 화장품 : 상품 개봉 후 교환/반품 불가. 단 상품 불량(내용물 불량) 혹은 피부 트러블로 인한 반품은 가능(용량 1/3 미만 사용 및 의사소견서 1:1문의 첨부 필수)
+              </li>
+              <li>- 식기류 : 제품 수령 후, 비닐포장을 개봉한 경우</li>
+              <li>- 고객님의 귀책사유로 인해 회수가 지연될 경우</li>
+              <li>- 국내외 환율 변동 등에 의해 가격이 변동되는 제품의 경우</li>
+              <li>- 문제소지가 있는 제품을 본사가 아닌, 타 업체(일반 수선실 등)에서 선처리가 된 경우</li>
+            </ul>
+          </div>
+        </li>
+        <li> <span class="tit">교환/반품 건 배송</span> <span class="txt">교환/반품 시 배송 받으신 박스로 반송하셔야 합니다. (한섬/오에라/리퀴드퍼퓸바 상품
+            함께 주문 후 교환/반품 시 각각의 박스에 나눠서 반송해주세요. 한 박스에 함께 동봉하여 반송 시 교환/반품 처리가 불가할 수 있습니다)</span> </li>
+      </ul>
+    </div>
+    <div class="hs_top_border_cont hs_tit_list">
+      <div class="lists">
+        <h3 class="hs_tit16">환불안내</h3>
+        <p class="list_txt">환불은 반송제품 확인 후 진행됩니다.</p>
+      </div>
+    </div>
+  </div><a href="#" class="pop-comm-cls">닫기</a>
+</div><!--// 배송 및 반품 안내 -->

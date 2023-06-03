@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head th:insert="~{product/proHead}"></head>
+<body class="back hold_body">
+
+
+<aside th:insert="~{include/aside}"></aside>
+<div class="hsome_quickMenu_contents active absolute">
+    <style rel="stylesheet" type="text/css">
+        body {
+            line-height: inherit;
+		}
+        .btn_wrap .btn {
+            margin-left: 0;
+        }
+
+        .swiper-slide {
+            font-size: 0;
+        }
+    </style>
+    <div class="hand_footer_gnb_wrap hand_footer_gnb_wrap2002" style="height: 953px;">
+        <div class="header">
+            <h2>샵</h2>
+            <ul class="ui_tab red_border_tab active">
+                <li class="on" style="width: 50%;"><a href="#tab_01" id="navTab01">브랜드</a></li>
+                <li class=""><a href="#tab_02" id="navTab02">카테고리</a></li>
+                <li class="fcs" style="transform: translateX(0px); width: calc(50%);"></li>
+            </ul>
+            
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    $("#navTab02").on("click", function(){
+                        $(".fcs").css('left', '-40px');
+                    });
+
+                    $("#navTab01").on('click', function(){
+                        $(".fcs").css('left', '');
+                    });
+                });
+            </script>
+
+            <a href="#" class="pre"><i>이전</i>스마트 필터링</a>
+        </div>
+        <div class="container">
+            <div class="content">
+                <div class="shop_cont">
+                    <div class="tab_cont">
+                        <div class="cont on" id="tab_01">
+                            <div class="brd_navigator_bar2012_wrap">
+                            </div>
+                            <div class="brd_shop_cate_wrap2002" style="margin-top: 0px;">
+                                <ul class="shop_list_brand one_depth" id="brd_cate_0" style="">           
+                                    <li th:each="brand : ${list}" class="one_lists">
+                                        <div class="one_wrap">
+                                            <a th:href="${brand.bno < 10 ? '/product/brList/br0' + brand.bno : '/product/brList/br' + brand.bno}" class="one_link">
+                                                <span th:text="${brand.bname}" class="logo "></span>
+                                            </a>
+                                            <button type="button" id="gnb_br_NEW_NORMAL_BRANDS_WE_BR01_like_0" class="like" onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_WE_BR01', 'all');">찜하기</button><!-- 찜한 브랜드에 on 클래스 붙음 -->
+                                        </div>
+                                    </li>
+                                </ul>
+
+                                <div class="brd_shop_cate_wrap2002_single">
+                                    <div class="flag_fixed_wrap2002" style="visibility: hidden;">
+                                        <div id="fadeEff" class="flag_wrap scroll_flag swiper-container swiper-container-initialized swiper-container-horizontal swiper-container-free-mode swiper-container-android swiper-container-ios">
+                                            <ul class="swiper-wrapper " id="setBrandList" style="transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;">
+                                                <!-- 찜한 브랜드가 한 개라도 있으면 ul 태그에 active 클래스 붙임 -->
+                                            </ul>
+                                            <div class="my_heart_flag2002" style="display: none;">
+                                                <div>
+                                                    MY<span class="ico_heart200214">heart</span>
+                                                    <span class="white_action200219" style="display: none;"></span>
+                                                </div>
+                                            </div>
+                                            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                                            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                                            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                                            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                                            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                                            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                                            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                                            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                                        <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cont" id="tab_02">
+                            <div class="cate_shop_cate_wrap2004">
+                                <ul class="shop_list_category ctgr one_depth" style="min-height: 789px;">
+                                    <li class="one_lists">
+                                        <div class="one_wrap">
+                                            <a href="#" class="one_link" id="cate_we" onclick="GA_Event('공통_카테고리', '1DEPTH', '여성');">
+                                                <span class="category_tit">여성</span>
+                                            </a>
+                                        </div>
+                                        <ul class="two_depth" style="display: none;">
+                                            <li class="two_lists">
+                                                <a href="/product/list/we" class="two_link js-cate-link">전체보기</a>
+                                            </li>
+                                            <li class="two_lists">
+                                                <a href="/product/list/we01" class="two_link js-cate-link">아우터</a>
+
+                                            </li>
+                                            
+                                            <li class="two_lists">
+                                                <a href="/product/list/we02" class="two_link js-cate-link">탑</a>
+
+                                            </li>
+                                            
+                                            <li class="two_lists">
+                                                <a href="/product/list/we03" class="two_link js-cate-link">팬츠</a>
+
+                                            </li>
+                                            
+                                        </ul>
+                                    </li>
+                                    <li class="one_lists">
+                                        <div class="one_wrap">
+                                            <a href="#" class="one_link" id="cate_me" onclick="GA_Event('공통_카테고리', '1DEPTH', '남성');">
+                                                <span class="category_tit">남성</span>
+                                            </a>
+                                        </div>
+                                        <ul class="two_depth" style="display: none;">
+                                            <li class="two_lists">
+                                                <a href="/product/list/me" class="two_link js-cate-link">전체보기</a>
+                                            </li>
+                                            <li class="two_lists">
+                                                <a href="/product/list/me01" class="two_link js-cate-link">아우터</a>
+                                            </li>
+                                            <li class="two_lists">                                               
+                                            </li>
+                                            <li class="two_lists">
+                                                <a href="/product/list/me02" class="two_link js-cate-link">탑</a>
+                                            </li>
+                                            <li class="two_lists">
+                                                <a href="/product/list/me03" class="two_link js-cate-link">팬츠</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="one_lists">
+                                        <div class="one_wrap">
+                                            <a href="#" class="one_link" id="cate_as" onclick="GA_Event('공통_카테고리', '1DEPTH', '잡화');">
+                                                <span class="category_tit">잡화</span>
+                                            </a>
+                                        </div>
+                                        <ul class="two_depth" style="display: none;">
+                                            <li class="two_lists">
+                                                <a href="/product/list/as" class="two_link js-cate-link">전체보기</a>
+                                            </li>                               
+                                        </ul>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <a href="javascript:noLink();" onclick="navShopClose();" class="close">닫기</a>
+        </div>
+
+		<script type="text/javascript">
+		function navShopClose() {
+		    $('.hsome_quickMenu_contents').removeClass('active absolute');
+		    $('body').removeClass('hold_body');
+		    history.back();
+		 }
+		</script>
+    </div>
+</div>
+</body>
+</html>

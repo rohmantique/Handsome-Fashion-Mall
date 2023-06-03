@@ -1,0 +1,54 @@
+member-insert_sql.txt
+
+select
+		a.mid, a.mpassword,
+		a.mname, a.memail, a.mdate, a.mtel, a.maddress1, a.maddress2,
+		a.mpoint, a.menabled,
+		b.role_set
+		from member a
+		join member_role_set b
+		on
+		a.mid=b.mid
+		where a.mid = 'soojin'
+		and a.menabled = 0
+        ;
+        
+        
+--회원 권한 테이블 추가	
+alter table member_role_set
+add constraint mid foreign key(mid) references member(mid);
+
+insert into member_role_set values ('ROLE_MEMBER', '훔냐링');
+
+--회원가입시 유저에 권한 추가되었는지 확인
+select * 
+from member join member_role_set
+on member.mid = member_role_set.mid
+;
+
+--pid로 리뷰내역 조회
+SELECT *
+FROM review r JOIN reviewInfo i ON r.rno=i.rno
+              JOIN reviewImg m  ON r.rno=m.rno 
+WHERE pid='MM2D1KTO001M'
+ORDER BY rdate DESC;
+
+--mid로 리뷰내역 조회        
+SELECT *
+FROM review r JOIN reviewInfo i ON r.rno=i.rno
+              JOIN reviewImg m  ON r.rno=m.rno 
+WHERE mid='hee'
+ORDER BY rdate DESC;
+
+
+--회원pk, 주문pk에 따른 상품정보 조회
+SELECT a.mid, a.oid, b.*
+FROM (
+    SELECT mid, item.oid, item.pid
+    FROM orderlist list JOIN orderitem item
+    ON list.oid=item.oid)
+    a
+JOIN product b
+ON a.pid=b.pid
+WHERE a.mid='aa'
+;

@@ -1,0 +1,11 @@
+<select id="headerMypageSelect"
+	onchange="GA_Event('마이페이지', 'MY_GNB', this.selectedOptions[0].text.replaceAll(' ', '').replace('신청/조회',''));">
+	<option value="" style="display: none"></option>
+	<option value="/mypage/mypageFloatingPopup">마이페이지</option>
+	<option value="/mypage/myOrders">주문/배송조회</option>
+	<option value="/mypage/myWish">마이하트</option>
+	<option value="/mypage/userInfoChange">개인정보변경</option>
+	<option value="/mypage/myDelivery">배송지 관리</option>
+	<option value="/mypage/myCoupon">쿠폰</option>
+	<option value="/mypage/myReview">상품평</option>
+</select>

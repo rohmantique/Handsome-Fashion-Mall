@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{include/head}"></head>
+<body class="back">
+<script th:inline="javascript">
+$(document).ready(function(){
+	
+	cartList();
+});
+var amountCart = 0;
+
+//카트 리스트
+function cartList(){
+	
+	var mid = $('#m_mid').val();
+	$.ajax({
+		url:"/cartlist",
+		type:"post",
+		data:{mid : mid},
+		success:function(result){
+			amountCart=result.length;
+			var tag = '<input type="hidden" id="cartAmount" value="'+amountCart+'">';
+			for(var i=0; i<result.length; i++){
+				tag+=`<li class="itemBox">
+					<div class="gl_item " id="entryProductInfo" value="${i}">
+					<div class="check_stl">
+						<input type="checkbox" id="gl_check_${i}" name="cartlist" data-pid="${result[i].pid}" data-value="${i}" data-img="${result[i].colorlist[0].cimage1}" data-brand="${result[i].bname}" data-pname="${result[i].pname}" data-price="${result[i].pprice}" onclick="checkTotalPrice(${i});">
+						<label for="gl_check_${i}"></label>
+					</div>
+					<ul class="gl_status">
+						<li>
+							<div class="icon_soldout">
+								<span>SOLD OUT</span>
+							</div>
+						</li>
+						<li>
+							<div class="icon_quick_delivery">
+								<span>4PM</span>
+							</div>
+						</li>
+					</ul>
+
+					<ul class="gl_top_btns">
+						<form id="updateCartForm${i}" method="post" action="/handsome/removeCart">
+						 <input type="hidden" value="${result[i].pid}" id="pid${i}">
+						 <input type="hidden" value="${result[i].psize}" id="psize${i}">
+						 <input type="hidden" value="${result[i].pcolor}" id="pcolor${i}">
+						</form>
+						<li><a href="javascript:;" class="icon_btn btn_gl_del"
+							onclick="javascript:deleteBtnEvent('${i}');" data-pid="${result[i].pid}" data-psizd="${result[i].psize}" data-pcolor="${result[i].pcolor}"><span>삭제</span></a></li>
+					</ul>
+					<div class="gl_mid">
+						<div class="gl_tit">
+							<a href="/ko/p/LC2D1NSHI24W_BL_82" id="IMGBOX_${i}"
+								onclick="setEcommerceData('0', 'Click ADD');"> <img
+								src="${result[i].colorlist[0].cimage1}"
+								class="gl_thumbimg" id="IMG_${i}" alt="">
+							</a>
+							<input type="hidden" value="${result[i].colorlist[0].cimage1}" id="src${i}">
+						</div>
+						<ul class="gl_con">
+							<a href="/ko/p/LC2D1NSHI24W_BL_82"
+								onclick="setEcommerceData('0', 'Click ADD');">
+								<li class="gl_con_brand">${result[i].bname}</li>
+								<li class="gl_con_name">${result[i].pname}</li>
+							</a>
+							<li class="gl_con_price" id="price_${i}">₩${result[i].pprice}<input type="hidden"
+								id="checkZeroPrice0" name="checkZeroPrice" value="595000.0">
+							</li>
+						</ul>
+					</div>
+					<input type="hidden" value="${result[i].pprice}" id="pprice${i}">
+					<input type="hidden" value="${result[i].pamount}" id="pamount${i}">
+					<div class="gl_btm">
+						<ul class="gl_info">
+							<li>
+								<div class="gl_tit">옵션수량</div>
+								<div class="gl_con"><span id="color_${i}">${result[i].pcolor}</span>
+									<span class="and_line"> / </span><span id="size_${i}">${result[i].psize}</span> / <span id="pamount_${i}">${result[i].pamount}</span>개 
+								</div>
+								<div class="gl_tit">적립 H.Point</div>
+								<div class="gl_con">595P</div>
+							</li>
+						</ul>
+						<a href="javascript:void(0);"
+							class="border_btn btn_option_edit"
+							id="optOpenLayer^0^LC2D1NSHI24W_BL"><span>변경</span></a>
+					</div>
+					
+					<input type="hidden" name="entryNumber" value="0">
+					<div class="gl_tgl gl_tgl_option" id="pt_list_0"
+						style="display: none;">
+						<!-- color_size_price -->
+					<ul class="gl_edit">
+					<li >
+						<div class="gl_tit">색상</div>
+						<ul class="gl_con btn_color_wrap">`;
+							for(var j=0; j<result[i].colorlist.length;j++){
+								tag+=`
+								<li><input type="radio" data-color="${result[i].colorlist[j].ccolorcode}"
+									id="gl_rd_color_00_${i}${j}" onclick="chgColorChip(${i}, '${result[i].pid}'+'_'+'${result[i].colorlist[j].ccolorcode}');" name="gl_rd_color_${i}" value="${result[i].colorlist[j].ccolorcode}"> <label for="gl_rd_color_00_${i}${j}"></label>
+									<span class="gl_color_val"
+									style='${result[i].colorlist[j].ccolorimage}'></span>
+									<input type="hidden" value="${result[i].colorlist[j].ccolorcode}" id="colorcode${i}">
+								</li>`;
+							}
+							tag+=`
+						</ul>
+					</li>
+					<li>
+						<div class="gl_tit">사이즈</div>
+						<div class="gl_con">
+
+							<select id="size${i}" name="size" class="sod_select touch">`;
+							for(var k=0;k < result[i].stocklist.length;k++){
+								tag+=`<option value="${result[i].stocklist[k].ssize}">${result[i].stocklist[k].ssize}</option>`;
+							}
+								tag+=`
+							</select>
+						</div>
+					</li>
+					<li>
+						<div class="gl_tit">수량</div>
+						<div class="gl_con">
+							<div class="gl_count_edit">
+								<a onclick="change_qty2('m',${i});" class="btn_minus"><span>감소</span></a>
+								<div class="gl_count_num">
+									<input type="text" title="수량" readonly=""
+										class="mr0" id="quantity_${i}" name="quantity_0"
+										path="quantity" value="${result[i].pamount}">
+								</div>
+								<a onclick="change_qty2('p',${i});" class="btn_plus"><span>증가</span></a>
+							</div>
+						</div>
+					</li>
+				</ul>
+				<div class="gl_tgl_btns btn_wrap btn_wrap_div2">
+					<a href="#none" class="btnstl3 solid_btn_gray btn_cancel"><span>취소</span></a>
+					<a href="#none" class="btnstl3 solid_btn_blk btn_save"
+						id="UpdateCart_0" onclick="productModifyEvent(${i});"><span>저장</span></a>
+				</div>
+			</div>
+			<div>
+				<input type="hidden" name="CSRFToken"
+					value="3c284500-4bcf-419a-a96e-25f7509048a1">
+			</div>
+	</div>
+</li>`;
+					
+			}
+			 $(".goods_list_wrap").html(tag);
+			 $('#selectProductCount').text(amountCart);
+			 $('#cartAmount').text(amountCart);
+			 
+			 formatPrice(result.length);
+		},
+		error : function(e){
+			alert("서버요청 실패");
+			console.log(e);
+		}
+	});
+}
+
+//카트 삭제
+function deleteBtnEvent(param) {
+	var mid = $('#m_mid').val();
+	var la = new layerConfirm(
+			'선택하신 상품을 쇼핑백에서 삭제하시겠습니까?',
+			'확인', '취소');
+	var pid = $('#pid'+ param).val();
+	var psize = $('#psize'+ param).val();
+	var pcolor = $('#pcolor'+ param).val();
+	console.log(pid);
+	console.log(psize);
+	console.log(pcolor);
+	la.confirmAction = function() {//확인 호출 펑션
+		$.ajax({
+			url:"/removeCart",
+			type:"post",
+			data:{
+				pid : pid,
+				psize : psize,
+				pcolor : pcolor,
+				mid : mid
+			},
+			success:function(result){
+				cartList();
+			},
+			error: function(e){
+				alert("서버요청 실패");
+				console.log(e)
+			}
+		});	
+	}
+}
+
+//전체삭제
+function deleteAllBtn(){
+	var mid = $('#m_mid').val();
+	$.ajax({
+		url:"/removeAllCart",
+		type:"post",
+		data:{ mid : mid},
+		success:function(result){
+			cartList();
+		},
+		error:function(e){
+			alert("서버요청 실패");
+			console.log(e)
+		}
+	});
+}
+
+//옵션 변경
+ function productModifyEvent(param){
+	var mid = $('#m_mid').val();
+	var colorName = 'gl_rd_color_'+param;
+	var sizeId = 'size'+param;
+	var color = $('input:radio[name='+colorName+']:checked').val();
+	var size = $('#'+sizeId+' option:selected').val();
+	var quantity = $('#quantity_'+param).val();
+	var pid = $('#pid'+ param).val();
+	$.ajax({
+		url:"/modifyOption",
+		type:"post",
+		data:{
+			color : color,
+			size : size,
+			quantity : quantity,
+			pid : pid,
+			mid : mid
+		},
+		success:function(result){
+			$('#color_'+param).text(result.pcolor);
+			$('#size_'+param).text(result.psize);
+			$('#pamount_'+param).text(result.pamount);
+		},
+		error:function(e){
+			console.log(e)
+		}
+	});
+}
+//상품 이미지 변경
+ function chgColorChip(index, code) {
+      var url = $("#src"+index).val();         
+      var target = url.substring(url.lastIndexOf("/"));
+      var lastAdd = url.substring(url.lastIndexOf("_"));
+      
+      var src = ""
+      
+      src = url.replace(target, "/"+code) + lastAdd;
+      
+      $("#IMG_" + index).attr("src", src);
+      
+      $("#IMGBOX_" + index).attr("href", "/handsome/product/detail/" + code); 
+  }
+</script>
+<script>
+//수량계산
+function change_qty2(t, param){
+	  var min_qty = 1;
+	  var max_qty = '3000000'; 
+	  var this_qty = $("#quantity_"+param).val()*1;
+	  if(t=="m"){
+		    this_qty -= 1;
+		    if(this_qty<min_qty){
+		      //alert("최소구매수량 이상만 구매할 수 있습니다.");
+		      alert("수량은 1개 이상 입력해 주십시오.");
+		      return;
+		      }
+		}
+	  else if(t=="p"){
+	      this_qty += 1;
+	      if(this_qty>max_qty){
+	        alert("죄송합니다. 재고가 부족합니다.");
+	        return;
+	    }
+	  }
+	      $("#quantity_"+param).val(this_qty);
+}
+
+//총합 계산
+function checkTotalPrice(param){
+	var check = $('#gl_check_'+param).is(':checked');
+	if(check){
+		var total = $('#totalPrice').text();
+		total = total.replace(/,/g, '');
+		var totalAmount = $('#selectProductCount').text();
+		totalAmount = parseInt(totalAmount);
+		var amount = parseInt($('#pamount'+param).val());
+		var price = parseInt($('#pprice'+param).val());
+		var totalPrice = amount * price;
+		total = parseInt(total);
+		total+=totalPrice;
+		console.log(total);
+		total = String(total);
+		total = total.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+		
+		totalAmount += amount;
+		$('#selectProductCount').text(totalAmount);
+		$('#totalPrice').text(total);
+		$('#cartDataSubtotal').text(total);
+	}
+	else{
+		var total = $('#totalPrice').text();
+		total = total.replace(/,/g, '');
+		var amount = parseInt($('#pamount'+param).val());
+		var price = parseInt($('#pprice'+param).val());
+		var totalPrice = amount * price;
+		total = parseInt(total);
+		total-=totalPrice;
+		console.log(total);
+		total = String(total);
+		total = total.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+		$('#totalPrice').text(total);
+		$('#cartDataSubtotal').text(total);
+	}
+}
+function totalPrice(){
+	var a = 0;
+	var amount = $('#cartAmount').val();
+	for(var i=0;i<amount;i++){
+		checkTotalPrice(i);
+	}
+}
+//금액 format
+function formatPrice(length){
+	for(var i=0;i<length;i++){
+		var num = i;
+		var price = $('#price_'+num).text();
+		price = price.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+		$('#price_'+num).text(price);
+	}
+}
+
+//카트 주문
+function cartOrder(){
+	var mid = $('#m_mid').val();
+	var form =$('<form></form>');
+	form.attr('action','/order');
+	form.attr('method','post');
+	var a = 0;
+	var totalPrice = $('#totalPrice').text();
+	
+	$('.gl_item .check_stl input').each(function(){
+		if($(this).is(':checked')===true){
+			var pid = $(this).data('pid');
+			var value = $(this).data('value');
+			var img = $(this).data('img');
+			var brand = $(this).data('brand');
+			var pname = $(this).data('pname');
+			var price = $(this).data('price');
+			var color = $("#color_"+value).text();
+			var size = $("#size_"+value).text();
+			var pamount = $("#pamount_"+value).text();
+			form.append($('<input type="hidden" value="'+pid+'" name=cartlist['+a+'].pid>'));
+			form.append($('<input type="hidden" value="'+color+'" name=cartlist['+a+'].pcolor>'));
+			form.append($('<input type="hidden" value="'+size+'" name=cartlist['+a+'].psize>'));
+			form.append($('<input type="hidden" value="'+pamount+'" name=cartlist['+a+'].pamount>'));
+			form.append($('<input type="hidden" value="'+img+'" name=cartlist['+a+'].cimage1>'));
+			form.append($('<input type="hidden" value="'+brand+'" name=cartlist['+a+'].bname>'));
+			form.append($('<input type="hidden" value="'+pname+'" name=cartlist['+a+'].pname>'));
+			form.append($('<input type="hidden" value="'+price+'" name=cartlist['+a+'].pprice>'));
+			form.append($('<input type="hidden" value="'+totalPrice+'" name=cartlist['+a+'].totalPrice>'));
+			a++;
+		}
+	});
+	form.append($('<input type="hidden" value="'+mid+'" name=mid>'));
+	form.appendTo('body');
+	form.submit(); 
+}
+</script>
+<input type="hidden" th:value="*{#authentication.principal.mid}" id="m_mid">
+	<div class="hsome_allContents_wrapper">
+		<div class="hsome_allContents fixed_btn_on">
+			<header class="hsome_header">
+				<h1 class="h_ttl ellipsis" id="headerTitle">쇼핑백</h1>
+				<div th:insert="~{include/member-header}"></div>
+			</header>
+			<div id="contents" class="hsome_contents shoppingbag_list_wrap">
+				<ul class="tab_head_num3 gray_tab shoppingbag_tab rm">
+					<li class="tab_li_delivery on"><a
+						href="javascript:tabClick('');" name="cartDivision"
+						data-division=""><span>택배(1)</span></a></li>
+				</ul>
+
+
+				<div class="shopingbag_tab_desc_box">4PM 상품은 오후 4시 이후 주문 시 일반
+					택배 상품으로 발송됩니다.</div>
+
+				<div id="shoppingbagCartView">
+				<h3 class="section_tit mb0 gl_tit gl_4pm">
+					<div class="check_stl gl_check_all_wrap">
+					<input type="checkbox" id="gl_check_all" class="gl_check_all" value="" onclick="totalPrice();">
+					<label for="gl_check_all">담은 상품<span>(<span id="cartAmount">2</span>개)</span></label>
+				</div>
+				</h3>
+				<ul class="goods_list_wrap">
+					</ul>
+					<div class="gl_edit_btn_wrap">
+					<div class="order_goods_summary_wrap">
+						<div class="ordgd_tit">
+							총 <b><span id="selectProductCount">0</span></b>개 상품
+						</div>
+						<ul class="ordgd_detail total_price_detail">
+							<li>
+								<div class="ttpd_tit">상품 합계</div>
+								<div class="ttpd_con">
+									<span id="cartDataSubtotal">₩0</span>
+								</div>
+							</li>
+							<li>
+								<div class="ttpd_tit">배송비</div>
+								<div class="ttpd_con">
+									<span id="cartDataDeliveryCost">₩0</span>
+								</div>
+							</li>
+							<li class="total_sum">
+								<div class="ttpd_tit">합계</div>
+								<div class="ttpd_con">
+									<span id="cartDataTotalPrice">₩<span id="totalPrice">0</span></span>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="btn_wrap btn_wrap_div2">
+						 <a style="width:100%;"
+							href="#none" class="btnstl3 border_btn_gray gleb_select_del"
+							onclick="deleteAllBtn();"><span>전체상품 삭제</span></a>
+					</div>
+					<div class="btn_wrap btn_wrap btn_wrap_div1" id="orderButtonGroup">
+						<a href="/main" class="btnstl3 solid_btn_blk gleb_order"><span>쇼핑계속하기</span></a>
+					</div>
+					<div class="btn_wrap btn_wrap btn_wrap_div1" id="orderButtonGroup">
+						<a
+						href="javascript:checkoutPage('checkout');" onclick="cartOrder();"
+						class="btnstl6 solid_btn_point " id="oderBtn"><span>주문하기</span></a>
+					</div>
+					</div>
+					
+					</div>
+					
+					<a href="#" class="hsome_topBtn active upper" style="bottom: 60px;">TOP</a>
+					
+					</div>
+					</div>
+					</div>
+					
+	<script type="text/javascript">
+		$(document).ready(function() {
+			swiperActive('swiper_recommend_goods'); //swiper íì±í
+		});
+	</script>
+	<script type="text/javascript">
+			var athomeYn = '';
+			var timeCheck = '';
+	</script>
+	
+	<script type="text/javascript">
+						$(document).ready(function() {
+
+							swiperPageActive('swiper_promotion'); //swiper 활성화
+
+						});
+					</script>
+	<script type="text/javascript">
+		var btnConfirmText = "확인";
+		var btnCancleText = "취소";
+		var btnCloseText = "닫기";
+		var layerAlert = function(msg, refresh) {
+			btnConfirmText = "확인";
+			var t = this;
+			this.confirmAction = function() {
+				//console.log('함수를 재정의 해주세요!');
+			};
+
+			var alertTag = "";
+			alertTag += "<div class=\"dvp_container\">";
+			alertTag += "	<div class=\"dvp_close_btn b-close\" id=\"alertCloseDiv\"><span>"
+					+ btnCloseText + "</span></div>";
+			alertTag += "	<h1 class=\"dvp_header\"></h1>";
+			alertTag += "	<div class=\"dvp_content\">";
+			alertTag += "		<div class=\"desc_box\">" + msg + "</div>";
+			alertTag += "	</div>";
+			alertTag += "	<div class=\"btn_wrap\">";
+			alertTag += "		<button class=\"btn btn_bg_b btn-alert-confirm\">"
+					+ btnConfirmText + "</button>";
+			alertTag += "	</div>";
+			alertTag += "</div>";
+
+			$("#popAlertConfirmDiv").html(alertTag);
+
+			$('.divpop_wrap_dev.pop_alert_confirm').bPopup({
+				follow : [ false, false ],
+				escClose : false,
+				modalClose : false,
+				opacity : 0.3,
+				positionStyle : 'fixed',
+				onClose : function() {
+					holdBodyHide();
+					$("#popAlertConfirmDiv").html("");
+				}
+			});
+			holdBodyShow();
+
+			$("#popAlertConfirmDiv").find('.btn-alert-confirm').click(
+					function() {
+						if (refresh == true)
+							location.reload();
+						$("#alertCloseDiv").click();
+						t.confirmAction();
+					});
+		};
+
+		var layerAlertGnb = function(msg) {
+			btnConfirmText = "확인";
+			var t = this;
+			this.confirmAction = function() {
+				//console.log('함수를 재정의 해주세요!');
+			};
+
+			var alertTag = "";
+			alertTag += "<div class=\"dvp_container\">";
+			alertTag += "	<div class=\"dvp_close_btn b-close\" id=\"alertCloseDiv\"><span>"
+					+ btnCloseText + "</span></div>";
+			alertTag += "	<h1 class=\"dvp_header\"></h1>";
+			alertTag += "	<div class=\"dvp_content\">";
+			alertTag += "		<div class=\"desc_box\">" + msg + "</div>";
+			alertTag += "	</div>";
+			alertTag += "	<div class=\"btn_wrap\">";
+			alertTag += "		<button class=\"btn btn_bg_b btn-alert-confirm\">"
+					+ btnConfirmText + "</button>";
+			alertTag += "	</div>";
+			alertTag += "</div>";
+
+			$("#popAlertConfirmDiv").html(alertTag);
+
+			$('.divpop_wrap_dev.pop_alert_confirm').bPopup({
+				follow : [ false, false ],
+				escClose : false,
+				modalClose : false,
+				opacity : 0.3,
+				positionStyle : 'fixed',
+			/* onClose: function() { 
+			  holdBodyHide();
+			  $("#popAlertConfirmDiv").html("");
+			} *///body 클래스 scroll 상태 유지
+			});
+			holdBodyShow();
+
+			$("#popAlertConfirmDiv").find('.btn-alert-confirm').click(
+					function() {
+						//if(refresh==true) location.reload(); //refresh check 제거
+						$("#alertCloseDiv").click();
+						t.confirmAction();
+					});
+		};
+
+		var layerConfirm = function(msg, confirmMsg, cancleMsg) {
+
+			var t = this;
+
+			var t = this;
+			this.confirmAction = function() {
+				//console.log('함수를 재정의 해주세요!');
+			};
+			this.cancleAction = function() {
+				//console.log('함수를 재정의 해주세요!');
+			};
+
+			if (confirmMsg != "") {
+				btnConfirmText = confirmMsg;
+			} else {
+				btnConfirmText = "확인"
+			}
+			if (cancleMsg != "") {
+				btnCancleText = cancleMsg;
+			} else {
+				btnCancleText = "취소"
+			}
+
+			var confirmTag = "";
+			confirmTag += "<div class=\"dvp_container\">";
+			confirmTag += "	<div class=\"dvp_close_btn b-close\" id=\"confirmCloseDiv\"><span>"
+					+ btnCloseText + "</span></div>";
+			confirmTag += "	<div class=\"dvp_content\">";
+			confirmTag += "		<div class=\"desc_box\">" + msg + "</div>";
+			confirmTag += "	</div>";
+			confirmTag += "	<div class=\"btn_wrap btns\">";
+			confirmTag += "		<button class=\"btn btn_bd_g btn-alert-close\">"
+					+ btnCancleText + "</button>";
+			confirmTag += "		<button class=\"btn btn_bg_b btn-alert-confirm\">"
+					+ btnConfirmText + "</button>";
+			confirmTag += "	</div>";
+			confirmTag += "</div>";
+
+			$("#popAlertConfirmDiv").html(confirmTag);
+
+			$('.divpop_wrap_dev.pop_alert_confirm').bPopup({
+				follow : [ false, false ],
+				escClose : false,
+				modalClose : false,
+				opacity : 0.3,
+				positionStyle : 'fixed',
+				onClose : function() {
+					holdBodyHide();
+					$("#popAlertConfirmDiv").html("");
+				}
+			});
+			holdBodyShow();
+
+			$("#popAlertConfirmDiv").find('.btn-alert-close').click(function() {
+				$("#confirmCloseDiv").click();
+				t.cancleAction();
+			});
+
+			$("#popAlertConfirmDiv").find('.btn-alert-confirm').click(
+					function() {
+						$("#confirmCloseDiv").click();
+						t.confirmAction();
+					});
+
+		};
+
+		var layerConfirmIos = function(msg, confirmMsg, cancleMsg) {
+
+			var t = this;
+
+			var t = this;
+			this.confirmAction = function() {
+				//console.log('함수를 재정의 해주세요!');
+			};
+			this.cancleAction = function() {
+				//console.log('함수를 재정의 해주세요!');
+			};
+
+			if (confirmMsg != "") {
+				btnConfirmText = confirmMsg;
+			} else {
+				btnConfirmText = "확인"
+			}
+			if (cancleMsg != "") {
+				btnCancleText = cancleMsg;
+			} else {
+				btnCancleText = "취소"
+			}
+
+			var confirmTag = "";
+			confirmTag += "<div class=\"dvp_container\">";
+			confirmTag += " <div class=\"dvp_close_btn b-close\" id=\"confirmCloseDiv\"><span>"
+					+ btnCloseText + "</span></div>";
+			confirmTag += " <div class=\"dvp_content\">";
+			confirmTag += " <div class=\"desc_box\">" + msg + "</div>";
+			confirmTag += " </div>";
+			confirmTag += " <div class=\"btn_wrap btns\">";
+			confirmTag += " <button class=\"btn btn_bd_g btn-alert-close\">"
+					+ btnCancleText + "</button>";
+			confirmTag += " <button class=\"btn btn_bg_b btn-alert-confirm\">"
+					+ btnConfirmText + "</button>";
+			confirmTag += " </div>";
+			confirmTag += "</div>";
+
+			$("#popAlertConfirmDiv").html(confirmTag);
+
+			$('.divpop_wrap_dev.pop_alert_confirm').bPopup({
+				follow : [ false, false ],
+				escClose : false,
+				modalClose : false,
+				opacity : 0.3,
+				positionStyle : 'fixed',
+				onClose : function() {
+					holdBodyHide();
+					$("#popAlertConfirmDiv").html("");
+				}
+			});
+			$('.divpop_wrap_dev.pop_alert_confirm').css({
+				'top' : '50%',
+				'margin' : '0',
+				'transform' : 'translate3d(0, -50%, 0)'
+			});
+			holdBodyShow();
+
+			$("#popAlertConfirmDiv").find('.btn-alert-close').click(function() {
+				$("#confirmCloseDiv").click();
+				t.cancleAction();
+			});
+
+			$("#popAlertConfirmDiv").find('.btn-alert-confirm').click(
+					function() {
+						$("#confirmCloseDiv").click();
+						t.confirmAction();
+					});
+
+		};
+		var layerConfirm2 = function(msg, confirmMsg, cancleMsg) {
+
+			var t = this;
+
+			var t = this;
+			this.confirmAction = function() {
+
+			};
+			this.cancleAction = function() {
+
+			};
+
+			if (confirmMsg != "") {
+				btnConfirmText = confirmMsg;
+			} else {
+				btnConfirmText = "확인"
+			}
+			if (cancleMsg != "") {
+				btnCancleText = cancleMsg;
+			} else {
+				btnCancleText = "취소"
+			}
+
+			var confirmTag = "";
+			confirmTag += "<div class=\"dvp_container\">";
+			confirmTag += " <div class=\"dvp_close_btn b-close\" id=\"confirmCloseDiv\"><span>"
+					+ btnCloseText + "</span></div>";
+			confirmTag += " <div class=\"dvp_content\">";
+			confirmTag += "     <div class=\"desc_box\">" + msg + "</div>";
+			confirmTag += " </div>";
+			confirmTag += " <div class=\"btn_wrap btns\">";
+			confirmTag += "     <button class=\"btn btn_bg_b btn-alert-confirm\">"
+					+ btnConfirmText + "</button>";
+			confirmTag += "     <button class=\"btn btn_bd_g btn-alert-close\">"
+					+ btnCancleText + "</button>";
+			confirmTag += " </div>";
+			confirmTag += "</div>";
+
+			$("#popAlertConfirmDiv").html(confirmTag);
+
+			$('.divpop_wrap_dev.pop_alert_confirm').bPopup({
+				follow : [ false, false ],
+				escClose : false,
+				modalClose : false,
+				opacity : 0.3,
+				positionStyle : 'fixed',
+				onClose : function() {
+					holdBodyHide();
+					$("#popAlertConfirmDiv").html("");
+				}
+			});
+			holdBodyShow();
+
+			$("#popAlertConfirmDiv").find('.btn-alert-close').click(function() {
+				$("#confirmCloseDiv").click();
+				t.cancleAction();
+			});
+
+			$("#popAlertConfirmDiv").find('.btn-alert-confirm').click(
+					function() {
+						$("#confirmCloseDiv").click();
+						t.confirmAction();
+					});
+
+		};
+
+		var editableLayer = function(msg, style, refresh) {
+
+			btnConfirmText = "확인";
+			var t = this;
+			this.confirmAction = function() {
+				//console.log('함수를 재정의 해주세요!');
+			};
+
+			var alertTag = "";
+			alertTag += "<div class=\"dvp_container\" style=\"" + style + "\">";
+			alertTag += "   <div class=\"dvp_close_btn b-close\" id=\"alertCloseDiv\"><span>"
+					+ btnCloseText + "</span></div>";
+			alertTag += "   <h1 class=\"dvp_header\"></h1>";
+			alertTag += "   <div class=\"dvp_content\" style=\"margin-top: -21px;\">";
+			alertTag += "       <div class=\"desc_box\">" + msg + "</div>";
+			alertTag += "   </div>";
+			alertTag += "   <div class=\"btn_wrap\" style=\"margin-top: 0px;\">";
+			alertTag += "       <button class=\"btn btn_bg_b btn-alert-confirm\">"
+					+ btnConfirmText + "</button>";
+			alertTag += "   </div>";
+			alertTag += "</div>";
+
+			$("#popAlertConfirmDiv").html(alertTag);
+
+			$('.divpop_wrap_dev.pop_alert_confirm').bPopup({
+				follow : [ false, false ],
+				escClose : false,
+				modalClose : false,
+				opacity : 0.3,
+				positionStyle : 'fixed',
+				onClose : function() {
+					holdBodyHide();
+					$("#popAlertConfirmDiv").html("");
+				}
+			});
+			holdBodyShow();
+
+			$("#popAlertConfirmDiv").find('.btn-alert-confirm').click(
+					function() {
+						if (refresh == true)
+							location.reload();
+						$("#alertCloseDiv").click();
+					});
+			$("#alertCloseDiv").click(function() {
+				t.confirmAction();
+			})
+
+		};
+	</script>
+		<!-- 상품 기능 버튼 그룹 -->
+					<script type="text/javascript">
+						//선택삭제
+						function selectRemove(entryNumber) {
+
+							var msgStr = "";
+
+							if (entryNumber == "" || entryNumber == null) {
+								msgStr = "선택하신 상품을 쇼핑백에서 삭제하시겠습니까?";
+							} else {
+								msgStr = "품절상품이 모두 쇼핑백에서 삭제됩니다. 계속하시겠습니까?";
+							}
+
+							var la = new layerConfirm(msgStr, '확인', '취소');
+							la.confirmAction = function() {//확인 호출 펑션
+
+								if ($.trim(entryNumber) == "") {
+									entryNumber = "";
+									$("input:checkbox[name='cartlist']:checked")
+											.each(
+													function() {
+														entryNumber += $(this)
+																.val()
+																+ ",";
+													});
+								}
+
+								if (entryNumber == "") {
+									layerAlert("선택된 상품이 없습니다. <br /> 삭제할 상품을 선택해 주세요.");
+									return false;
+								}
+
+								entryNumber = entryNumber.substring(0,
+										entryNumber.length - 1);
+
+							};
+						}
+					</script>
+					<script type="text/javascript">
+								var varUA = navigator.userAgent.toLowerCase();
+								var iPhoneYn = false;
+								if (varUA.indexOf("iphone") > -1
+										|| varUA.indexOf("ipad") > -1
+										|| varUA.indexOf("ipod") > -1) {
+									iPhoneYn = true;
+								}
+
+								window.onpageshow = function(e) {
+									if (e.persisted
+											|| (window.performance && window.performance.navigation.type == 2)) {
+										if (iPhoneYn && e.persisted) {
+											objHide($('.pop_loading_buynow_200218'));
+											$(".btn_lyrpp_close").click();
+											location.reload(true);
+										} else {
+											location.reload(true);
+										}
+									}
+								};
+
+								$(document)
+										.ready(
+												function() {
+													switch (paramDivision) {
+													case "store":
+													case "athome":
+														$("#cartOneclickButton")
+																.hide();
+														break;
+													}
+
+													$(
+															".lyrpp_close.lyrpp_close_stl3.btn_lyrpp_close")
+															.click(
+																	function() {
+																		$(
+																				'body')
+																				.removeClass(
+																						"hold_body");
+																		$(
+																				".hsome_layerpop_contents.lp_depth1.dir_h.lp_stl_black")
+																				.removeClass(
+																						"visible active");
+																	});
+												});
+
+								function selectOderTypeClose() {
+									var curScrollPosition = 0; //현재 스크롤 위치
+									var hs_allCon = $('.hsome_allContents'); //all Contents
+									// clsPage(curScrollPosition);
+									$('.hsome_layerpop_contents').removeClass(
+											'active');
+									$('.hsome_layerpop_contents').removeClass(
+											'absolute');
+									hs_allCon.css({
+										marginTop : curScrollPosition * -1
+									});
+									hs_allCon.removeClass('disabled');
+									setTimeout(function() {
+										hs_allCon.css({
+											marginTop : 0
+										});
+										$(window).scrollTop(curScrollPosition);
+										// 		$(this).parents('.hsome_layerpop_contents').hide();
+									}, 300);
+									return;
+								}
+								function netfunnelPaymentProcess(payMethod) {
+									NetFunnel_Action({
+										action_id : "buy_now"
+									}, function(ev, ret) {
+										paymentProcess(payMethod);
+									});
+								}
+
+								function oneclickLoadingStart(products,
+										onlyFourPm, vipDeliAvail) {
+									var _vipDeliAvail = vipDeliAvail;
+
+									$("#lpOrderApplyBtns").hide();
+									$("#lyrppTopColseArea").hide();
+									$("#onclickLodingArea").show();
+
+									if (!onlyFourPm
+											&& $(":checkbox[name='cartlist']:checked").length > 0) {
+										$(":checkbox[name='cartlist']:checked")
+												.each(
+														function(i) {
+															var _data_delivery = this
+																	.getAttribute("data-deliverykind");
+															if (_data_delivery != 'undefined'
+																	&& _data_delivery == 'FOUR_PM') {
+																_vipDeliAvail = false;
+															}
+														});
+									}
+
+									oneclick.open(products, _vipDeliAvail);
+								}
+							</script>
+							<script type="text/javascript">
+									$(document).ready(
+											function() {
+												$(
+																".gl_item input[name=cartlist]")
+																.each(
+																		function() {
+																			if ($(
+																					this)
+																					.attr(
+																							"data-soldout") == "Y") {
+																				$(
+																						this)
+																						.prop(
+																								"disabled",
+																								true);
+																				$(
+																						this)
+																						.parents(
+																								".gl_item")
+																						.find(
+																								".gl_status .icon_soldout")
+																						.attr(
+																								"style",
+																								"display:block !important");
+																			}
+																		});
+													});
+
+									
+
+									/* ======================================================================
+									Function : 체크박스 선택시 가격 및 수량 정보 변경
+									Return   : 
+									========================================================================= */
+									function checkboxSelect(prodCnt, priceVal) {
+										if (prodCnt > 0) {
+											//		$('.gleb_order span').html("선택상품 주문하기");
+											$('.pymt_select_first').css(
+													"display", "none");
+											$('.pymt_order_apply').css(
+													"display", "block");
+
+											var cartDivision = $(
+													"#ordersheetCartDivision")
+													.val();
+											var btnNm = "";
+											btnNm = "선택상품 주문하기";
+											if (cartDivision == "athome") {
+												btnNm = "앳홈 신청하기";
+											} else {
+											}
+											$('#orderButtonGroup')
+													.html(
+															"<a href=\"javascript:checkoutPage('checkout');\" class='btnstl3 solid_btn_blk gleb_order'><span>"
+																	+ btnNm
+																	+ "</span></a>");
+											$('#oderBtn')
+													.html(
+															"<span class='btn_t_1'><b>"
+																	+ addComma(priceVal)
+																	+ "</b> 원</span><span class='btn_t_2'>주문하기</span>");
+										} else {
+											//		$('.gleb_order span').html("쇼핑계속하기");
+											$('.pymt_select_first').css(
+													"display", "block");
+											$('.pymt_order_apply').css(
+													"display", "none");
+											$('#orderButtonGroup')
+													.html(
+															"<a href='#none' class='btnstl3 solid_btn_blk gleb_order' onclick='continueUrl();'><span>쇼핑계속하기</span></a>");
+										}
+
+									}
+
+									function ReqRewarehousing(productcode,
+											layer) {
+
+										getWarehousingPage(productcode, layer);
+										return false;
+									}
+								</script>
+								<script type="text/javascript">
+						var varUA = navigator.userAgent.toLowerCase();
+						var iPhoneYn = false;
+						if (varUA.indexOf("iphone") > -1
+								|| varUA.indexOf("ipad") > -1
+								|| varUA.indexOf("ipod") > -1) {
+							iPhoneYn = true;
+						}
+
+						window.onpageshow = function(e) {
+							if (e.persisted
+									|| (window.performance && window.performance.navigation.type == 2)) {
+								if (iPhoneYn && e.persisted) {
+									objHide($('.pop_loading_buynow_200218'));
+									$(".btn_lyrpp_close").click();
+									location.reload(true);
+								} else {
+									location.reload(true);
+								}
+							}
+						};
+
+						$(document)
+								.ready(
+										function() {
+											switch (paramDivision) {
+											case "store":
+											case "athome":
+												$("#cartOneclickButton").hide();
+												break;
+											}
+
+											$(
+													".lyrpp_close.lyrpp_close_stl3.btn_lyrpp_close")
+													.click(
+															function() {
+																$('body')
+																		.removeClass(
+																				"hold_body");
+																$(
+																		".hsome_layerpop_contents.lp_depth1.dir_h.lp_stl_black")
+																		.removeClass(
+																				"visible active");
+															});
+										});
+
+						function selectOderTypeClose() {
+							var curScrollPosition = 0; //현재 스크롤 위치
+							var hs_allCon = $('.hsome_allContents'); //all Contents
+							// clsPage(curScrollPosition);
+							$('.hsome_layerpop_contents').removeClass('active');
+							$('.hsome_layerpop_contents').removeClass(
+									'absolute');
+							hs_allCon.css({
+								marginTop : curScrollPosition * -1
+							});
+							hs_allCon.removeClass('disabled');
+							setTimeout(function() {
+								hs_allCon.css({
+									marginTop : 0
+								});
+								$(window).scrollTop(curScrollPosition);
+								// 		$(this).parents('.hsome_layerpop_contents').hide();
+							}, 300);
+							return;
+						}
+
+						function checkoutPage(payMethod) {
+							var cartDivision = $("#ordersheetCartDivision")
+									.val();
+							var resultReturn = true;
+
+							$("input[name=checkZeroPrice]")
+									.each(
+											function() {
+												var price = $(this).val();
+
+												if (price <= 0) {
+													layerAlert("선택 상품은 일시적인 시스템 장애로 구매하실 수 없습니다.<br/>고객센터(1800-5700)로 문의주세요.");
+													resultReturn = false;
+													return;
+												}
+											});
+
+							if (resultReturn == false) {
+								return;
+							}
+
+							var entryNumber = "";
+							$(
+									"input:checkbox[name='cartlist']:checked:not(:disabled)")
+									.each(function() {
+										entryNumber += $(this).val() + ",";
+									});
+
+							if (entryNumber == "") {
+								layerAlert("주문하실 상품을 선택해주세요.");
+								return;
+							}
+
+							entryNumber = entryNumber.substring(0,
+									entryNumber.length - 1);
+
+							//#2610 [주문] 가상계좌 결제수단 제외 및 중복 구매 제한 처리 요청 건 20220215 hyunbae
+							var hasQtyLimitProduct = false;
+							var entryNumberArray = entryNumber.split(',');
+							entryNumberArray.forEach(function(row) {
+								var productCode = $('#updateCartForm' + row)
+										.find('[name=productCode]').val();
+								var productQty = $('#updateCartForm' + row)
+										.find('[name=initialQuantity]').val();
+								if (qtyLimitProductYnMap[productCode] == 'true'
+										&& parseInt(productQty) > 2) {
+									hasQtyLimitProduct = true;
+									return;
+								}
+							})
+
+							if (hasQtyLimitProduct) {
+								layerAlert("동일 상품(사이즈/컬러)은<br/>최대 2개까지 선택 가능합니다.");
+								return false;
+							}
+
+							//퀵배송 검증 start
+							var quickProcessType = "";
+
+							if (quickProcessType != "") {
+								return false;
+							}
+							//퀵배송 검증 end
+
+							// 매장수령일 경우 확인 로직 추가 CMB
+							// 브랜드 and 수령매장이 동일할 경우만
+							// 날짜가 다른 경우만 확인
+							// 화면에 알림을 주기위한 체크로직
+							var isStoreCheck = false;
+							var isStoreBrandCheck = false;
+							var isStorePickCheck = false;
+							var isStoreDateCheck = false;
+							var pickDateList = new Array;
+
+							//     $("[class^=shopping_cart_tab]").find("[name=cartDivision]").each(function(){
+							//         if($(this).attr("data-division") == "store"){
+							if ($(".tab_li_store").hasClass("on")) {
+								//체크박스 체크 된 대상만 검증, 2개 이상일 경우
+								var checkCnt = 0
+								var checkBrandCnt = 0;
+								var checkStoreCnt = 0;
+								var checkStoreDateCnt = 0;
+
+								var brandCheck = "";
+								var storeCheck = "";
+								var storeDateCheck = "";
+
+								$("[name=cartlist]")
+										.each(
+												function(idx) {
+													if ($(this).is(":checked")) {
+														//대상이 2개이상 확인
+														checkCnt++;
+
+														//브랜드가 같은지 확인
+														if (brandCheck == "") {
+															brandCheck = $(
+																	".gl_con_brand")
+																	.eq(0)
+																	.html();
+														} else {
+															if (brandCheck != $(
+																	".gl_con_brand")
+																	.eq(idx)
+																	.html()) {
+																checkBrandCnt++;
+															}
+														}
+
+														//수령매장이 같은지 확인
+														if (storeCheck == "") {
+															storeCheck = $(
+																	".storePickupName")
+																	.eq(0)
+																	.html();
+														} else {
+															if (storeCheck != $(
+																	".storePickupName")
+																	.eq(idx)
+																	.html()) {
+																checkStoreCnt++;
+															}
+														}
+
+														//수령날짜가 같은지 확인
+														if (storeDateCheck == "") {
+															storeDateCheck = $(
+																	".storePickupDate")
+																	.eq(0)
+																	.html()
+																	.replace(
+																			/[^0-9]/gi,
+																			"");
+															pickDateList
+																	.push($
+																			.trim(storeDateCheck));
+														} else {
+															if (storeDateCheck != $(
+																	".storePickupDate")
+																	.eq(idx)
+																	.html()
+																	.replace(
+																			/[^0-9]/gi,
+																			"")) {
+																checkStoreDateCnt++;
+																pickDateList
+																		.push($
+																				.trim($(
+																						".storePickupDate")
+																						.eq(
+																								idx)
+																						.html()
+																						.replace(
+																								/[^0-9]/gi,
+																								"")));
+															}
+														}
+													}
+												});
+								if (checkCnt > 1) {
+									isStoreCheck = true;
+								}
+
+								if (checkBrandCnt == 0) {
+									isStoreBrandCheck = true;
+								}
+
+								if (checkStoreCnt == 0) {
+									isStorePickCheck = true;
+								}
+
+								if (checkStoreDateCnt > 0) {
+									isStoreDateCheck = true;
+								}
+								//매장이 서로 다른 경우
+							}
+							
+
+							if (isStoreCheck && isStoreBrandCheck
+									&& isStorePickCheck && isStoreDateCheck) {
+								checkStoreProcess(pickDateList, entryNumber);
+								return;
+							}
+
+							var form = $('#ordersheetCloneForm');
+							var ordersheetEntryNumber = form
+									.find('input[name=ordersheetEntryNumber]');
+							ordersheetEntryNumber.val(entryNumber);
+
+							$('body').addClass("hold_body");
+
+							$(".hsome_layerpop_contents.lp_depth1").append(
+									$("#order_layerpop"));
+							$(".hsome_layerpop_contents.lp_depth1").addClass(
+									"dir_h lp_stl_black visible active");
+
+						}
+
+						function netfunnelPaymentProcess(payMethod) {
+							NetFunnel_Action({
+								action_id : "buy_now"
+							}, function(ev, ret) {
+								paymentProcess(payMethod);
+							});
+						}
+
+						function oneclickLoadingStart(products, onlyFourPm,
+								vipDeliAvail) {
+							var _vipDeliAvail = vipDeliAvail;
+
+							$("#lpOrderApplyBtns").hide();
+							$("#lyrppTopColseArea").hide();
+							$("#onclickLodingArea").show();
+
+							if (!onlyFourPm
+									&& $(":checkbox[name='cartlist']:checked").length > 0) {
+								$(":checkbox[name='cartlist']:checked")
+										.each(
+												function(i) {
+													var _data_delivery = this
+															.getAttribute("data-deliverykind");
+													if (_data_delivery != 'undefined'
+															&& _data_delivery == 'FOUR_PM') {
+														_vipDeliAvail = false;
+													}
+												});
+							}
+
+							oneclick.open(products, _vipDeliAvail);
+						}
+					</script>
+			
+	<div id="mainPopwrap1908"
+		style="position: absolute; top: 50%; left: 50%; width: 90%; transform: translate(-50%, -50%); z-index: 999;"></div>
+	<div class="noti_popup190906_dim" style="display: none"></div>
+
+	<div class="b-modal __b-apppopup1__"
+		style="background-color: rgb(0, 0, 0/ 0%); position: fixed; top: 0px; right: 0px; bottom: 0px; left: 0px; opacity: 0.5; z-index: 9998; display: none">
+	</div>
+
+	<div id="criteo-tags-div" style="display: none;"></div>
+
+	<div id="criteo-tags-div" style="display: none;">
+		<iframe
+			src="https://gum.criteo.com/syncframe?topUrl=192.168.0.32&amp;origin=onetag#{&quot;bundle&quot;:{&quot;origin&quot;:3,&quot;value&quot;:&quot;KQlZvV82OXBXTlZ4MDJaMExvVEF3N0k0TEUlMkIyRmNIRzRWbEJIYSUyRmk5YlRtdW9yJTJGV3JDRG5FRjZzamtRTElzS1U3diUyRkZ1UUo3Vm9oRldPR25UMFZ6ZXRsbGNuaXphYUNucXJGRjJCVHBQYXJrODAlMkZnejQlMkZvZCUyQmdOdUp6bGhMNCUyRlRkb2gwbXQ2amZZWVpaTjVZWjhPbUNKRHZnJTNEJTNE&quot;},&quot;cw&quot;:true,&quot;optout&quot;:{&quot;origin&quot;:0,&quot;value&quot;:null},&quot;origin&quot;:&quot;onetag&quot;,&quot;sid&quot;:{&quot;origin&quot;:0,&quot;value&quot;:null},&quot;tld&quot;:&quot;192.168.0.32&quot;,&quot;topUrl&quot;:&quot;192.168.0.32&quot;,&quot;version&quot;:&quot;5_13_0&quot;,&quot;ifa&quot;:{&quot;origin&quot;:0,&quot;value&quot;:null},&quot;lsw&quot;:true,&quot;pm&quot;:1}"
+			id="criteo-syncframe-onetag" width="0" height="0" frameborder="0"
+			style="border-width: 0px; margin: 0px; display: none"
+			title="Criteo GUM iframe"></iframe>
+	</div>
+
+	<div id="criteo-tags-div" style="display: none;"></div>
+
+	<div id="criteo-tags-div" style="display: none;"></div>
+
+	<div id="criteo-tags-div" style="display: none;"></div>
+	<!-- Code injected by live-server -->
+
+	<div id="criteo-tags-div" style="display: none;"></div>
+	<div class="divpop_wrap_dev pop_mbr pop_alert_confirm"
+		id="popAlertConfirmDiv"
+		style="left: 0px; position: fixed; top: 90px; z-index: 9999; opacity: 0; display: none;"></div>
+	<aside th:insert="~{include/aside}"></aside>
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+<aside class="hsome_quickMenu hsome_quickMenu1909  active">
+<ul>
+    <li class="shop "><a href="/product/category" onclick="GA_Event('공통', '네비게이션_바', '샵');"><i>메뉴</i></a></li>
+    <li class="sns "><a href="/review/timeline" onclick="GA_Event('공통', '네비게이션_바', '타임라인');"><i>스타일 LIVE</i></a></li>
+    <li class="home "><a href="/main" ><i>홈</i></a></li>
+    <li class="myheart " id="gnbMyheartBtn"><a href="javascript:void(0);"><i>마이하트</i></a></li>
+    <li class="mypage " id="gnbMyPageBtn"><a href="javascript:void(0);" onclick="mypageSubmit();"><i>마이페이지</i></a></li>
+</ul>
+</aside>
+
+<form action="/mypage/mypageFloating" method="post" id="mypageFrm">
+   <input type="hidden"
+      th:if="${#authorization.expr('isAuthenticated()')}"
+      th:value="*{#authentication.principal.mid}" name="mid" id="mid">
+
+   <div th:if="${#authorization.expr('isAuthenticated()')}">
+      <input type="hidden" id="check" value="1">
+   </div>
+   <div th:unless="${#authorization.expr('isAuthenticated()')}">
+      <input type="hidden" id="check" value="0">
+   </div>
+</form>
+
+<script>
+   function mypageSubmit() {
+      var check = $("#check").val();
+
+      if (check == 0) {
+         location.href = "/member/CustomLogin";
+      } else if (check == 1) {
+         $("#mypageFrm").submit();
+      }
+   }
+</script>

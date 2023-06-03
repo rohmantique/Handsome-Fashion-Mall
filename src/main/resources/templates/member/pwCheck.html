@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{include/head}"></head>
+  <body>
+    <div class="hsome_allContents_wrapper">
+      <div class="hsome_allContents">
+        <script type="text/javascript">
+          function goMainpage() {
+            window.sessionStorage.removeItem("moveYn");
+            location.href = "/main";
+          }
+        </script>
+        <div th:insert="~{include/member-header}"></div>
+        <div id="contents" class="hsome_contents mp_confirm_pw_wrap">
+          <div class="gray_tab">
+            고객님의 정보보호를 위하여 비밀번호를 다시 한 번 확인합니다.
+          </div>
+          <div class="mp_input_wrap">
+            <div class="user_id_wrap">
+              <span class="user_id">qnd***************</span>
+              <input
+                type="hidden"
+                id="j_username"
+                name="j_username"
+                value="qnd***************"
+                disabled="disabled"
+              />
+            </div>
+            <!-- input_box s -->
+            <div class="input_box">
+              <div class="ipt_con">
+                <input
+                  type="password"
+                  id="j_password"
+                  name="j_password"
+                  title="비밀번호를 입력하세요."
+                  placeholder="비밀번호를 입력하세요."
+                />
+                <p class="err_box" id="msgErr"></p>
+              </div>
+            </div>
+            <!-- input_box e -->
+
+            <div
+              class="btn_wrap btn_wrap_div1 mt25 pb0"
+              id="findPW"
+              style="display: none"
+            >
+              <a href="#none" class="btnstl3 border_btn_gray" id="findPWBtn"
+                ><span>비밀번호 찾기</span></a
+              >
+            </div>
+
+            <div class="btn_wrap btn_wrap_div2 last_box">
+              <a href="#none" class="btnstl3 border_btn_gray" id="cancle_btn"
+                ><span>취소</span></a
+              >
+              <a
+                href="#none"
+                class="btnstl3 solid_btn_blk btn_save"
+                id="login_btn"
+                ><span>확인</span></a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

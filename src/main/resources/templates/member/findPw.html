@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:insert="~{include/head}"></head>
+<body>
+	<div class="hsome_allContents_wrapper">
+	
+		<div class="hsome_allContents">
+		<header class="hsome_header">
+				<h1 class="h_ttl ellipsis" id="headerTitle">비밀번호 찾기</h1>
+				<div th:insert="~{include/member-header}"></div>
+			</header>
+
+			<!-- contents s -->
+			<div class="hsome_contents simplemember_wrap">
+				<!-- 한섬회원 시작 -->
+				<div id="tabIdPw"
+					class="mem_ct_wrap simple_mbr_wrap idpw_find_result">
+
+					<!-- <ul class="ui_tab red_border_tab active">
+						<li id="findPw" class="on"><a href="#tab_02">비밀번호 찾기</a></li>
+						<li class="fcs" style="transform: translateX(158.08px);"></li>
+					</ul> -->
+					
+					<div class="tab_cont" id="easyM" style="">
+						<!-- tab_01 아이디 찾기 s -->
+						<div class="cont" id="tab_01" style="display: none;">
+							<!-- Start: easyId Input -->
+							<form id="easyIdSearchForm" name="easyIdSearchForm"
+								action="/member/findIdPwPage" method="POST">
+								<div>
+									<input type="hidden" name="CSRFToken"
+										value="93ac153d-e66c-4bb0-8ef8-0e1195746450">
+								</div>
+							</form>
+						</div>
+						<!-- tab_02 비밀번호 찾기 s -->
+						<div class="cont on" id="tab_02" style="display: block;">
+							<!-- Start: easyPw finding Input -->
+							<div id="easyPwForm">
+								<form id="easyPwSearch" name="easyPwSearch" th:action="@{/mypage/findPw}" method="post">
+									<div class="input_group">
+										<div class="txt_wrap easyPwInputDiv">회원 가입 시 입력한 이름과
+											이메일을 입력하세요.</div>
+										<div class="input_user_name easyPwInputDiv">
+											<input type="text" id="pUserName" name="mname"
+												class="user_name" placeholder="이름을 입력하세요."
+												title="이름을 입력하세요.">
+										</div>
+										<div class="input_user_email easyPwInputDiv">
+											<input type="text" id="pUserEmail" name="memail"
+												class="user_email" placeholder="이메일을 입력하세요."
+												title="이메일을 입력하세요.">
+										</div>
+										<!-- [TO DEV] Error msg here. -->
+										<div class="err_wrap">
+											<p class="err_txt" id="easyPwMsgErr">
+												<!-- 이름을 입력하세요. -->
+											</p>
+										</div>
+									</div>
+								<div class="btn_wrap">
+									<button type="submit" class="btn btn_bg_b btn_find_pw" id="" form="easyPwSearch">비밀번호 찾기</button>
+								</div>
+								</form>
+							</div>
+							<!-- End: easyPw finding Input -->
+
+							<!-- Start: easyPw finding result -->
+							<div id="easyPwComplete" style="display: none;">
+								<div class="txt_wrap result pw">
+									<p>
+										회원정보에 등록된 이메일주소로<br>임시 비밀번호가 발송되었습니다.
+									</p>
+								</div>
+								<div class="btn_wrap">
+									<button class="btn btn_bg_b btn_login"
+										onclick="javascript:goPage('/member/CustomLogin');">로그인</button>
+								</div>
+							</div>
+							<!-- End: easyPw finding result -->
+						</div>
+					</div>
+
+				</div>
+				<!-- 한성회원 종료 -->
+			</div>
+
+		</div>
+	</div>
+	<aside th:insert="~{include/aside}"></aside>
+</body>
+</html>

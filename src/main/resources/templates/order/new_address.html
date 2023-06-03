@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{include/head}"></head>
+<body class="back hold_body">
+  <div class="hsome_allContents_wrapper">
+
+    <div class="hsome_allContents">
+      <header class="hsome_header">
+        <h1 class="h_ttl ellipsis" id="headerTitle">
+          배송&amp;결제정보 입력</h1>
+        <a href="/ko/main" class="h_top_home"><span>홈</span></a>
+
+        <a href="javascript:noLink();" onclick="goBack();" class="h_prev">이전 페이지로 가기</a>
+        <ul class="h_gnbMenu">
+          <li class="search"><a href="/ko/mobilecommon/search"
+              onclick="GA_Event('공통', '헤더', '검색');"><span>search</span></a></li>
+          <li class="cart"><a href="/ko/shoppingbag"
+              onclick="GA_Event('공통', '헤더', '쇼핑백');"><span>cart</span><i>1</i></a></li>
+        </ul>
+      </header>
+
+      <div id="contents" class="hsome_contents delivery_payment_wrap">
+      </div>
+    </div>
+    <div class="hsome_layerpop_contents lp_depth2 dir_h visible active">
+      <style>
+        .bul_sty01_li li {
+          padding-left: 10px;
+          background: url("/_ui/desktop/common/images/common/li_bul_1.png") 0 8px no-repeat;
+          line-height: 22px;
+          font-size: 13px;
+          color: #888;
+        }
+      </style>
+      <div class="layerpop_wrap layerpop_wrap_full lp_new_dlvr_wrap">
+
+
+        <div class="lyrpp_top">
+          <a href="/order" class="lyrpp_close lyrpp_close_stl1 btn_lyrpp_close"><span>닫기</span></a>
+          <h2>
+            배송지 등록</h2>
+        </div>
+        <div class="lyrpp_mid">
+          <p class="desc_box"><span class="point_star_l">표시는 필수항목입니다.</span></p>
+          <ul class="bul_sty01_li">
+            <li>선택사항을 미입력하더라도 불이익은 발생하지 않습니다.</li>
+          </ul>
+          <div class="input_box input_box_mydelivery">
+            <div class="ipt_tit"><span class="point_star_r">배송지 주소</span></div>
+            <div class="ipt_con">
+              <ul class="input_address_stl">
+                <li class="inp_address1">
+                  <input type="hidden" name="postalcode" value="">
+                  <input type="hidden" name="streetname" value="">
+                  <input type="text" id="dlvr_addres" value="" readonly="readonly">
+                  <a href="/ko/common/zipcode?fncallback=fn_deliveryRegistZipcodecallback" data-layerpop-depth="depth3"
+                    class="btnstl2 border_btn_blk btn_layerpopup_call btn_find_zipcode">우편번호 찾기</a>
+                </li>
+                <li class="inp_address2"><input type="text" name="streetnumber" id="dlvr_addres2" value=""></li>
+              </ul>
+              <p class="err_box" id="zipCodeErr">배송지 주소를 입력하세요</p>
+            </div>
+          </div>
+          <div class="input_box">
+            <div class="ipt_tit"><span class="point_star_r">수령인</span></div>
+            <div class="ipt_con">
+              <input type="text" name="lastname" value="" maxlength="10">
+              <p class="err_box" id="nameErr">수령인을 입력하세요</p>
+            </div>
+          </div>
+          <div class="input_box">
+            <div class="ipt_tit"><span class="point_star_r">휴대폰 번호</span></div>
+            <div class="ipt_con">
+              <ul class="input_phone_stl">
+                <li class="inp_phone1">
+                  <div class="select_box">
+                    <select id="addDeliveryHp1">
+                      <option value="010">010</option>
+                      <option value="011">011</option>
+                      <option value="016">016</option>
+                      <option value="017">017</option>
+                      <option value="018">018</option>
+                      <option value="019">019</option>
+                    </select>
+                  </div>
+                </li>
+                <li class="inp_phone2"><input type="tel" id="addDeliveryHp2" numberonly="true" maxlength="4" value="">
+                </li>
+                <li class="inp_phone3"><input type="tel" id="addDeliveryHp3" numberonly="true" maxlength="4" value="">
+                </li>
+              </ul>
+              <p class="err_box" id="hp1Err">휴대폰 번호를 입력하세요</p>
+            </div>
+          </div>
+          <div class="input_box">
+            <div class="ipt_tit"><span>연락처</span></div>
+            <div class="ipt_con">
+              <ul class="input_phone_stl">
+                <li class="inp_phone1">
+                  <div class="select_box">
+                    <select id="addDeliveryTel1">
+                      <option value="">선택</option> <!-- 선택 -->
+                      <option value="02">02</option>
+                      <option value="031">031</option>
+                      <option value="032">032</option>
+                      <option value="033">033</option>
+                      <option value="041">041</option>
+                      <option value="042">042</option>
+                      <option value="043">043</option>
+                      <option value="044">044</option>
+                      <option value="051">051</option>
+                      <option value="052">052</option>
+                      <option value="053">053</option>
+                      <option value="054">054</option>
+                      <option value="055">055</option>
+                      <option value="061">061</option>
+                      <option value="062">062</option>
+                      <option value="063">063</option>
+                      <option value="064">064</option>
+                    </select>
+                  </div>
+                </li>
+                <li class="inp_phone2"><input type="tel" id="addDeliveryTel2" maxlength="4" numberonly="true" value="">
+                </li>
+                <li class="inp_phone3"><input type="tel" id="addDeliveryTel3" maxlength="4" numberonly="true" value="">
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="input_box">
+            <div class="ipt_tit"><span>이메일</span></div>
+            <div class="ipt_con">
+              <ul class="input_email_stl">
+                <li class="inp_email1"><input type="text" id="addDeliveryEmailId" value=""></li>
+                <li class="inp_email2">@</li>
+                <li class="inp_email3"><input type="text" id="addDeliveryEmailHost" value=""></li>
+                <li class="inp_email4">
+                  <div class="select_box">
+                    <select id="addDeliveryEmailHostSel">
+                      <option value="">직접입력</option>
+                      <option value="naver.com">naver.com</option>
+                      <option value="daum.net">daum.net</option>
+                      <option value="yahoo.co.kr">yahoo.co.kr</option>
+                      <option value="lycos.co.kr">lycos.co.kr</option>
+                      <option value="nate.com">nate.com</option>
+                      <option value="empas.com">empas.com</option>
+                      <option value="hotmail.com">hotmail.com</option>
+                      <option value="msn.com">msn.com</option>
+                      <option value="gmail.com">gmail.com</option>
+                      <option value="hanmir.com">hanmir.com</option>
+                      <option value="chol.net">chol.net</option>
+                      <option value="korea.com">korea.com</option>
+                      <option value="netsgo.com">netsgo.com</option>
+                      <option value="dreamwiz.com">dreamwiz.com</option>
+                      <option value="hanafos.com">hanafos.com</option>
+                      <option value="freechal.com">freechal.com</option>
+                      <option value="hitel.net">hitel.net</option>
+                    </select>
+                  </div>
+                </li>
+              </ul>
+              <p class="err_box" id="emailErr">이메일을 입력하세요</p>
+            </div>
+          </div>
+
+
+          <div class="check_stl">
+            <input type="checkbox" id="set_default_dlvr_2" value="1"> <label for="set_default_dlvr_2"
+              class="shoppingbag_add_check">기본배송지로 설정</label>
+          </div>
+
+          <div class="btn_wrap btn_wrap_div2 btn_group_mydelivery">
+            <a href="#none" class="btnstl3 border_btn_gray btn_lyrpp_close"><span>취소</span></a>
+            <a href="#none" class="btnstl3 solid_btn_blk btn_save"><span>확인</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
