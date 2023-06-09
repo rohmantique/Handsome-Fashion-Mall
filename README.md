@@ -13,15 +13,11 @@
   <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> 
   <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> 
   <img src="https://img.shields.io/badge/springSecurity-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white"> 
-  <img src="https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white"> 
   <img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=nginx&logoColor=white"> 
   <br>
   <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> 
   <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> 
   <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> 
-  <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> 
-  <img src="https://img.shields.io/badge/ReactRouter-CA4245?style=for-the-badge&logo=reactrouter&logoColor=white">
-  <img src="https://img.shields.io/badge/openid-F78C40?style=for-the-badge&logo=openid&logoColor=white">
   <br>
 
   <img src="https://img.shields.io/badge/gitlab-FC6D26?style=for-the-badge&logo=gitlab&logoColor=white">
@@ -60,14 +56,14 @@
 
 ### 📂 디렉토리 구조
 
-![폴더구조2.PNG](README.assets/폴더구조2.PNG-1686318436892-7.png)
+<img src="README.assets/폴더구조2.PNG-1686318436892-7.png" alt="폴더구조2.PNG" style="zoom:67%;" />
 
 
 ## 🔗****Database Modeling****
 
-![더한섬_erd3](README.assets/더한섬_erd1.png)
+<img src="README.assets/더한섬_erd1.png" alt="더한섬_erd3" style="zoom:67%;" />
 
-![더한섬_erd2](README.assets/더한섬_erd2.png)
+<img src="README.assets/더한섬_erd2.png" alt="더한섬_erd2" style="zoom:67%;" />
 
 ![더한섬_erd3](README.assets/더한섬_erd3-1686317646857-4.png)
 
@@ -75,15 +71,13 @@
 
 ### **상품**
 
-- 패션 아이템을 대분류-중분류-소분류 총 3개의 카테고리로 나누어 조회할 수 있습니다.
-- 별도의 페이지 넘김 없이 무한 스크롤을 통해 상품을 계속 조회할 수 있습니다.
-- 상품에 대한 리뷰를 작성할 수 있고, 이미지 첨부와 별점 평가가 가능합니다.
+- 상품은 카테고리별, 브랜드별로 확인이 가능하고, 신상품-판매순-리뷰순-고가순-저가순 등 5가지 방식으로 정렬이 가능합니다.
+- 상품 리스트 페이지는 무한 스크롤로 구현해 페이지 많은 한번에 상품 로드시 시간이 지연되는 것을 감소했고, 앱 사용자의 사용성을 극대화했습니다.
+- 상품 상세 페이지에서는 상품의 색상과 사이즈를 비롯한 정보가 조회 가능하고, 색상과 수량을 선택해 장바구니에 담거나 바로 주문이 가능합니다.
 
-![상품 세부](README.assets/상품 세부.png)
+![더한섬_포폴용_상품](README.assets/더한섬_포폴용_상품.png)
 
-![카테고리 목록](README.assets/카테고리 목록.png)
 
-![상품 정렬](README.assets/상품 정렬.png)
 
 ### **회원관리**
 
@@ -92,28 +86,40 @@
 - 회원가입 및 로그인 여부에 따라 접근할 수 있는 페이지가 제한되어 있습니다.
 - 마이페이지에서 주문한 내역과 상품 정보를 조회할 수 있습니다.
 
-![모아존-파티-만들기_파티-검색.gif](ReadMe%208118f36887da4163b0ce9d919fa5ba90/%25EB%25AA%25A8%25EC%2595%2584%25EC%25A1%25B4-%25ED%258C%258C%25ED%258B%25B0-%25EB%25A7%258C%25EB%2593%25A4%25EA%25B8%25B0_%25ED%258C%258C%25ED%258B%25B0-%25EA%25B2%2580%25EC%2583%2589.gif)
+<img src="README.assets/더한섬_포폴용_회원관리.png" alt="더한섬_포폴용_회원관리" style="zoom: 80%;" />
+
+
 
 ### **장바구니 및 결제**
 
-- 장바구니에서 상품의 수량 변경이 가능합니다.
-- 카카오페이/신용카드 결제가 가능합니다.
+- 장바구니에서 상품을 선택하고 주문하기를 누르면 선택한 상품 정보와 함께 주문서 페이지로 이동합니다.
+-  회원 가입을 할 때 입력했던 정보들이 기본값으로 입력되어 있고, 주문시 수정이 가능합니다.
+- 사용자가 가진 쿠폰 정보와 포인트를 조회해 선택한 상품에 할인을 적용할 수 있습니다.
+- 결제버튼을 누르면 카카오페이로 결제가 가능합니다.
 
-![마이페이지.gif](ReadMe%208118f36887da4163b0ce9d919fa5ba90/%25EB%25A7%2588%25EC%259D%25B4%25ED%258E%2598%25EC%259D%25B4%25EC%25A7%2580.gif)
+![더한섬_포폴용_장바구니](README.assets/더한섬_포폴용_장바구니.png)
+
+
+
+<img src="../../../Downloads/더한섬_포폴용_결제.png" alt="더한섬_포폴용_결제" style="zoom:67%;" />
 
 ## 🗣️ 협업 관리
 
 **Notion**
 
-![Untitled](ReadMe%208118f36887da4163b0ce9d919fa5ba90/Untitled%204.png)
+<img src="README.assets/더한섬_포폴용_노션협업툴.png" alt="더한섬_포폴용_노션협업툴" style="zoom:67%;" />
+
+
 
 ## 👩‍👩‍👧 개발 멤버 소개
 
-![Untitled](ReadMe%208118f36887da4163b0ce9d919fa5ba90/Untitled%205.png)
+
+
+<img src="README.assets/더한섬_포폴용_팀원소개.png" alt="더한섬_포폴용_팀원소개" style="zoom:50%;" />
 
 ## 📅 프로젝트 기간
 
-### 22.07.05 ~ 22.08.19
+### 23.02.06 ~ 23.02.15
 
 - **기획 및 설계** : 23.02.06 ~ 23.02.07
 - **프로젝트 구현** : 23.02.07 ~ 23.02.14
@@ -123,7 +129,7 @@
 
 | 구분 | 링크 |
 | --- | --- |
-| 기능 정의서 | [기능 정의서 보러 가기](https://docs.google.com/spreadsheets/d/1WfJoLFtwinLhnWlKR11bC-UEMn59IrG46p22vAHViIw/edit#gid=1408271660)|
-| 와이어 프레임(디자인) | [와이어프레임 보러 가기](https://www.figma.com/file/Zrl14ZgPRxZdzvOj1vSIpC/STEAMMOA-Proto-Type?node-id=0%3A1) |
-| API 정의서 | [API 정의서 보러 가기](https://www.notion.so/a8af2ba49b1b47f5b281d92ba527af9a) |
-| 발표 자료 | [발표 자료 보러 가기](https://github.com/rohmantique/STEAM-MOA/blob/master/Presentation/%EC%84%9C%EC%9A%B8_3%EB%B0%98_A303_%EB%B0%9C%ED%91%9C%EC%9E%90%EB%A3%8C.pdf) |
+| 기능 정의서 | [기능 정의서 보러 가기](https://docs.google.com/spreadsheets/d/1CI9egWBXCCFFI9j7Fb8b0Ecweyp0P8YcEFBEobTa9WA/edit#gid=0) |
+| API 정의서 | [API 정의서 보러 가기](https://www.notion.so/6e62600923454d29a9e51736b4528aa9?v=f3a5e88850c14830a57d246f9e0f2b2e) |
+| 프로젝트 보고서 | [보고서 보러 가기](https://angry-catboat-48b.notion.site/45e76ce58248472a8873ef63239df08d?pvs=4) |
+
