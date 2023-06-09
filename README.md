@@ -10,7 +10,7 @@
 ## 🛠️ 기술 스택
 <div align=center> 
   <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">  
-  <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> 
+  <img src="https://img.shields.io/badge/oracle-#F80000?style=for-the-badge&logo=oracle&logoColor=white"> 
   <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> 
   <img src="https://img.shields.io/badge/springSecurity-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white"> 
   <img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=nginx&logoColor=white"> 
@@ -43,12 +43,12 @@
 |  |  | Maven | - |
 |  |  | Thymeleaf | 7.5 |
 |  |  | SpringSecurity | - |
-|  |  | querydsl | - |
-|  |  | MyBatis | 2.1.4 |
+|  |  | MyBatis | - |
+|  | Android | - | 12.0 |
 |  | API관리 | Swagger | 2.9.2 |
 |  | jsonwebtoken |  | 1.1.1 |
 |  | DB | Oracle | 8.0.30-0ubuntu0.20.04.2 |
-|  | IDE | Eclipse | - |
+|  | IDE | Eclipse, Android Studio | - |
 |||||
 </details>
 
