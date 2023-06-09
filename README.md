@@ -16,7 +16,6 @@
   <img src="https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white"> 
   <img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=nginx&logoColor=white"> 
   <br>
-
   <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> 
   <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> 
   <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> 
@@ -34,48 +33,45 @@
 <details>
 <summary>상세 기술스택 및 버전</summary>
 
-| 구분 | 기술스택 | 상세 | 버전 |  
-| --- | --- | --- | --- | 
-| 공통 | 형상관리 | Gitlab | - |  
-|  | 이슈관리 | Jira | - |  
-|  | 커뮤니케이션 | Slack, Confluence, Notion | - |  
-| Front-end | HTML5 |  | - |  
+| 구분 | 기술스택 | 상세 | 버전 |
+| --- | --- | --- | --- |
+| 공통 | 형상관리 | Github | - |
+|  | 이슈관리 | Jira | - |
+|  | 커뮤니케이션 | Slack, Confluence, Notion | - |
+| Front-end | HTML5 |  | - |
 |  | CSS3 |  | - |
-|  | JavaScript(ES6) |  | - |  
-|  | JSP |  | - | 
-|  | IDE | Eclipse | 1.69.2 |  
-| Back-end | Java | JDK | 1.8.0_192 |  
-|  | SpringBoot | springboot | 2.7.1 |  
-|  |  | Maven | 7.5 |  
-|  |  | SpringSecurity | - |  
-|  |  | querydsl | - |  
-|  |  | myBatis | - |  
-|  | API관리 | Swagger | 2.9.2 |  
-|  | jsonwebtoken |  | 1.1.1 |  
-|  | DB | Oracle | 8.0.30-0ubuntu0.20.04.2 |  
-|  | IDE | Eclipse | - |  
-</details>
+|  | JavaScript(ES6) |  | - |
+|  | JSP |  | - |
+|  | IDE | Eclipse | 1.69.2 |
+| Back-end | Java | JDK | 1.8.0_192 |
+|  | SpringBoot | springboot | 2.7.8 |
+|  |  | Maven | - |
+|  |  | Thymeleaf | 7.5 |
+|  |  | SpringSecurity | - |
+|  |  | querydsl | - |
+|  |  | MyBatis | 2.1.4 |
+|  | API관리 | Swagger | 2.9.2 |
+|  | jsonwebtoken |  | 1.1.1 |
+|  | DB | Oracle | 8.0.30-0ubuntu0.20.04.2 |
+|  | IDE | Eclipse | - |
+|</details>||||
 
 ## 🗃️ 프로젝트 구조
 
-### 🏗️ 서비스 구조
-![스크린샷 2022-08-23 오전 11.37.32.png](ReadMe%208118f36887da4163b0ce9d919fa5ba90/%25E1%2584%2589%25E1%2585%25B3%25E1%2584%258F%25E1%2585%25B3%25E1%2584%2585%25E1%2585%25B5%25E1%2586%25AB%25E1%2584%2589%25E1%2585%25A3%25E1%2586%25BA_2022-08-23_%25E1%2584%258B%25E1%2585%25A9%25E1%2584%258C%25E1%2585%25A5%25E1%2586%25AB_11.37.32.png)
+### 📂 디렉토리 구조
+
+![폴더구조2.PNG](README.assets/폴더구조2.PNG-1686318436892-7.png)
 
 
-### 📂 파일 구조
-
-**Front-End**
-
-![Untitled](ReadMe%208118f36887da4163b0ce9d919fa5ba90/Untitled.png)
-
-**Back-End**
-
-![Untitled](ReadMe%208118f36887da4163b0ce9d919fa5ba90/Untitled%201.png)
 ## 🔗****Database Modeling****
 
-![Untitled](ReadMe%208118f36887da4163b0ce9d919fa5ba90/Untitled%202.png)
+![더한섬_erd3](README.assets/더한섬_erd1.png)
 
-## 💻 주요 기능 및 데모 영상
+![더한섬_erd2](README.assets/더한섬_erd2.png)
+
+![더한섬_erd3](README.assets/더한섬_erd3-1686317646857-4.png)
+
+## 💻 주요 기능 및 스크린 샷
 
 ### **상품**
 
@@ -83,7 +79,11 @@
 - 별도의 페이지 넘김 없이 무한 스크롤을 통해 상품을 계속 조회할 수 있습니다.
 - 상품에 대한 리뷰를 작성할 수 있고, 이미지 첨부와 별점 평가가 가능합니다.
 
-![모아존-파티참여.gif](ReadMe%208118f36887da4163b0ce9d919fa5ba90/%25EB%25AA%25A8%25EC%2595%2584%25EC%25A1%25B4-%25ED%258C%258C%25ED%258B%25B0%25EC%25B0%25B8%25EC%2597%25AC.gif)
+![상품 세부](README.assets/상품 세부.png)
+
+![카테고리 목록](README.assets/카테고리 목록.png)
+
+![상품 정렬](README.assets/상품 정렬.png)
 
 ### **회원관리**
 
